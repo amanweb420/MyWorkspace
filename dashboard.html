@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MyWorkspace Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+<!-- ===== 1. SIDEBAR ===== -->
+
+<aside class="sidebar">
+
+    <h2>☁️ MyWorkspace</h2>
+
+    <p>Learn • Grow • Get Help</p>
+
+    <nav>
+
+        <a href="dashboard.html" class="active">
+            🏠 Dashboard
+        </a>
+
+       <a href="student-services.html">
+    🎓 Student Services
+</a>
+
+      <a href="links.html">
+    🔗 Useful Links
+</a>
+
+<a href="help.html">
+    💼 Help / Work
+</a>
+    </nav>
+
+</aside>
+    <!-- ===== 2. MAIN DASHBOARD ===== -->
+
+    <main class="dashboard">
+
+        <!-- ===== 3. TOP BAR ===== -->
+
+        <header class="topbar">
+
+            <input
+                type="text"
+                placeholder="Search anything..."
+            >
+
+            <div>🔔</div>
+
+            <div>👤</div>
+
+        </header>
+
+<!-- ===== 4. WELCOME SECTION ===== -->
+
+<section class="welcome">
+
+    <p id="greetingText" class="greeting-text"></p>
+
+    <p id="userNameDisplay" class="user-name-display"></p>
+
+    <p id="todayDate" class="welcome-date"></p>
+
+</section>
+
+
+<!-- ===== ROUTINE REMINDER AND REVIEW ===== -->
+
+<section id="routineReviewSection" class="panel" style="display: none; margin-bottom: 20px;">
+
+    <h2 id="routineReviewTitle">📋 Routine Review</h2>
+
+    <p id="routineReviewMessage"></p>
+
+    <div id="routineReminderList"></div>
+
+    <div id="routineReviewForm"></div>
+
+</section>
+
+<!-- ===== END ROUTINE REMINDER AND REVIEW ===== -->
+
+        <!-- ===== 5. MAIN FEATURES ===== -->
+
+        <section class="features">
+
+            <div class="feature-card">
+
+                <div class="feature-icon">🎓</div>
+
+                <h2>Student Services</h2>
+
+                <p>
+                    Learn, plan and grow with your goals,
+                    skills, routine and reminders.
+                </p>
+
+<a href="student-services.html" class="feature-button">
+    Explore Now →
+</a>
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">🔗</div>
+
+                <h2>Useful Links</h2>
+
+                <p>
+                    Student links, jobs, AI tools,
+                    files and other useful resources.
+                </p>
+
+                <a href="links.html" class="feature-button">
+                Explore Now →
+                </a>
+                    
+                
+
+            </div>
+
+
+            <div class="feature-card">
+
+                <div class="feature-icon">💼</div>
+
+                <h2>Help / Work</h2>
+
+                <p>
+                    Share your work details and
+                    request help through WhatsApp.
+                </p>
+
+                <button>
+                    Explore Now →
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===== 6. PROGRESS + OVERVIEW + REMINDER ===== -->
+
+        <section class="dashboard-grid">
+
+            <div class="panel">
+
+                <h2>📊 My Progress</h2>
+
+                <p>🎯 Goal Progress</p>
+
+                <p>⭐ Skills Learned</p>
+
+                <p>🗓️ Routine Completion</p>
+
+                <p>🔔 Total Reminders</p>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h2>📋 Quick Overview</h2>
+
+                <p>🎯 My Goals</p>
+
+                <p>⭐ Top Skills</p>
+
+                <p>🗓️ Today's Routine</p>
+
+                <p>🔔 Upcoming Reminders</p>
+
+            </div>
+
+
+            <div class="panel">
+
+                <h2>🕐 Today's Reminder</h2>
+
+                <p>Study for 1 hour</p>
+
+                <p>Watch Skill Video</p>
+
+                <p>Complete Today's Routine</p>
+
+            </div>
+
+        </section>
+
+
+        <!-- ===== 7. MYWORKSPACE GUIDE VIDEO ===== -->
+
+        <section class="video-section">
+
+            <h2>🎥 How to Use MyWorkspace</h2>
+
+            <p>
+                Learn how to use MyWorkspace
+                and its different features.
+            </p>
+
+            <div class="video-box">
+
+                Your MyWorkspace Guide Video
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- JavaScript -->
+
+    <script src="script.js"></script>
+<script src="routine-gate.js"></script>
+</body>
+
+</html>
