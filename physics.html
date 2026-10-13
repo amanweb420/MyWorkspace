@@ -1,0 +1,775 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Arena | MyWorkspace</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #080d1c;
+  --panel: #111a30;
+  --panel2: #151f39;
+  --text: #f4f7ff;
+  --muted: #98a7c5;
+  --blue: #60a5fa;
+  --purple: #a78bfa;
+  --green: #34d399;
+  --border: rgba(148,163,184,.16);
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background:
+    radial-gradient(ellipse at 15% 0%, #182c59 0%, transparent 38%),
+    radial-gradient(ellipse at 100% 35%, #291747 0%, transparent 32%),
+    var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 16px;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #2563eb, #9333ea);
+  box-shadow: 0 5px 22px #4f46e555;
+  font-size: 22px;
+}
+
+.back {
+  font-size: 12px;
+  color: #c4d2f1;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+main {
+  width: min(100% - 28px, 1050px);
+  margin: auto;
+  padding-bottom: 35px;
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 26px 20px;
+  border: 1px solid #6688ff35;
+  border-radius: 25px;
+  background:
+    radial-gradient(circle at 90% 15%, #8b5cf655, transparent 32%),
+    linear-gradient(135deg, #142b55, #191b40 65%, #251641);
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #a5f3fc;
+  background: #0891b222;
+  border: 1px solid #22d3ee35;
+  border-radius: 30px;
+  padding: 7px 10px;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.hero h1 {
+  font-size: clamp(30px, 7vw, 48px);
+  line-height: 1.12;
+  margin: 20px 0 10px;
+  letter-spacing: -1px;
+}
+
+.gradient-text {
+  background: linear-gradient(90deg, #67e8f9, #c4b5fd, #f0abfc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero p {
+  color: #c0cbe3;
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 490px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 21px;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
+  transition: .2s;
+}
+
+.btn:active, .chapter-btn:active {
+  transform: scale(.97);
+}
+
+.btn-primary {
+  background: linear-gradient(100deg, #2563eb, #7c3aed);
+  box-shadow: 0 7px 22px #4f46e544;
+}
+
+.btn-secondary {
+  background: #ffffff0b;
+  border: 1px solid #ffffff20;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 16px 0 30px;
+}
+
+.stat {
+  background: #10192cdd;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  padding: 16px 10px;
+  min-width: 0;
+}
+
+.stat-icon {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.stat strong {
+  display: block;
+  font-size: clamp(17px, 4vw, 25px);
+  margin-bottom: 6px;
+}
+
+.stat span {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.section-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 28px 0 15px;
+}
+
+.section-head h2 {
+  font-size: 21px;
+  margin-bottom: 6px;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.count {
+  color: #c4b5fd;
+  font-size: 11px;
+  white-space: nowrap;
+  background: #8b5cf61c;
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.mixed-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 19px;
+  border: 1px solid #a78bfa40;
+  border-radius: 20px;
+  background: linear-gradient(110deg, #30205a, #171c39 75%);
+  margin-bottom: 30px;
+}
+
+.mixed-info {
+  min-width: 0;
+}
+
+.mixed-tag {
+  color: #ddd6fe;
+  font-size: 9px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.mixed-card h3 {
+  font-size: 17px;
+  margin: 10px 0 7px;
+}
+
+.mixed-card p {
+  font-size: 11px;
+  color: #c4c9e0;
+  line-height: 1.7;
+}
+
+.mixed-icon {
+  font-size: 35px;
+  flex-shrink: 0;
+}
+
+.mixed-btn {
+  display: inline-block;
+  margin-top: 13px;
+  padding: 10px 13px;
+  border-radius: 10px;
+  color: white;
+  background: #7c3aed;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.chapter-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.chapter {
+  --accent: #60a5fa;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: 15px 13px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #151f35, #0f1729);
+  transition: border-color .2s, transform .2s;
+}
+
+.chapter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: var(--accent);
+}
+
+.chapter:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.chapter-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.chapter-number {
+  font-size: 10px;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.chapter-icon {
+  font-size: 21px;
+}
+
+.chapter h3 {
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 15px 0 7px;
+}
+
+.chapter p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+  margin-bottom: 15px;
+  flex: 1;
+}
+
+.chapter-meta {
+  font-size: 10px;
+  color: #a5b4fc;
+  margin-bottom: 10px;
+}
+
+.chapter-btn {
+  display: block;
+  text-align: center;
+  padding: 11px 7px;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--accent) 17%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  color: var(--text);
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.how-card {
+  margin-top: 30px;
+  padding: 19px;
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  background: #10192c;
+}
+
+.how-card h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+}
+
+.steps {
+  display: grid;
+  gap: 15px;
+}
+
+.step {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.step-number {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background: #6366f122;
+  color: #c4b5fd;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.step h3 {
+  font-size: 12px;
+  margin: 2px 0 5px;
+}
+
+.step p {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.notice {
+  margin-top: 17px;
+  border: 1px solid #fbbf2430;
+  background: #fbbf240b;
+  padding: 12px;
+  border-radius: 12px;
+  color: #fde68a;
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+footer {
+  text-align: center;
+  padding: 27px 12px;
+  color: #71809f;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+@media (min-width: 650px) {
+  .hero {
+    padding: 38px;
+  }
+
+  .chapter-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 15px;
+  }
+
+  .chapter {
+    padding: 18px;
+  }
+
+  .stats {
+    gap: 15px;
+  }
+
+  .stat {
+    padding: 20px;
+  }
+
+  .steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 350px) {
+  main {
+    width: calc(100% - 20px);
+  }
+
+  .topbar {
+    padding: 13px 10px;
+  }
+
+  .brand {
+    font-size: 14px;
+  }
+
+  .logo {
+    width: 36px;
+    height: 36px;
+  }
+
+  .chapter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mixed-card {
+    padding: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">⚛️</div>
+    <span>MyWorkspace</span>
+  </div>
+  <a class="back" href="class-12-board.html">← Class 12 Board</a>
+</header>
+
+<main>
+
+  <!-- SECTION 1: PHYSICS HERO -->
+  <section class="hero">
+    <span class="eyebrow">✦ LEARN • PLAY • LEVEL UP</span>
+    <h1>Physics <span class="gradient-text">Arena</span></h1>
+    <p>
+      Bihar Board · Class 12 Science<br>
+      पढ़ाई को बनाओ एक गेम! एक-एक सवाल हल करो,
+      अपनी तैयारी मजबूत करो और अगले लेवल की ओर बढ़ो।
+    </p>
+
+    <div class="hero-actions">
+      <a href="#chapters" class="btn btn-primary">
+        🎮 Explore Chapters →
+      </a>
+      <a href="#mixed-test" class="btn btn-secondary">
+        ⚡ Mixed Challenge
+      </a>
+    </div>
+  </section>
+
+  <!-- SECTION 2: OVERVIEW -->
+  <section class="stats">
+    <div class="stat">
+      <div class="stat-icon">📚</div>
+      <strong>14</strong>
+      <span>Physics Chapters</span>
+    </div>
+    <div class="stat">
+      <div class="stat-icon">🎯</div>
+      <strong>MCQ</strong>
+      <span>Question Challenges</span>
+    </div>
+    <div class="stat">
+      <div class="stat-icon">🏆</div>
+      <strong>Level Up</strong>
+      <span>Practice & Improve</span>
+    </div>
+  </section>
+
+  <!-- SECTION 3: MIXED TEST -->
+  <section id="mixed-test">
+    <div class="section-head">
+      <div>
+        <h2>⚡ Special Challenge</h2>
+        <p>सभी चैप्टर से मिले-जुले सवाल</p>
+      </div>
+    </div>
+
+    <div class="mixed-card">
+      <div class="mixed-info">
+        <span class="mixed-tag">ULTIMATE PHYSICS QUIZ</span>
+        <h3>🏆 Physics Mixed Test</h3>
+        <p>
+          अलग-अलग अध्यायों के सवालों से अपनी तैयारी जाँचो।
+          यह पूरा टेस्ट पेज बाद में बनाया जाएगा।
+        </p>
+        <a class="mixed-btn" href="physics-mixed-test.html">
+          Open Challenge →
+        </a>
+      </div>
+      <div class="mixed-icon">🚀</div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: CHAPTER TEST SERIES -->
+  <section id="chapters">
+    <div class="section-head">
+      <div>
+        <h2>📡 Chapter Missions</h2>
+        <p>अपना चैप्टर चुनो और टेस्ट शुरू करो।</p>
+      </div>
+      <span class="count">14 MISSIONS</span>
+    </div>
+
+    <div class="chapter-grid">
+
+      <article class="chapter" style="--accent:#60a5fa">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 01</span>
+          <span class="chapter-icon">⚡</span>
+        </div>
+        <h3>Electric Charges and Fields</h3>
+        <p>वैद्युत आवेश तथा क्षेत्र</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-01-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#a78bfa">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 02</span>
+          <span class="chapter-icon">🔋</span>
+        </div>
+        <h3>Electrostatic Potential and Capacitance</h3>
+        <p>स्थिरवैद्युत विभव तथा धारिता</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-02-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#22d3ee">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 03</span>
+          <span class="chapter-icon">🔌</span>
+        </div>
+        <h3>Current Electricity</h3>
+        <p>विद्युत धारा</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-03-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#34d399">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 04</span>
+          <span class="chapter-icon">🧲</span>
+        </div>
+        <h3>Moving Charges and Magnetism</h3>
+        <p>गतिमान आवेश और चुंबकत्व</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-04-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#fbbf24">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 05</span>
+          <span class="chapter-icon">🧭</span>
+        </div>
+        <h3>Magnetism and Matter</h3>
+        <p>चुंबकत्व एवं पदार्थ</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-05-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#f472b6">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 06</span>
+          <span class="chapter-icon">🌀</span>
+        </div>
+        <h3>Electromagnetic Induction</h3>
+        <p>विद्युतचुंबकीय प्रेरण</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-06-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#818cf8">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 07</span>
+          <span class="chapter-icon">〰️</span>
+        </div>
+        <h3>Alternating Current</h3>
+        <p>प्रत्यावर्ती धारा</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-07-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#2dd4bf">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 08</span>
+          <span class="chapter-icon">📡</span>
+        </div>
+        <h3>Electromagnetic Waves</h3>
+        <p>विद्युतचुंबकीय तरंगें</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-08-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#fb923c">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 09</span>
+          <span class="chapter-icon">🔭</span>
+        </div>
+        <h3>Ray Optics and Optical Instruments</h3>
+        <p>किरण प्रकाशिकी तथा प्रकाशिक यंत्र</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-09-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#c084fc">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 10</span>
+          <span class="chapter-icon">🌊</span>
+        </div>
+        <h3>Wave Optics</h3>
+        <p>तरंग प्रकाशिकी</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-10-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#38bdf8">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 11</span>
+          <span class="chapter-icon">💡</span>
+        </div>
+        <h3>Dual Nature of Radiation and Matter</h3>
+        <p>विकिरण तथा पदार्थ की द्वैत प्रकृति</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-11-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#a3e635">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 12</span>
+          <span class="chapter-icon">⚛️</span>
+        </div>
+        <h3>Atoms</h3>
+        <p>परमाणु</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-12-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#f87171">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 13</span>
+          <span class="chapter-icon">☢️</span>
+        </div>
+        <h3>Nuclei</h3>
+        <p>नाभिक</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-13-test.html">Start Mission →</a>
+      </article>
+
+      <article class="chapter" style="--accent:#94a3b8">
+        <div class="chapter-top">
+          <span class="chapter-number">MISSION 14</span>
+          <span class="chapter-icon">💻</span>
+        </div>
+        <h3>Semiconductor Electronics</h3>
+        <p>अर्धचालक इलेक्ट्रॉनिकी</p>
+        <span class="chapter-meta">🎯 Chapter Test</span>
+        <a class="chapter-btn" href="physics-chapter-14-test.html">Start Mission →</a>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- SECTION 5: HOW THE GAME WILL WORK -->
+  <section class="how-card">
+    <h2>🎮 Test Game कैसे चलेगा?</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">01</div>
+        <div>
+          <h3>एक सवाल, एक समय</h3>
+          <p>हर स्टेप में एक MCQ और उसका टाइमर होगा।</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">02</div>
+        <div>
+          <h3>Score & XP</h3>
+          <p>सही जवाब पर अंक मिलेंगे और प्रोग्रेस दिखाई जाएगी।</p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">03</div>
+        <div>
+          <h3>Next Level</h3>
+          <p>स्टेप पूरा होने पर अगला लेवल खुलेगा। गलत जवाब पर अभ्यास मिलेगा।</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="notice">
+      💡 अभी यह मुख्य पेज है। असली सवाल, टाइमर, XP, सेव प्रोग्रेस और लेवल अनलॉक सिस्टम अगले चरणों में जोड़े जाएँगे।
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <strong>MyWorkspace · Physics Arena</strong><br>
+  Bihar Board · Class 12 Science<br>
+  Learn at your pace. Improve one level at a time.
+</footer>
+
+</body>
+</html>
