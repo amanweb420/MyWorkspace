@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Student Links - MyWorkspace</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+    <!-- =========================================
+         1. SIDEBAR
+         ========================================= -->
+
+    <aside class="sidebar">
+
+        <h2>☁️ MyWorkspace</h2>
+
+        <p>Learn • Grow • Get Help</p>
+
+        <nav>
+
+            <a href="dashboard.html">
+                🏠 Dashboard
+            </a>
+
+            <a href="#">
+                🎓 Student Services
+            </a>
+
+            <a href="links.html">
+                🔗 Useful Links
+            </a>
+
+            <a href="#">
+                💼 Help / Work
+            </a>
+
+        </nav>
+
+    </aside>
+
+
+    <!-- =========================================
+         2. MAIN CONTENT
+         ========================================= -->
+
+    <main class="dashboard">
+
+
+        <!-- =========================================
+             3. TOP BAR
+             ========================================= -->
+
+        <header class="topbar">
+
+            <input
+                type="text"
+                placeholder="Search student resources..."
+            >
+
+            <div>🔔</div>
+
+            <div>👤</div>
+
+        </header>
+
+
+        <!-- =========================================
+             4. STUDENT LINKS HEADER
+             ========================================= -->
+
+        <section class="student-links-header">
+
+            <div class="student-links-header-content">
+
+                <span class="student-links-icon">
+                    🎓
+                </span>
+
+                <div>
+
+                    <h1>Student Links</h1>
+
+                    <p>
+                        Find useful student websites, services,
+                        forms and learning resources.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             5. RESOURCE LIST
+             ========================================= -->
+
+        <section class="student-resources">
+
+
+            <!-- =====================================
+                 STUDENT RESOURCE 01
+                 ===================================== -->
+
+            <article
+    class="student-resource"
+    data-priority-start=""
+    data-priority-end=""
+>
+
+                <div class="resource-top">
+
+                    <div>
+
+                        <span class="resource-badge">
+                            🎓 Student Resource
+                        </span>
+
+<h2>
+    MedhaSoft Matric Scholarship 2026
+</h2>
+
+<p class="resource-description">
+    MedhaSoft के माध्यम से Matric Scholarship 2026
+    के लिए online application और जरूरी जानकारी
+    प्राप्त करें।
+</p>
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     OFFICIAL WEBSITE
+                     ================================= -->
+
+                <a
+                    href="https://medhasoft.bihar.gov.in/Matric2627/Default.aspx"
+                    target="_blank"
+                    class="official-resource-button"
+                >
+                    🔗 Open Official Website →
+                </a>
+
+
+                <!-- =================================
+                     MORE DETAILS INFORMATION
+                     ================================= -->
+
+                <p class="more-details-hint">
+
+                    ℹ️ इस्तेमाल करने का तरीका और जरूरी
+                    जानकारी देखने के लिए More Details खोलें।
+
+                </p>
+
+
+                <!-- =================================
+                     MORE DETAILS BUTTON
+                     ================================= -->
+
+                <button
+                    class="more-details-button"
+                    onclick="toggleResourceDetails(this)"
+                >
+                    More Details ↓
+                </button>
+
+
+                <!-- =================================
+                     HIDDEN RESOURCE DETAILS
+                     ================================= -->
+
+                <div class="resource-details">
+
+
+                    <!-- =============================
+                         HOW TO USE
+                         ============================= -->
+
+                    <div class="resource-option">
+
+                        <div class="resource-option-icon">
+                            📝
+                        </div>
+
+                        <div class="resource-option-info">
+
+                            <h3>
+                                How to Use
+                            </h3>
+
+                            <p>
+                                इस service को इस्तेमाल करने
+                                का step-by-step तरीका।
+                            </p>
+
+                            <button
+                                onclick="toggleResourceContent(this)"
+                            >
+                                Open →
+                            </button>
+
+                            
+<div class="resource-content how-to-use-content">
+
+    <div class="info-highlight main-purpose">
+
+        <span class="info-icon">🎓</span>
+
+        <div>
+            <h4>यह वेबसाइट किसलिए है?</h4>
+
+            <p>
+                यह Student Links section छात्रों को
+                जरूरी online services और official websites
+                तक आसानी से पहुँचाने के लिए बनाया गया है।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="info-highlight">
+
+        <span class="info-icon">💰</span>
+
+        <div>
+            <h4>MedhaSoft Matric Scholarship 2026</h4>
+
+            <p>
+                Class 10 / Matric पास छात्रों के लिए
+                scholarship से जुड़ी online application
+                और जरूरी जानकारी यहाँ से प्राप्त की जा सकती है।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="info-highlight">
+
+        <span class="info-icon">🌐</span>
+
+        <div>
+            <h4>Official Website का उपयोग</h4>
+
+            <p>
+                Application करने के लिए
+                <b>Open Official Website</b> पर जाएँ।
+                यही से scholarship की online प्रक्रिया शुरू करें।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="info-highlight">
+
+        <span class="info-icon">📖</span>
+
+        <div>
+            <h4>Guide PDF किसलिए है?</h4>
+
+            <p>
+                अगर आपको application भरना नहीं आता है,
+                तो Guide PDF में दिए गए screenshots और
+                step-by-step instructions देखकर एक-एक चरण पूरा करें।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="info-highlight">
+
+        <span class="info-icon">🎥</span>
+
+        <div>
+            <h4>Video Guide किसलिए है?</h4>
+
+            <p>
+                पूरी प्रक्रिया को देखकर समझने के लिए
+                Video Guide का उपयोग करें।
+                इससे website और application का तरीका
+                जल्दी समझने में मदद मिलेगी।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="info-highlight">
+
+        <span class="info-icon">📱</span>
+
+        <div>
+            <h4>Mobile पर आसानी से कैसे करें?</h4>
+
+            <p>
+                Guide देखते हुए application भरना हो,
+                तो मोबाइल के Recent Apps से
+                Guide और Official Website को
+                Split Screen / Pop-up में साथ चला सकते हैं।
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="how-to-steps">
+
+        <h4>✅ आसान तरीका — Step by Step</h4>
+
+        <div class="mini-step">
+            <b>01</b>
+            <span>पहले Guide को समझें।</span>
+        </div>
+
+        <div class="mini-step">
+            <b>02</b>
+            <span>Official Website खोलें।</span>
+        </div>
+
+        <div class="mini-step">
+            <b>03</b>
+            <span>Registration / Application प्रक्रिया शुरू करें।</span>
+        </div>
+
+        <div class="mini-step">
+            <b>04</b>
+            <span>माँगी गई student information भरें।</span>
+        </div>
+
+        <div class="mini-step">
+            <b>05</b>
+            <span>जरूरी documents upload करें।</span>
+        </div>
+
+        <div class="mini-step">
+            <b>06</b>
+            <span>Details को ध्यान से check करें।</span>
+        </div>
+
+        <div class="mini-step">
+            <b>07</b>
+            <span>Final submission पूरा करें और confirmation सुरक्षित रखें।</span>
+        </div>
+
+    </div>
+
+
+    <div class="important-note">
+
+        ⚠️ <strong>Important:</strong>
+
+        Application submit करने से पहले
+        अपना नाम, details और documents
+        ध्यान से verify करें।
+
+    </div>
+
+</div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- =============================
+                         VIDEO GUIDE
+                         ============================= -->
+
+                    <div class="resource-option">
+
+                        <div class="resource-option-icon">
+                            🎥
+                        </div>
+
+                        <div class="resource-option-info">
+
+                            <h3>
+                                Video Guide
+                            </h3>
+
+                            <p>
+                                Video देखकर पूरी प्रक्रिया
+                                आसानी से समझें।
+                            </p>
+
+                            <button
+                                onclick="toggleResourceContent(this)"
+                            >
+                                ▶ Watch Video
+                            </button>
+
+                            <div class="resource-content">
+
+                                <p>
+                                    यहाँ बाद में इस service की
+                                    step-by-step video guide
+                                    जोड़ी जाएगी।
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+<!-- =============================
+     GUIDE PDF
+     ============================= -->
+
+<div class="resource-option">
+
+    <div class="resource-option-icon">
+        📄
+    </div>
+
+    <div class="resource-option-info">
+
+        <h3>
+            Guide PDF
+        </h3>
+
+        <p>
+            पूरी step-by-step guide
+            एक-एक page करके देखें।
+        </p>
+
+        <button
+            onclick="toggleResourceContent(this)"
+        >
+            Open Guide →
+        </button>
+
+        <div class="resource-content guide-content">
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 1
+                </div>
+
+                <img
+                    src="medhasoft-step-1.png"
+                    alt="MedhaSoft Guide Page 1"
+                >
+
+            </div>
+
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 2
+                </div>
+
+                <img
+                    src="medhasoft-step-2.png"
+                    alt="MedhaSoft Guide Page 2"
+                >
+
+            </div>
+
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 3
+                </div>
+
+                <img
+                    src="medhasoft-step-3.png"
+                    alt="MedhaSoft Guide Page 3"
+                >
+
+            </div>
+
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 4
+                </div>
+
+                <img
+                    src="medhasoft-step-4.png"
+                    alt="MedhaSoft Guide Page 4"
+                >
+
+            </div>
+
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 5
+                </div>
+
+                <img
+                    src="medhasoft-step-5.png"
+                    alt="MedhaSoft Guide Page 5"
+                >
+
+            </div>
+
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 6
+                </div>
+
+                <img
+                    src="medhasoft-step-6.png"
+                    alt="MedhaSoft Guide Page 6"
+                >
+
+            </div>
+
+
+            <div class="guide-page">
+
+                <div class="guide-page-title">
+                    Guide Page 7
+                </div>
+
+                <img
+                    src="medhasoft-step-7.png"
+                    alt="MedhaSoft Guide Page 7"
+                >
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+                    <!-- =============================
+                         USEFUL DOCUMENTS
+                         ============================= -->
+
+                    <div class="resource-option">
+
+                        <div class="resource-option-icon">
+                            📁
+                        </div>
+
+                        <div class="resource-option-info">
+
+                            <h3>
+                                Useful Documents
+                            </h3>
+
+                            <p>
+                                इस service से जुड़े जरूरी
+                                documents यहाँ मिलेंगे।
+                            </p>
+
+                            <button
+                                onclick="toggleResourceContent(this)"
+                            >
+                                Open Documents →
+                            </button>
+
+                            <div class="resource-content useful-documents-content">
+
+    <img
+        src="useful-documents.png"
+        alt="MedhaSoft Useful Documents Guide"
+    >
+
+</div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </article>
+
+<!-- =====================================
+                 STUDENT RESOURCE 02
+                 BIHAR RTPS CERTIFICATES
+                 ===================================== -->
+
+            <article
+                class="student-resource"
+                data-priority-start=""
+                data-priority-end=""
+            >
+
+                <div class="resource-top">
+
+                    <div>
+
+                        <span class="resource-badge">
+                            🏛️ Bihar Government Service
+                        </span>
+
+                        <h2>
+                            जाति, आय एवं आवासीय प्रमाण-पत्र
+                        </h2>
+
+                        <p class="resource-description">
+                            बिहार RTPS / ServicePlus के माध्यम से
+                            जाति प्रमाण-पत्र, आय प्रमाण-पत्र और
+                            आवासीय प्रमाण-पत्र के लिए ऑनलाइन
+                            आवेदन करने हेतु।
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- OFFICIAL WEBSITE -->
+
+                <a
+                    href="https://serviceonline.bihar.gov.in/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="official-resource-button"
+                >
+                    🔗 Open Official RTPS Portal →
+                </a>
+
+                <p class="more-details-hint">
+                    ℹ️ आवेदन भरने से पहले Image Guide, Video Guide,
+                    Guide और जरूरी Documents देखने के लिए
+                    More Details खोलें।
+                </p>
+
+                <!-- MORE DETAILS BUTTON -->
+
+                <button
+                    class="more-details-button"
+                    onclick="toggleResourceDetails(this)"
+                >
+                    More Details ↓
+                </button>
+
+<!-- =====================================
+     RTPS MORE DETAILS
+     जाति, आय और आवासीय प्रमाण-पत्र
+     ===================================== -->
+
+<div class="resource-details">
+
+    <!-- SERVICE 01: CASTE CERTIFICATE -->
+
+    <section class="rtps-service">
+
+        <h3>🟣 1. जाति प्रमाण-पत्र (Caste)</h3>
+
+        <p>
+            जाति प्रमाण-पत्र का ऑनलाइन आवेदन भरने के लिए
+            नीचे दिए गए विकल्पों का उपयोग करें।
+        </p>
+
+        <!-- IMAGE GUIDE: यहाँ जाति की images का path बदलें -->
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>🖼️ Image Guide</h3>
+                <p>तस्वीरों की मदद से आवेदन भरना सीखें।</p>
+
+                <button onclick="toggleResourceContent(this)">
+                    Open Image Guide →
+                </button>
+
+                <div class="resource-content">
+                    <!-- CASTE IMAGE PATH: नीचे अपना image path डालें -->
+                    <img
+                        src="images/rtps/caste-step-1.png"
+                        alt="जाति प्रमाण-पत्र आवेदन की गाइड"
+                        class="rtps-guide-image"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- VIDEO GUIDE: यहाँ जाति के video का link बदलें -->
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>🎥 Video Guide</h3>
+                <p>वीडियो देखकर आवेदन भरना सीखें।</p>
+
+                <button onclick="toggleResourceContent(this)">
+                    Watch Video →
+                </button>
+
+                <div class="resource-content">
+                    <!-- CASTE VIDEO LINK: यहाँ अपना video link डालें -->
+                    <a href="PASTE_CASTE_VIDEO_LINK_HERE"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        ▶ जाति प्रमाण-पत्र का वीडियो देखें
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>📖 Guide</h3>
+                <p>आवेदन के चरण और जरूरी सावधानियाँ।</p>
+                <button onclick="toggleResourceContent(this)">
+                    Open Guide →
+                </button>
+                <div class="resource-content">
+                    <p>यहाँ जाति प्रमाण-पत्र की लिखित गाइड जोड़ें।</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>📁 Useful Documents</h3>
+                <p>आवेदन से पहले जरूरी दस्तावेज देखें।</p>
+                <button onclick="toggleResourceContent(this)">
+                    Open Documents →
+                </button>
+                <div class="resource-content">
+                    <p>यहाँ जरूरी दस्तावेजों की जानकारी जोड़ें।</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- SERVICE 02: INCOME CERTIFICATE -->
+
+    <section class="rtps-service">
+
+        <h3>🟠 2. आय प्रमाण-पत्र (Income)</h3>
+
+        <p>आय प्रमाण-पत्र के लिए अलग गाइड और वीडियो।</p>
+
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>🖼️ Image Guide</h3>
+                <button onclick="toggleResourceContent(this)">
+                    Open Image Guide →
+                </button>
+                <div class="resource-content">
+                    <!-- INCOME IMAGE PATH बदलें -->
+                    <img
+                        src="images/rtps/income-step-1.png"
+                        alt="आय प्रमाण-पत्र आवेदन की गाइड"
+                        class="rtps-guide-image"
+                    >
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>🎥 Video Guide</h3>
+                <button onclick="toggleResourceContent(this)">
+                    Watch Video →
+                </button>
+                <div class="resource-content">
+                    <!-- INCOME VIDEO LINK बदलें -->
+                    <a href="PASTE_INCOME_VIDEO_LINK_HERE"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        ▶ आय प्रमाण-पत्र का वीडियो देखें
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>📖 Guide</h3>
+                <button onclick="toggleResourceContent(this)">Open Guide →</button>
+                <div class="resource-content">
+                    <p>यहाँ आय प्रमाण-पत्र की लिखित गाइड जोड़ें।</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="resource-option">
+            <div class="resource-option-info">
+                <h3>📁 Useful Documents</h3>
+                <button onclick="toggleResourceContent(this)">Open Documents →</button>
+                <div class="resource-content">
+                    <p>यहाँ जरूरी दस्तावेजों की जानकारी जोड़ें।</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+<!-- SERVICE 03: RESIDENTIAL CERTIFICATE -->
+
+<section class="rtps-service">
+
+    <h3>🔵 3. आवासीय प्रमाण-पत्र (Residential)</h3>
+
+    <p>आवासीय प्रमाण-पत्र भरने के लिए नीचे दी गई गाइड देखें।</p>
+
+    <!-- IMAGE GUIDE -->
+
+    <div class="resource-option">
+        <div class="resource-option-info">
+
+            <h3>🖼️ Image Guide</h3>
+
+            <button onclick="toggleResourceContent(this)">
+                Open Image Guide →
+            </button>
+
+            <div class="resource-content">
+
+                <div class="guide-page">
+                    <h4>Step 1</h4>
+                    <img src="residential-step-1.png"
+                         alt="Residential Guide Step 1"
+                         class="rtps-guide-image">
+                </div>
+
+                <div class="guide-page">
+                    <h4>Step 2</h4>
+                    <img src="residential-step-2.png"
+                         alt="Residential Guide Step 2"
+                         class="rtps-guide-image">
+                </div>
+
+                <div class="guide-page">
+                    <h4>Step 3</h4>
+                    <img src="residential-step-3.png"
+                         alt="Residential Guide Step 3"
+                         class="rtps-guide-image">
+                </div>
+
+                <div class="guide-page">
+                    <h4>Step 4</h4>
+                    <img src="residential-step-4.png"
+                         alt="Residential Guide Step 4"
+                         class="rtps-guide-image">
+                </div>
+
+                <div class="guide-page">
+                    <h4>Step 5</h4>
+                    <img src="residential-step-5.png"
+                         alt="Residential Guide Step 5"
+                         class="rtps-guide-image">
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- VIDEO GUIDE -->
+
+    <div class="resource-option">
+        <div class="resource-option-info">
+            <h3>🎥 Video Guide</h3>
+
+            <button onclick="toggleResourceContent(this)">
+                Watch Video →
+            </button>
+
+            <div class="resource-content">
+                <!-- बाद में यहाँ Residential Video का link डालना -->
+                <a href="PASTE_RESIDENTIAL_VIDEO_LINK_HERE"
+                   target="_blank"
+                   rel="noopener noreferrer">
+                    ▶ आवासीय प्रमाण-पत्र का वीडियो देखें
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- WRITTEN GUIDE -->
+
+    <div class="resource-option">
+        <div class="resource-option-info">
+            <h3>📖 Guide</h3>
+
+            <button onclick="toggleResourceContent(this)">
+                Open Guide →
+            </button>
+
+            <div class="resource-content">
+                <p>यहाँ आवासीय प्रमाण-पत्र की लिखित गाइड जोड़ें।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- USEFUL DOCUMENTS -->
+
+    <div class="resource-option">
+        <div class="resource-option-info">
+            <h3>📁 Useful Documents</h3>
+
+            <button onclick="toggleResourceContent(this)">
+                Open Documents →
+            </button>
+
+            <div class="resource-content">
+                <p>यहाँ जरूरी दस्तावेजों की जानकारी जोड़ें।</p>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+            </article>
+            <!-- =====================================
+                 FUTURE RESOURCE
+                 ===================================== -->
+
+            <article class="student-resource coming-soon">
+
+                <span class="coming-soon-badge">
+                    Coming Soon
+                </span>
+
+                <div class="resource-top">
+
+                    <div>
+
+                        <span class="resource-badge">
+                            📚 More Resources
+                        </span>
+
+                        <h2>
+                            More Student Resources
+                        </h2>
+
+                        <p class="resource-description">
+                            नए student websites, forms,
+                            scholarships और useful services
+                            धीरे-धीरे यहाँ जोड़े जाएंगे।
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </article>
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
