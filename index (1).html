@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Welcome to MyWorkspace</title>
+
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#101827">
+
+</head>
+
+
+<body class="setup-page">
+
+
+    <!-- ===== MYWORKSPACE SETUP ===== -->
+
+    <main class="setup-container">
+
+        <div class="setup-card">
+
+
+            <!-- Logo / Brand -->
+
+            <div class="setup-logo">
+                ☁️
+            </div>
+
+
+            <h1>
+                Welcome to MyWorkspace
+            </h1>
+
+
+            <p class="setup-subtitle">
+                Your personal digital workspace
+            </p>
+
+
+            <p class="setup-description">
+                Set up your workspace in a few seconds
+                and keep your learning, goals and work
+                organized in one place.
+            </p>
+
+
+            <!-- ===== NAME FORM ===== -->
+
+            <div class="setup-form">
+
+                <label for="userName">
+                    Your Name
+                </label>
+
+
+                <input
+                    type="text"
+                    id="userName"
+                    placeholder="Enter your name"
+                    maxlength="25"
+                    autocomplete="name"
+                >
+
+
+                <button
+                    onclick="createWorkspace()"
+                    class="setup-button"
+                >
+                    Continue to MyWorkspace →
+                </button>
+
+            </div>
+
+
+            <p class="setup-note">
+                Your name is used to personalize your workspace.
+            </p>
+
+
+        </div>
+
+    </main>
+
+
+<script src="script.js"></script>
+<script src="routine-gate.js"></script>
+
+<!-- PWA SERVICE WORKER -->
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("./service-worker.js")
+        .then(() => console.log("Any Workspace: Service Worker registered"))
+        .catch((error) => console.error("Service Worker error:", error));
+    });
+  }
+</script>
+
+</body>
+</html>
