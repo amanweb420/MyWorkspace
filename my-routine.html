@@ -1,0 +1,436 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MyWorkspace — My Routine</title>
+
+<style>
+:root{--bg:#081225;--panel:#111f37;--line:#263b5b;--text:#edf4ff;--muted:#a8b7d0;--blue:#65a8ff;--green:#42d6a4;--red:#ff7d8a}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top right,#183966 0,transparent 38%),var(--bg);color:var(--text);font-family:system-ui,sans-serif;padding:18px}
+main{max-width:850px;margin:auto}
+.top{padding:20px 0}.brand{color:#8fc0ff;font-weight:800;letter-spacing:.5px}
+.sub{color:var(--muted);line-height:1.6}
+.panel{background:rgba(17,31,55,.94);border:1px solid var(--line);border-radius:18px;padding:18px;margin:15px 0;box-shadow:0 12px 30px #0002}
+h1{font-size:clamp(25px,5vw,35px);margin:8px 0}
+h2{font-size:20px;margin:0 0 14px}h3{font-size:17px;margin:0 0 8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.field{margin:10px 0}.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:6px}
+input,textarea,select{width:100%;padding:12px;border-radius:10px;border:1px solid #334b70;background:#09162b;color:var(--text);font:inherit;min-width:0}
+button{border:0;border-radius:11px;padding:12px 15px;font:inherit;font-weight:750;cursor:pointer;background:var(--blue);color:#071329}
+button:disabled{opacity:.6;cursor:wait}
+button.secondary{background:#203451;color:var(--text);border:1px solid #385071}
+button.danger{background:#512638;color:#ffdbe1;border:1px solid #854052}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.task{border:1px solid var(--line);background:#0b1830;border-radius:13px;padding:14px;margin:10px 0}
+.taskhead{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tiny{font-size:12px;color:var(--muted)}
+.pill{display:inline-block;border:1px solid #385071;border-radius:999px;padding:4px 9px;font-size:12px;color:#c6d9f7}
+.taskgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.routine{border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0;background:#0c1930}
+.routinehead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.taskline{padding:9px 0;border-bottom:1px solid #20324e}
+.taskline:last-child{border:0}
+.status{font-size:12px;color:#a8d9ff}
+.empty{color:var(--muted);padding:15px;border:1px dashed #385071;border-radius:12px}
+.good{color:var(--green)}.bad{color:var(--red)}
+.section-note{font-size:13px;color:var(--muted);line-height:1.6}
+.history-select{display:flex;gap:10px;align-items:flex-start;margin-bottom:12px}
+.history-select input{width:20px;height:20px;flex-shrink:0;margin-top:2px;accent-color:#65a8ff}
+.history-select label{flex:1;cursor:pointer}
+.selectbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.selectbar label{display:flex;gap:8px;align-items:center;color:var(--muted);font-size:14px}
+.selectbar input{width:18px;height:18px;accent-color:#65a8ff}
+[hidden]{display:none!important}
+@media(max-width:520px){body{padding:12px}.panel{padding:14px}.grid,.taskgrid{grid-template-columns:1fr}.routinehead{display:block}}
+</style>
+</head>
+<body>
+<main>
+<header class="top">
+<div class="brand">MyWorkspace / PERSONAL PLANNER</div>
+<h1>My Routine</h1>
+<p class="sub">हर Routine की अपनी tasks, तारीख, समय और review history होती है। पूरी हुई routines History में सुरक्षित रहेंगी।</p>
+</header>
+
+<section class="panel">
+<h2>＋ नई Routine बनाएं</h2>
+<form id="routineForm">
+<div class="grid">
+<div class="field"><label for="routineName">Routine का नाम</label><input id="routineName" maxlength="70" placeholder="जैसे: Evening Study" required></div>
+<div class="field"><label for="routineDate">तारीख</label><input id="routineDate" type="date" required></div>
+</div>
+<div class="field"><label>Tasks (हर task का अपना समय)</label><div id="tasks"></div></div>
+<div class="actions">
+<button type="button" class="secondary" id="addTask">＋ Task जोड़ें</button>
+<button type="submit">Routine Save करें</button>
+</div>
+<p class="section-note">Routine का final time उसके सबसे बाद वाले task का end time होगा। एक दिन में कई routines बना सकते हैं।</p>
+</form>
+</section>
+
+<section class="panel">
+<h2>📊 Overview</h2>
+<div class="grid">
+<div><span class="tiny">कुल Active Routines</span><h2 id="totalCount">0</h2></div>
+<div><span class="tiny">Review बाकी</span><h2 id="pendingCount">0</h2></div>
+</div>
+</section>
+
+<section class="panel">
+<h2>🗓️ Routine List</h2>
+<div id="activeList"></div>
+</section>
+
+<section class="panel">
+<h2>📚 Routine History</h2>
+<p class="section-note">पूरी हुई और delete की गई routines की history यहाँ सुरक्षित रहेगी।</p>
+<button type="button" class="secondary" id="toggleHistory">📂 History देखें</button>
+<div id="historyContent" hidden>
+<div class="selectbar">
+<label><input type="checkbox" id="selectAll"> सभी चुनें</label>
+<button type="button" id="makePdf">📄 चुनी हुई Routines की PDF</button>
+</div>
+<p id="selectedCount" class="tiny">0 routines चुनी गईं</p>
+<div id="historyList"></div>
+</div>
+</section>
+</main>
+
+<!-- PDF लाइब्रेरी: मुख्य JavaScript से पहले -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+(function(){
+'use strict';
+
+const KEY='mw_routine_sessions_v2';
+const OLD='mw_routine_direct_boxes_v1';
+const REM='mw_routine_removed_history_v1';
+const $=id=>document.getElementById(id);
+const selected=new Set();
+
+const today=()=>{
+ const d=new Date();
+ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+};
+$('routineDate').value=today();
+
+function read(key){
+ try{
+  const x=JSON.parse(localStorage.getItem(key)||'[]');
+  return Array.isArray(x)?x:[];
+ }catch(e){return [];}
+}
+function write(key,data){
+ try{
+  localStorage.setItem(key,JSON.stringify(data));
+  return true;
+ }catch(e){
+  alert('Storage में जगह कम है, इसलिए save नहीं हुआ।');
+  return false;
+ }
+}
+function sessions(){
+ let a=read(KEY);
+ if(a.length)return a;
+ const old=read(OLD);
+ if(old.length){
+  a=old.map((r,i)=>({
+   id:'LEGACY-'+(r.date||i)+'-'+i,
+   name:r.name||'पुराना Routine',
+   date:r.date||today(),
+   createdAt:r.createdAt||new Date().toISOString(),
+   tasks:(r.tasks||[]).map((t,j)=>({
+    id:'lt'+j,title:t.title||t.task||'Task',
+    start:t.start||'09:00',end:t.end||t.time||'10:00',
+    work:t.work||''
+   })),
+   endTime:r.endTime||((r.tasks||[]).map(t=>t.end||t.time||'10:00').sort().slice(-1)[0]||'10:00'),
+   reviewCompleted:!!r.reviewCompleted,
+   review:r.review||null,
+   reviewCompletedAt:r.reviewCompletedAt||'',
+   motivation:r.motivation||''
+  }));
+  write(KEY,a);
+ }
+ return a;
+}
+function removed(){return read(REM);}
+function esc(s){
+ return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function timeNum(t){
+ if(!t||!t.includes(':'))return 0;
+ return Number(t.slice(0,2))*60+Number(t.slice(3,5));
+}
+function fmt(iso){
+ if(!iso)return '—';
+ try{return new Date(iso).toLocaleString('hi-IN',{dateStyle:'medium',timeStyle:'short'});}
+ catch(e){return iso;}
+}
+function statusOf(s,archived){
+ if(s.deleted||archived)return '🗑️ हटाई गई';
+ if(s.reviewCompleted)return '✅ Review पूरा';
+ return '🕒 Review बाकी';
+}
+
+function taskRow(t={}){
+ const div=document.createElement('div');
+ div.className='task';
+ div.innerHTML=`
+ <div class="taskhead"><strong class="tasknum">Task</strong><button type="button" class="secondary removeTask">हटाएँ</button></div>
+ <div class="field"><label>Task का नाम</label><input class="t-title" required maxlength="100" placeholder="जैसे: Physics revision" value="${esc(t.title||'')}"></div>
+ <div class="taskgrid">
+ <div class="field"><label>Start time</label><input class="t-start" type="time" required value="${esc(t.start||'09:00')}"></div>
+ <div class="field"><label>End time</label><input class="t-end" type="time" required value="${esc(t.end||'10:00')}"></div>
+ </div>
+ <div class="field"><label>छोटा note (optional)</label><input class="t-work" maxlength="160" placeholder="क्या करना है?" value="${esc(t.work||'')}"></div>`;
+ div.querySelector('.removeTask').onclick=()=>{
+  if($('tasks').children.length>1){div.remove();renumber();}
+  else alert('कम से कम एक task जरूरी है।');
+ };
+ $('tasks').appendChild(div);
+ renumber();
+}
+function renumber(){
+ [...$('tasks').children].forEach((el,i)=>el.querySelector('.tasknum').textContent='Task '+(i+1));
+}
+function collectTasks(){
+ return [...$('tasks').querySelectorAll('.task')].map(el=>({
+  id:'task-'+Math.random().toString(36).slice(2,9),
+  title:el.querySelector('.t-title').value.trim(),
+  start:el.querySelector('.t-start').value,
+  end:el.querySelector('.t-end').value,
+  work:el.querySelector('.t-work').value.trim()
+ }));
+}
+
+function card(s,archived){
+ const div=document.createElement('article');
+ div.className='routine';
+ const tasks=(s.tasks||[]).map(t=>{
+  const rv=s.review&&s.review[t.id];
+  return `<div class="taskline"><strong>${esc(t.title)}</strong>
+  <div class="tiny">${esc(t.start)}–${esc(t.end)}${t.work?' · '+esc(t.work):''}</div>
+  ${rv?`<div class="status">Review: ${esc(rv.status||'—')}${rv.reason?' · कारण: '+esc(rv.reason):''}</div>`:''}
+  </div>`;
+ }).join('');
+
+ div.innerHTML=`
+ <div class="routinehead"><div>
+ <h3>${esc(s.name||'My Routine')}</h3>
+ <div class="tiny">ID: ${esc(s.id)}</div>
+ <div class="tiny">${esc(s.date)} · Final time: ${esc(s.endTime||'—')}</div>
+ </div><span class="pill">${statusOf(s,archived)}</span></div>
+ <div style="margin-top:8px">${tasks||'<p class="tiny">इस routine में tasks नहीं हैं।</p>'}</div>
+ ${s.reviewCompleted?`<p class="good">Review: ${esc(fmt(s.reviewCompletedAt))}<br>${esc(s.motivation||'')}</p>`:''}
+ ${archived&&s.deleted?`<p class="bad">Delete time: ${esc(fmt(s.deletedAt))}<br>Delete reason: ${esc(s.deleteReason||'—')}</p>`:''}
+ ${archived?'':`<div class="actions"><button type="button" class="secondary deleteRoutine">Delete routine</button></div>`}`;
+ if(!archived)div.querySelector('.deleteRoutine').onclick=()=>deleteRoutine(s.id);
+ return div;
+}
+
+function deleteRoutine(id){
+ const all=sessions();
+ const s=all.find(x=>x.id===id);
+ if(!s)return;
+ const reason=prompt('इस routine को delete करने का कारण लिखें:');
+ if(reason===null)return;
+ if(!reason.trim()){alert('Delete करने के लिए कारण लिखना जरूरी है।');return;}
+ if(!confirm('यह routine Active list से हटेगी, लेकिन पूरी details History में रहेंगी। Delete करें?'))return;
+ const archive={...s,deleted:true,deletedAt:new Date().toISOString(),deleteReason:reason.trim()};
+ if(!write(REM,[archive,...removed()]))return;
+ if(!write(KEY,all.filter(x=>x.id!==id)))return;
+ render();
+}
+
+$('routineForm').addEventListener('submit',e=>{
+ e.preventDefault();
+ const name=$('routineName').value.trim();
+ const date=$('routineDate').value;
+ const tasks=collectTasks();
+ if(!name||!date||!tasks.length)return alert('Routine name, date और कम से कम एक task भरें।');
+ for(let i=0;i<tasks.length;i++){
+  const t=tasks[i];
+  if(!t.title||!t.start||!t.end)return alert('हर task का नाम, start और end time भरें।');
+  if(timeNum(t.end)<=timeNum(t.start))return alert('हर task का end time उसके start time के बाद होना चाहिए।');
+  for(let j=0;j<i;j++){
+   const p=tasks[j];
+   if(timeNum(t.start)<timeNum(p.end)&&timeNum(t.end)>timeNum(p.start))
+    return alert('दो tasks का समय overlap हो रहा है। कृपया समय बदलें।');
+  }
+ }
+ const endTime=tasks.reduce((m,t)=>timeNum(t.end)>timeNum(m)?t.end:m,tasks[0].end);
+ const s={
+  id:'MWR-'+Date.now().toString(36).toUpperCase()+'-'+Math.random().toString(36).slice(2,6).toUpperCase(),
+  name,date,createdAt:new Date().toISOString(),tasks,endTime,
+  reviewCompleted:false,review:null,motivation:''
+ };
+ if(!write(KEY,[s,...sessions()]))return;
+ $('routineName').value='';
+ $('tasks').innerHTML='';
+ taskRow();
+ render();
+ alert('Routine save हो गई! ID: '+s.id);
+});
+$('addTask').onclick=()=>taskRow();
+
+$('toggleHistory').addEventListener('click',()=>{
+ const content=$('historyContent');
+ content.hidden=!content.hidden;
+ $('toggleHistory').textContent=content.hidden?'📂 History देखें':'📁 History बंद करें';
+});
+console.log('Routine data:', localStorage.getItem('mw_routine_sessions_v2'));
+console.log('Deleted history:', localStorage.getItem('mw_routine_removed_history_v1'));
+
+function historyItems(){
+ const all=sessions();
+ const completed=all.filter(s=>s.reviewCompleted&&!s.deleted);
+ return [...completed,...removed()]
+ .filter((s,i,a)=>a.findIndex(x=>x.id===s.id)===i)
+ .sort((a,b)=>(b.deletedAt||b.reviewCompletedAt||b.createdAt||'').localeCompare(a.deletedAt||a.reviewCompletedAt||a.createdAt||''));
+}
+function render(){
+ const all=sessions();
+ const active=all.filter(s=>!s.reviewCompleted&&!s.deleted)
+ .sort((a,b)=>(a.date+a.endTime).localeCompare(b.date+b.endTime));
+ $('totalCount').textContent=active.length;
+ $('pendingCount').textContent=active.length;
+ $('activeList').innerHTML='';
+ if(!active.length)$('activeList').innerHTML='<div class="empty">अभी कोई active routine नहीं है। ऊपर से नई routine बनाएं।</div>';
+ active.forEach(s=>$('activeList').appendChild(card(s,false)));
+
+ const hist=historyItems();
+ $('historyList').innerHTML='';
+ if(!hist.length){
+  $('historyList').innerHTML='<div class="empty">Review पूरी होने या routine delete करने पर history यहाँ दिखेगी।</div>';
+ }else{
+  hist.forEach(s=>{
+   const wrap=document.createElement('div');
+   const pick=document.createElement('div');
+   pick.className='history-select';
+   const check=document.createElement('input');
+   check.type='checkbox';
+   check.id='pick-'+s.id;
+   check.checked=selected.has(s.id);
+   check.addEventListener('change',()=>{
+    if(check.checked)selected.add(s.id);
+    else selected.delete(s.id);
+    updateSelectionUI();
+   });
+   const label=document.createElement('label');
+   label.htmlFor=check.id;
+   label.textContent='PDF में शामिल करें';
+   pick.append(check,label);
+   wrap.append(pick,card(s,true));
+   $('historyList').appendChild(wrap);
+  });
+ }
+ updateSelectionUI();
+}
+function updateSelectionUI(){
+ const hist=historyItems();
+ $('selectedCount').textContent=selected.size+' routines चुनी गईं';
+ $('selectAll').checked=hist.length>0&&hist.every(s=>selected.has(s.id));
+ $('selectAll').indeterminate=selected.size>0&&selected.size<hist.length;
+}
+$('selectAll').addEventListener('change',()=>{
+ const hist=historyItems();
+ if($('selectAll').checked)hist.forEach(s=>selected.add(s.id));
+ else selected.clear();
+ render();
+});
+
+function reviewText(rv){
+ if(!rv)return 'Review दर्ज नहीं है';
+ return [rv.status||'Status उपलब्ध नहीं',rv.reason?'कारण: '+rv.reason:''].filter(Boolean).join(' — ');
+}
+function makeReport(s){
+ const tasks=(s.tasks||[]).map((t,i)=>{
+  const rv=s.review&&s.review[t.id];
+  return `<tr><td>${i+1}</td><td>${esc(t.title||'—')}</td><td>${esc(t.start||'—')} – ${esc(t.end||'—')}</td><td>${esc(t.work||'—')}</td><td>${esc(reviewText(rv))}</td></tr>`;
+ }).join('');
+ return `<section class="routine-report" style="margin:18px 0;padding:12px 0;border-bottom:1px solid #ccd5e1;break-inside:avoid">
+ <h2>${esc(s.name||'My Routine')}</h2>
+ <p><b>तारीख:</b> ${esc(s.date||'—')} &nbsp; <b>Final time:</b> ${esc(s.endTime||'—')}</p>
+ <p><b>Routine ID:</b> ${esc(s.id||'—')}</p>
+ <p><b>स्थिति:</b> ${esc(statusOf(s,!!s.deleted))}</p>
+ <table><thead><tr><th>#</th><th>Task</th><th>समय</th><th>Note</th><th>Review / कारण</th></tr></thead>
+ <tbody>${tasks||'<tr><td colspan="5">कोई task नहीं</td></tr>'}</tbody></table>
+ ${s.reviewCompleted?`<p><b>Review पूरा हुआ:</b> ${esc(fmt(s.reviewCompletedAt))}</p><p><b>Motivation / टिप्पणी:</b> ${esc(s.motivation||'—')}</p>`:''}
+ ${s.deleted?`<p><b>Delete time:</b> ${esc(fmt(s.deletedAt))}<br><b>Delete reason:</b> ${esc(s.deleteReason||'—')}</p>`:''}
+ </section>`;
+}
+
+/* PDF FILE DOWNLOAD — REAL PDF */
+function createPdf(){
+ const hist=historyItems();
+ const chosen=hist.filter(s=>selected.has(s.id));
+ if(!chosen.length){
+  alert('पहले History में एक या अधिक routines चुनें।');
+  return;
+ }
+ if(typeof html2pdf==='undefined'){
+  alert('PDF लाइब्रेरी लोड नहीं हुई। इंटरनेट चालू करके Refresh करें।');
+  return;
+ }
+
+ const report=document.createElement('div');
+ report.style.cssText='background:#fff;color:#172033;padding:20px;font-family:Arial,sans-serif;font-size:12px;line-height:1.6';
+ report.innerHTML=`
+ <header style="border-bottom:3px solid #245b9e;padding-bottom:12px">
+  <b style="color:#245b9e">MyWorkspace / PERSONAL PLANNER</b>
+  <h1>Routine History Report</h1>
+  <p>तैयार किया गया: ${esc(fmt(new Date().toISOString()))}</p>
+  <p>चुनी गई routines: ${chosen.length}</p>
+ </header>
+ <p><b>रिपोर्ट का उद्देश्य:</b> अपनी पढ़ाई, समय और routine की प्रगति समझना।</p>
+ ${chosen.map(makeReport).join('')}
+ <div style="border:1px solid #8ba9d1;background:#f4f8ff;padding:12px;margin-top:20px">
+  <b>MyWorkspace — AI Review Note</b>
+  <p>ChatGPT या किसी अन्य AI से अनुरोध: इस रिपोर्ट का विश्लेषण करें। मेरी पढ़ाई, समय प्रबंधन, task planning और routine consistency की अच्छी बातें, कमियाँ और व्यावहारिक सुधार सुझाएँ। अगले सप्ताह का सरल action plan बताएँ। उपलब्ध न होने वाली जानकारी का अनुमान लगाकर निष्कर्ष न दें।</p>
+ </div>
+ <p style="font-size:10px;margin-top:18px">MyWorkspace · Personal Planner</p>`;
+
+ report.querySelectorAll('table').forEach(table=>{
+  table.style.cssText='width:100%;border-collapse:collapse;table-layout:fixed;margin-top:10px';
+  table.querySelectorAll('th,td').forEach(cell=>{
+   cell.style.cssText='border:1px solid #bdc9d8;padding:5px;text-align:left;vertical-align:top;overflow-wrap:anywhere;color:#172033';
+  });
+  table.querySelectorAll('th').forEach(th=>th.style.background='#eaf1fa');
+ });
+
+ const button=$('makePdf');
+ button.disabled=true;
+ button.textContent='PDF बन रही है…';
+ html2pdf().set({
+  margin:8,
+  filename:'MyWorkspace-Routine-History.pdf',
+  image:{type:'jpeg',quality:0.98},
+  html2canvas:{scale:2,backgroundColor:'#ffffff',useCORS:true},
+  jsPDF:{unit:'mm',format:'a4',orientation:'portrait'},
+  pagebreak:{mode:['css','legacy']}
+ }).from(report).save()
+ .then(()=>{
+  alert('PDF डाउनलोड शुरू हो गई। फोन के Downloads फ़ोल्डर में फ़ाइल देखें।');
+ })
+ .catch(err=>{
+  console.error(err);
+  alert('PDF नहीं बन पाई। इंटरनेट चालू करके पेज Refresh करें और फिर कोशिश करें।');
+ })
+ .finally(()=>{
+  button.disabled=false;
+  button.textContent='📄 चुनी हुई Routines की PDF';
+ });
+}
+$('makePdf').addEventListener('click',createPdf);
+
+taskRow();
+render();
+})();
+</script>
+</body>
+</html>
