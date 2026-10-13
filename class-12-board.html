@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Class 12 Board | MyWorkspace</title>
+
+<link rel="stylesheet" href="style.css">
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, #0f172a, #172554, #312e81);
+    color: #f8fafc;
+    min-height: 100vh;
+}
+
+.board-main {
+    padding: 24px;
+}
+
+.board-hero {
+    position: relative;
+    overflow: hidden;
+    padding: 30px 24px;
+    border-radius: 24px;
+    background: linear-gradient(120deg, #7c3aed, #2563eb, #06b6d4);
+    box-shadow: 0 15px 40px #00000035;
+    margin-bottom: 28px;
+}
+
+.board-hero::after {
+    content: "📚";
+    position: absolute;
+    right: 20px;
+    bottom: -25px;
+    font-size: 120px;
+    opacity: 0.18;
+    transform: rotate(-15deg);
+}
+
+.board-tag {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 30px;
+    background: #ffffff25;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.board-hero h1 {
+    font-size: clamp(27px, 5vw, 42px);
+    margin: 18px 0 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.board-hero p {
+    line-height: 1.7;
+    max-width: 480px;
+    position: relative;
+    z-index: 1;
+}
+
+.board-section-title {
+    margin: 28px 0 16px;
+}
+
+.board-section-title h2 {
+    font-size: 23px;
+    margin-bottom: 6px;
+}
+
+.board-section-title p {
+    color: #cbd5e1;
+    font-size: 14px;
+}
+
+.subject-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.subject-card {
+    --subject-color: #38bdf8;
+    position: relative;
+    overflow: hidden;
+    padding: 20px 15px;
+    min-height: 180px;
+    border: 1px solid #ffffff20;
+    border-radius: 20px;
+    background: linear-gradient(145deg, #ffffff15, #ffffff07);
+    box-shadow: 0 8px 24px #00000020;
+    transition: transform 0.25s, border-color 0.25s,
+                box-shadow 0.25s;
+}
+
+.subject-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: var(--subject-color);
+}
+
+.subject-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--subject-color);
+    box-shadow: 0 15px 30px #00000035;
+}
+
+.subject-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--subject-color) 20%, transparent);
+    font-size: 27px;
+    margin-bottom: 15px;
+}
+
+.subject-card h3 {
+    font-size: 18px;
+    margin: 0 0 6px;
+}
+
+.subject-card p {
+    color: #cbd5e1;
+    font-size: 13px;
+    margin: 0 0 16px;
+}
+
+.subject-button {
+    display: inline-block;
+    text-decoration: none;
+    color: white;
+    background: var(--subject-color);
+    padding: 9px 13px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    transition: filter 0.2s, transform 0.2s;
+}
+
+.subject-button:hover {
+    filter: brightness(1.15);
+    transform: scale(1.04);
+}
+
+.board-footer {
+    margin-top: 28px;
+    padding: 18px;
+    border-radius: 16px;
+    background: #ffffff0c;
+    border: 1px solid #ffffff18;
+    text-align: center;
+    color: #cbd5e1;
+    font-size: 13px;
+}
+
+.back-button {
+    display: inline-block;
+    margin-top: 22px;
+    padding: 11px 16px;
+    border-radius: 12px;
+    background: #ffffff15;
+    color: white;
+    text-decoration: none;
+    border: 1px solid #ffffff25;
+}
+
+.back-button:hover {
+    background: #ffffff25;
+}
+
+@media (max-width: 420px) {
+    .board-main {
+        padding: 15px;
+    }
+
+    .board-hero {
+        padding: 24px 18px;
+    }
+
+    .subject-grid {
+        gap: 12px;
+    }
+
+    .subject-card {
+        padding: 17px 12px;
+        min-height: 175px;
+    }
+
+    .subject-card h3 {
+        font-size: 16px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar">
+    <h2>☁️ MyWorkspace</h2>
+    <p>Learn • Grow • Get Help</p>
+
+    <nav>
+        <a href="dashboard.html">🏠 Dashboard</a>
+        <a href="student-services.html" class="active">
+            🎓 Student Services
+        </a>
+        <a href="links.html">🔗 Useful Links</a>
+    </nav>
+</aside>
+
+<main class="dashboard board-main">
+
+    <!-- COLORFUL BOARD HEADER -->
+    <section class="board-hero">
+        <span class="board-tag">🎓 BIHAR BOARD • BSEB</span>
+        <h1>Class 12 Board</h1>
+        <p>
+            Your study journey starts here!
+            Choose your subject and prepare for your board exams
+            with MyWorkspace.
+        </p>
+    </section>
+
+    <!-- SUBJECT SELECTION -->
+    <section class="board-section-title">
+        <h2>📖 Explore Your Subjects</h2>
+        <p>Select a subject to continue.</p>
+    </section>
+
+    <section class="subject-grid">
+
+        <article class="subject-card" style="--subject-color:#38bdf8">
+            <div class="subject-icon">⚛️</div>
+            <h3>Physics</h3>
+            <p>भौतिक विज्ञान</p>
+<a href="physics.html" class="subject-button">Explore →</a>
+        </article>
+
+        <article class="subject-card" style="--subject-color:#34d399">
+            <div class="subject-icon">🧪</div>
+            <h3>Chemistry</h3>
+            <p>रसायन विज्ञान</p>
+            <a href="#" class="subject-button">Explore →</a>
+        </article>
+
+        <article class="subject-card" style="--subject-color:#fbbf24">
+            <div class="subject-icon">📐</div>
+            <h3>Mathematics</h3>
+            <p>गणित</p>
+            <a href="#" class="subject-button">Explore →</a>
+        </article>
+
+        <article class="subject-card" style="--subject-color:#fb7185">
+            <div class="subject-icon">🧬</div>
+            <h3>Biology</h3>
+            <p>जीव विज्ञान</p>
+            <a href="#" class="subject-button">Explore →</a>
+        </article>
+
+        <article class="subject-card" style="--subject-color:#c084fc">
+            <div class="subject-icon">📚</div>
+            <h3>Hindi</h3>
+            <p>हिंदी</p>
+            <a href="#" class="subject-button">Explore →</a>
+        </article>
+
+        <article class="subject-card" style="--subject-color:#fb923c">
+            <div class="subject-icon">🔤</div>
+            <h3>English</h3>
+            <p>अंग्रेज़ी</p>
+            <a href="#" class="subject-button">Explore →</a>
+        </article>
+
+    </section>
+
+    <section class="board-footer">
+        ✨ Learn step by step. Prepare with confidence.
+        <br>
+        MyWorkspace • Class 12 Board
+    </section>
+
+    <a href="student-services.html" class="back-button">
+        ← Back to Student Services
+    </a>
+
+</main>
+
+</body>
+</html>
