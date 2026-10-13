@@ -1,0 +1,150 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MyWorkspace Tools</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#0b1220;color:#f1f5f9;font-family:Arial,sans-serif}
+header{padding:24px 18px;background:linear-gradient(135deg,#172554,#123047);border-bottom:1px solid #29415b}
+.wrap{max-width:900px;margin:auto;padding:18px}
+h1{margin:0 0 8px;font-size:28px}
+p{color:#b9c7d9;line-height:1.5}
+.tag{color:#7dd3fc;font-size:13px;font-weight:bold;letter-spacing:1px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:20px 0}
+.tool{background:#172338;border:1px solid #30445f;border-radius:16px;padding:17px;text-align:left;color:white;min-height:130px;cursor:pointer}
+.tool strong{display:block;font-size:16px;margin:10px 0}
+.tool span{font-size:26px}
+.tool small{color:#bdc8da;line-height:1.4}
+.panel{display:none;background:#172338;border:1px solid #30445f;border-radius:18px;padding:18px;margin:18px 0}
+.panel.active{display:block}
+h2{font-size:21px;margin-top:0}
+label{display:block;margin-top:14px;font-weight:bold;font-size:14px}
+input,select{display:block;width:100%;padding:12px;margin-top:7px;border:1px solid #52647d;border-radius:10px;background:#0b1220;color:white;font-size:16px}
+input[type=range]{padding:0}
+button,.download{display:inline-block;border:0;border-radius:11px;background:#38bdf8;color:#062033;font-weight:bold;padding:13px 15px;margin-top:14px;font-size:15px;cursor:pointer;text-decoration:none}
+button.secondary{background:#293b53;color:#f1f5f9}
+button:disabled{opacity:.5}
+.actions{display:flex;gap:9px;flex-wrap:wrap}
+.actions button{flex:1}
+.status{white-space:pre-wrap;overflow-wrap:anywhere;color:#a5f3fc;font-size:14px}
+.preview{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.preview img{width:100%;height:150px;object-fit:contain;background:#0b1220;border-radius:10px}
+.result{background:#0b1220;border:1px solid #30445f;padding:12px;border-radius:12px;margin-top:12px;overflow-wrap:anywhere}
+.result img{display:block;max-width:100%;max-height:260px;object-fit:contain;margin:10px auto}
+.hint{font-size:12px;color:#9fb0c5}
+footer{text-align:center;padding:24px;color:#8193aa;font-size:12px}
+@media(max-width:400px){.wrap{padding:12px}.tool{padding:13px}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="tag">MYWORKSPACE • FREE TOOLS</div>
+    <h1>MyWorkspace Tools</h1>
+    <p>फोटो और PDF के काम एक ही जगह करें।</p>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="tools">
+    <button class="tool" onclick="MW.open('pdf')"><span>📄</span><strong>Images to PDF</strong><small>कई फोटो से एक PDF बनाएँ</small></button>
+    <button class="tool" onclick="MW.open('compress')"><span>🗜️</span><strong>Image Compressor</strong><small>फोटो का साइज़ कम करें</small></button>
+    <button class="tool" onclick="MW.open('passport')"><span>🪪</span><strong>Passport Photo</strong><small>पासपोर्ट फोटो तैयार करें</small></button>
+    <button class="tool" onclick="MW.open('resize')"><span>📐</span><strong>Image Resizer</strong><small>फोटो के पिक्सेल बदलें</small></button>
+    <button class="tool" onclick="MW.open('merge')"><span>📚</span><strong>PDF Merger</strong><small>कई PDF को एक करें</small></button>
+  </div>
+
+  <section class="panel" id="panel-pdf">
+    <h2>📄 Images to PDF</h2>
+    <p>कई फोटो चुनें। हर फोटो PDF के अलग पेज पर आएगी।</p>
+    <label>फोटो चुनें</label>
+    <input id="pdf-photos" type="file" accept="image/*" multiple>
+    <div id="pdf-preview" class="preview"></div>
+    <label>PDF का नाम</label>
+    <input id="pdf-name" value="MyWorkspace-Photos">
+    <button id="pdf-btn">PDF बनाएँ और सेव करें</button>
+    <p id="pdf-status" class="status"></p>
+  </section>
+
+  <section class="panel" id="panel-compress">
+    <h2>🗜️ Image Compressor</h2>
+    <label>फोटो चुनें</label>
+    <input id="compress-photos" type="file" accept="image/*" multiple>
+    <label>फोटो फॉर्मेट</label>
+    <select id="compress-format">
+      <option value="image/jpeg">JPG</option>
+      <option value="image/webp">WebP</option>
+    </select>
+    <label>क्वालिटी: <span id="quality-label">70%</span></label>
+    <input id="quality" type="range" min="20" max="95" value="70">
+    <button id="compress-btn">फोटो कम्प्रेस करें</button>
+    <p id="compress-status" class="status"></p>
+    <div id="compress-results"></div>
+  </section>
+
+  <section class="panel" id="panel-passport">
+    <h2>🪪 Passport Photo Maker</h2>
+    <p>फोटो को सामान्य भारतीय पासपोर्ट फोटो के अनुपात में तैयार करें। यह सरकारी फोटो नियमों की स्वतः पुष्टि नहीं करता।</p>
+    <label>अपनी फोटो चुनें</label>
+    <input id="passport-input" type="file" accept="image/*">
+    <label>आउटपुट आकार</label>
+    <select id="passport-size">
+      <option value="413,531">35 × 45 mm अनुपात (300 DPI)</option>
+      <option value="354,472">30 × 40 mm अनुपात (300 DPI)</option>
+      <option value="600,600">Square 2 × 2 inch (300 DPI)</option>
+    </select>
+    <label>फोटो फिट करने का तरीका</label>
+    <select id="passport-fit">
+      <option value="contain">पूरी फोटो दिखाएँ (किनारों पर खाली जगह हो सकती है)</option>
+      <option value="cover">फ्रेम भरें (किनारे कट सकते हैं)</option>
+    </select>
+    <button id="passport-btn">पासपोर्ट फोटो बनाएँ</button>
+    <p class="hint">यह टूल फोटो का आकार बदलता है। यह चेहरा पहचानने, बैकग्राउंड हटाने या आधिकारिक फोटो नियम जाँचने का दावा नहीं करता।</p>
+    <div id="passport-result"></div>
+    <p id="passport-status" class="status"></p>
+  </section>
+
+  <section class="panel" id="panel-resize">
+    <h2>📐 Image Resizer</h2>
+    <label>फोटो चुनें</label>
+    <input id="resize-input" type="file" accept="image/*">
+    <label>चौड़ाई (pixels)</label>
+    <input id="resize-width" type="number" min="1" max="6000" value="800">
+    <label>ऊँचाई (pixels)</label>
+    <input id="resize-height" type="number" min="1" max="6000" value="800">
+    <label><input id="resize-lock" type="checkbox" checked style="display:inline;width:auto"> फोटो का अनुपात बनाए रखें</label>
+    <label>फॉर्मेट</label>
+    <select id="resize-format">
+      <option value="image/jpeg">JPG</option>
+      <option value="image/png">PNG</option>
+    </select>
+    <button id="resize-btn">फोटो का आकार बदलें</button>
+    <p id="resize-status" class="status"></p>
+    <div id="resize-result"></div>
+  </section>
+
+  <section class="panel" id="panel-merge">
+    <h2>📚 PDF Merger</h2>
+    <p>दो या अधिक PDF चुनकर एक फाइल बनाएँ।</p>
+    <label>PDF फाइलें चुनें</label>
+    <input id="merge-input" type="file" accept="application/pdf,.pdf" multiple>
+    <p id="merge-count" class="hint">अभी कोई PDF नहीं चुनी गई।</p>
+    <label>नई PDF का नाम</label>
+    <input id="merge-name" value="MyWorkspace-Merged">
+    <button id="merge-btn">PDF जोड़ें और सेव करें</button>
+    <p id="merge-status" class="status"></p>
+  </section>
+
+  <p class="hint">तुम्हारी चुनी गई फोटो इस पेज से किसी सर्वर पर अपलोड नहीं होतीं। PDF Merger के लिए इंटरनेट और PDF लाइब्रेरी ज़रूरी है।</p>
+</main>
+<footer>MyWorkspace • Useful tools for students</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="file-tools.js"></script>
+<script src="routine-gate.js"></script>
+</body>
+</html>
