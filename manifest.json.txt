@@ -1,0 +1,21 @@
+
+{
+  "id": "./",
+  "name": "MyWorkspace",
+  "short_name": "MyWorkspace",
+  "description": "Your personal digital workspace for learning, goals and useful tools.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101827",
+  "theme_color": "#101827",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
