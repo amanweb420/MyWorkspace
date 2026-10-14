@@ -1,0 +1,785 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Chapter 1 Test | MyWorkspace</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#080d1c;
+  color:#f8fafc;
+}
+
+.container{max-width:760px;margin:auto;padding:16px}
+
+.header{
+  background:linear-gradient(135deg,#075985,#4f46e5,#7e22ce);
+  padding:24px 18px;
+  border-radius:22px;
+  margin-bottom:16px;
+}
+
+.brand{font-size:14px;font-weight:bold;letter-spacing:1px}
+.header h1{font-size:27px;margin:22px 0 8px}
+.header p{font-size:14px;line-height:1.6}
+.badge{display:inline-block;padding:7px 10px;background:#ffffff20;border-radius:20px;font-size:12px}
+
+.stats{display:flex;gap:10px;margin:16px 0}
+.stat{
+  flex:1;text-align:center;background:#111a30;
+  border:1px solid #263451;border-radius:15px;padding:14px 5px;
+}
+.stat strong{display:block;color:#fbbf24;font-size:19px;margin-bottom:5px}
+.stat span{color:#aab7d0;font-size:11px}
+
+.card{
+  background:#111a30;border:1px solid #263451;
+  padding:18px;border-radius:20px;margin-bottom:15px;
+}
+.card h2{font-size:19px;margin-top:0}
+.muted{color:#aab7d0;font-size:13px;line-height:1.7}
+
+.hidden{display:none!important}
+
+.primary,.primary-btn{
+  width:100%;border:none;padding:14px;margin-top:12px;
+  border-radius:13px;color:white;font-weight:bold;font-size:15px;
+  background:linear-gradient(100deg,#2563eb,#7c3aed);
+  cursor:pointer;
+}
+
+/* Attractive Retake Button */
+.retake-btn{
+  position:relative;
+  width:100%;
+  padding:16px 14px;
+  margin-top:13px;
+  border:1px solid #fde68a;
+  border-radius:15px;
+  color:#211500;
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:.3px;
+  background:linear-gradient(110deg,#fbbf24,#fde68a,#f59e0b);
+  box-shadow:0 0 18px #f59e0b35,0 5px 0 #92400e;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+}
+.retake-btn:active{
+  transform:translateY(3px);
+  box-shadow:0 0 10px #f59e0b30,0 2px 0 #92400e;
+}
+.retake-btn span{display:block;font-size:11px;margin-top:5px;font-weight:700}
+
+.secondary-btn{
+  width:100%;padding:13px;margin-top:10px;
+  border:1px solid #344563;background:#202b44;
+  color:white;border-radius:12px;font-size:14px;cursor:pointer;
+}
+
+.progress{height:7px;background:#263451;border-radius:20px;overflow:hidden;margin:15px 0}
+.progress-bar{width:0%;height:100%;background:linear-gradient(90deg,#38bdf8,#a78bfa)}
+
+.question{font-size:19px;line-height:1.7;margin:22px 0}
+
+.option{
+  display:block;width:100%;text-align:left;padding:14px;
+  margin:10px 0;color:#f8fafc;background:#18243c;
+  border:1px solid #344563;border-radius:13px;
+  font-size:15px;line-height:1.7;cursor:pointer;
+}
+.option.selected{background:#1e3a68;border-color:#60a5fa}
+
+.controls{display:flex;gap:10px;margin-top:18px}
+.controls button{
+  flex:1;padding:13px 8px;border:1px solid #344563;
+  background:#202b44;color:white;border-radius:12px;cursor:pointer;
+}
+
+#timer{color:#fbbf24;font-weight:bold;font-size:18px}
+.footer{text-align:center;padding:18px 5px;color:#718096;font-size:12px}
+
+.review-item{
+  background:#080d1c;padding:16px;margin:12px 0;
+  border:1px solid #263451;border-radius:12px;
+}
+.review-item h3{font-size:16px;line-height:1.7}
+.review-line{font-size:14px;line-height:1.8;padding:5px 0}
+.good{color:#86efac}
+.bad{color:#fca5a5}
+.reason{color:#c4b5fd;margin-top:10px;font-size:13px;line-height:1.7}
+
+.result-score{
+  font-size:38px;color:#fbbf24;font-weight:bold;
+  margin:12px 0;
+}
+
+@media(max-width:360px){
+  .container{padding:10px}
+  .stats{gap:6px}
+  .question{font-size:17px}
+  .header h1{font-size:23px}
+}
+
+/* ===== AMAN ACHIEVEMENT CARD DESIGN ===== */
+.achievement-card {
+  margin-top: 24px;
+  padding: 26px 16px;
+  text-align: center;
+  background: radial-gradient(circle at top, #29210c, #090909 65%);
+  border: 2px solid #d4af37;
+  border-radius: 22px;
+  box-shadow: 0 0 22px rgba(212, 175, 55, 0.25);
+  color: #f8e7a0;
+  overflow: hidden;
+}
+
+.achievement-badge {
+  width: 130px;
+  height: 130px;
+  margin: 0 auto 18px;
+  border: 4px solid #f5d76e;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #fff0a6, #c89616 55%, #73500a);
+  color: #171000;
+  box-shadow: 0 0 25px rgba(245, 215, 110, 0.45);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.crown {
+  font-size: 29px;
+  line-height: 1;
+}
+
+.badge-letter {
+  font-size: 57px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.achievement-name {
+  margin: 10px 0 4px;
+  color: #ffe58a;
+  font-size: 30px;
+  font-weight: 900;
+  letter-spacing: 5px;
+}
+
+.achievement-status {
+  margin: 0 0 20px;
+  color: #e6c65b;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 3px;
+}
+
+.achievement-coins {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 18px auto;
+  padding: 13px 16px;
+  max-width: 220px;
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+  background: rgba(212, 175, 55, 0.12);
+  color: #ffdf65;
+  font-size: 21px;
+}
+
+.achievement-coins span {
+  font-size: 25px;
+}
+
+.achievement-footer {
+  margin: 22px 0 6px;
+  color: #bda85d;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.achievement-next {
+  margin: 6px 0 20px;
+  color: #fff2bd;
+  font-size: 17px;
+  font-weight: bold;
+}
+
+#level2Btn {
+  width: 100%;
+  max-width: 280px;
+  border: 1px solid #f5d76e;
+  background: linear-gradient(135deg, #f5d76e, #b8860b);
+  color: #171000;
+  font-weight: 900;
+}
+/* ===== END ACHIEVEMENT CARD DESIGN ===== */
+
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header class="header">
+  <div class="brand">⚛️ MyWorkspace TEST ARENA</div>
+  <h1>Electric Charges and Fields</h1>
+  <p>वैद्युत आवेश तथा क्षेत्र</p>
+  <span class="badge">Bihar Board • Class 12 Physics</span>
+</header>
+
+<section class="stats">
+  <div class="stat"><strong>30</strong><span>MCQ Questions</span></div>
+  <div class="stat"><strong id="timeLabel">10:00</strong><span>Total Time</span></div>
+  <div class="stat"><strong>Level 1</strong><span>Starter Round</span></div>
+</section>
+
+<section class="card" id="intro">
+  <h2>🎮 Ready for the Challenge?</h2>
+  <p class="muted">इस टेस्ट में 30 थ्योरी और कॉन्सेप्ट आधारित प्रश्न हैं। प्रत्येक प्रश्न में चार विकल्प मिलेंगे।</p>
+  <p class="muted">⏱️ टेस्ट का समय 10 मिनट है। समय पूरा होने पर टेस्ट अपने आप जमा हो जाएगा।</p>
+  <button class="primary" onclick="startTest()">Start Level 1 →</button>
+</section>
+
+<section class="card hidden" id="quiz">
+  <div style="display:flex;justify-content:space-between;gap:10px">
+    <span class="muted" id="qCount">Question 1/30</span>
+    <span id="timer">10:00</span>
+  </div>
+
+  <div class="progress"><div class="progress-bar" id="bar"></div></div>
+  <p class="muted" id="answered">Answered: 0/30</p>
+  <div class="question" id="qText"></div>
+  <div id="options"></div>
+
+  <div class="controls">
+    <button onclick="previousQuestion()">← Previous</button>
+    <button onclick="nextQuestion()">Next →</button>
+  </div>
+
+  <button class="primary" onclick="submitTest()">Submit Test ✓</button>
+</section>
+
+<section class="card hidden" id="result">
+  <h2>🏆 Level 1 Result</h2>
+  <div id="score" class="result-score">0/30</div>
+  <p class="muted" id="summary"></p>
+
+<!-- ===== AMAN ACHIEVEMENT CARD ===== -->
+<div id="achievementCard" class="achievement-card hidden">
+
+  <div class="achievement-badge">
+    <div class="crown">♛</div>
+    <div class="badge-letter">A</div>
+  </div>
+
+  <h2 class="achievement-name">AMAN</h2>
+  <p class="achievement-status">LEVEL COMPLETED</p>
+
+  <div class="achievement-coins">
+    <span>🪙</span>
+    <strong>+10 COINS</strong>
+  </div>
+
+  <p class="achievement-footer">PERSONAL REWARD CARD</p>
+  <p class="achievement-next">Next Level Awaits!</p>
+
+  <button
+    type="button"
+    id="level2Btn"
+    class="primary-btn"
+    onclick="openLevel2()">
+    🔓 OPEN LEVEL 2
+  </button>
+
+</div>
+<!-- ===== END ACHIEVEMENT CARD ===== -->
+
+  <button class="primary-btn" id="reviewBtn" onclick="toggleReview()">
+    📝 Review Questions
+  </button>
+
+  <button class="retake-btn" onclick="startTest()">
+    🔄 RETAKE TEST
+    <span>↻ नया प्रयास शुरू करें • फिर से अपना स्कोर सुधारें</span>
+  </button>
+
+  <div id="review" class="hidden"></div>
+</section>
+
+<footer class="footer">MyWorkspace • Learn • Practice • Level Up</footer>
+</div>
+
+<script>
+/* ===== 1. TEST SETTINGS ===== */
+const TEST_MINUTES = 10;
+const TOTAL_QUESTIONS = 30;
+
+/* ===== 2. QUESTION BANK ===== */
+const questions = [
+{q:"कूलॉम नियतांक 1/(4πε₀) का मान होता है—",options:["9 × 10⁹ N m²/C²","9 × 10⁻⁹ N m²/C²","9 × 10¹² N m²/C²","9 × 10⁻¹² N m²/C²"],answer:0,reason:"निर्वात में कूलॉम नियतांक का मान लगभग 9 × 10⁹ N m²/C² होता है।"},
+{q:"विद्युत क्षेत्र की तीव्रता का सही संबंध है—",options:["E = F/q","E = qF","E = q/F","E = Fq"],answer:0,reason:"विद्युत क्षेत्र की तीव्रता प्रति इकाई धनात्मक परीक्षण आवेश पर लगने वाला बल है।"},
+{q:"विद्युत द्विध्रुव आघूर्ण का SI मात्रक है—",options:["कूलॉम","कूलॉम-मीटर","न्यूटन/कूलॉम","कूलॉम/मीटर"],answer:1},
+{q:"किसी माध्यम की सापेक्ष परावैद्युतता εᵣ होती है—",options:["ε/ε₀","ε + ε₀","ε − ε₀","ε × ε₀"],answer:0},
+{q:"पृष्ठ आवेश घनत्व σ बराबर होता है—",options:["कुल आवेश × कुल क्षेत्रफल","कुल आवेश / कुल क्षेत्रफल","कुल आवेश / कुल आयतन","कुल आवेश × कुल आयतन"],answer:1},
+{q:"विद्युत आवेश का SI मात्रक क्या है?",options:["एम्पियर","कूलॉम","वोल्ट","ओम"],answer:1},
+{q:"समान प्रकृति के दो विद्युत आवेश एक-दूसरे पर कैसा बल लगाते हैं?",options:["आकर्षण बल","प्रतिक्रिया बल नहीं","प्रतिकर्षण बल","गुरुत्वाकर्षण बल"],answer:2},
+{q:"विपरीत प्रकृति के दो विद्युत आवेश एक-दूसरे पर कैसा बल लगाते हैं?",options:["प्रतिकर्षण बल","आकर्षण बल","शून्य बल","केवल गुरुत्वाकर्षण बल"],answer:1},
+{q:"विद्युत आवेश के क्वांटीकरण का सही संबंध है—",options:["q = ne","q = n/e","q = e/n","q = n + e"],answer:0},
+{q:"एक इलेक्ट्रॉन पर आवेश होता है—",options:["+1.6 × 10⁻¹⁹ C","0 C","−1.6 × 10⁻¹⁹ C","+1 C"],answer:2},
+{q:"विद्युत आवेश संरक्षण के सिद्धांत के अनुसार—",options:["आवेश उत्पन्न किया जा सकता है","आवेश नष्ट किया जा सकता है","कुल आवेश संरक्षित रहता है","आवेश हमेशा धनात्मक रहता है"],answer:2},
+{q:"कूलॉम का नियम किन आवेशों के बीच लगने वाले बल को बताता है?",options:["दो स्थिर बिंदु आवेशों के बीच","केवल दो चुंबकों के बीच","दो वस्तुओं के द्रव्यमान के बीच","केवल दो उदासीन वस्तुओं के बीच"],answer:0},
+{q:"दो बिंदु आवेशों के बीच दूरी दोगुनी करने पर विद्युत बल कितना होगा?",options:["दोगुना","आधा","चार गुना","एक-चौथाई"],answer:3},
+{q:"दो आवेशों के बीच विद्युत बल दूरी के किस अनुपात में होता है?",options:["r के समानुपाती","r² के समानुपाती","1/r के समानुपाती","1/r² के समानुपाती"],answer:3},
+{q:"निर्वात में कूलॉम नियतांक का प्रतीक क्या है?",options:["G","k","g","h"],answer:1},
+{q:"विद्युत क्षेत्र की SI इकाई कौन-सी है?",options:["न्यूटन/कूलॉम","कूलॉम/न्यूटन","जूल/कूलॉम","कूलॉम-मीटर"],answer:0},
+{q:"विद्युत क्षेत्र की दिशा किस दिशा में मानी जाती है?",options:["ऋणात्मक परीक्षण आवेश पर बल की दिशा","धनात्मक परीक्षण आवेश पर बल की दिशा","हमेशा नीचे की ओर","हमेशा आवेश के लंबवत"],answer:1},
+{q:"धनात्मक बिंदु आवेश के कारण विद्युत क्षेत्र की दिशा होती है—",options:["आवेश की ओर","आवेश से बाहर की ओर","वृत्ताकार","शून्य"],answer:1},
+{q:"ऋणात्मक बिंदु आवेश के कारण विद्युत क्षेत्र की दिशा होती है—",options:["आवेश से बाहर की ओर","आवेश की ओर","हमेशा ऊपर की ओर","शून्य"],answer:1},
+{q:"विद्युत द्विध्रुव में होते हैं—",options:["दो समान धनात्मक आवेश","दो समान ऋणात्मक आवेश","बराबर परिमाण के विपरीत प्रकृति के दो आवेश","दो उदासीन कण"],answer:2},
+{q:"विद्युत द्विध्रुव आघूर्ण की दिशा किस ओर होती है?",options:["धनात्मक से ऋणात्मक आवेश की ओर","ऋणात्मक से धनात्मक आवेश की ओर","हमेशा ऊपर की ओर","हमेशा नीचे की ओर"],answer:1},
+{q:"विद्युत द्विध्रुव आघूर्ण का SI मात्रक है—",options:["कूलॉम","कूलॉम-मीटर","न्यूटन/कूलॉम","वोल्ट/मीटर"],answer:1},
+{q:"विद्युत क्षेत्र रेखाएँ किस आवेश से निकलती हैं?",options:["ऋणात्मक आवेश","धनात्मक आवेश","उदासीन वस्तु","किसी भी वस्तु से नहीं"],answer:1},
+{q:"विद्युत क्षेत्र रेखाएँ किस आवेश पर समाप्त होती हैं?",options:["धनात्मक आवेश","ऋणात्मक आवेश","केवल उदासीन वस्तु","अनंत पर ही हमेशा"],answer:1},
+{q:"दो विद्युत क्षेत्र रेखाएँ एक-दूसरे को क्यों नहीं काटतीं?",options:["क्योंकि एक बिंदु पर क्षेत्र की एक निश्चित दिशा होती है","क्योंकि वे हमेशा सीधी होती हैं","क्योंकि वे केवल धनात्मक आवेश से निकलती हैं","क्योंकि विद्युत क्षेत्र शून्य होता है"],answer:0},
+{q:"विद्युत फ्लक्स का SI मात्रक है—",options:["N/C","N m²/C","C/m²","C m"],answer:1},
+{q:"गाउस के नियम के अनुसार बंद सतह से कुल विद्युत फ्लक्स निर्भर करता है—",options:["सतह के आकार पर ही","सतह के क्षेत्रफल पर ही","सतह के भीतर स्थित कुल आवेश पर","सतह के रंग पर"],answer:2},
+{q:"किसी बंद सतह के भीतर कुल आवेश शून्य हो, तो कुल विद्युत फ्लक्स होगा—",options:["अनंत","शून्य","हमेशा धनात्मक","हमेशा ऋणात्मक"],answer:1},
+{q:"अनंत लंबाई के समान रूप से आवेशित सीधे तार के विद्युत क्षेत्र की दिशा होती है—",options:["तार के समानांतर","तार के लंबवत, रेडियल दिशा में","वृत्त के स्पर्शरेखीय","हमेशा नीचे की ओर"],answer:1},
+{q:"समान रूप से आवेशित अनंत समतल चादर के विद्युत क्षेत्र का परिमाण दूरी के साथ कैसा बदलता है?",options:["दूरी के साथ बढ़ता है","दूरी के साथ घटता है","आदर्श स्थिति में दूरी से स्वतंत्र रहता है","हमेशा शून्य रहता है"],answer:2}
+];
+
+/* ===== 3. TEST STATE ===== */
+let answers = [];
+let current = 0;
+let questionsSeen = 0;
+let seconds = TEST_MINUTES * 60;
+let timerId = null;
+let finished = false;
+let attemptQuestions = [];
+
+/* ===== 4. START OR RETAKE TEST ===== */
+function startTest() {
+  if (questions.length !== TOTAL_QUESTIONS) {
+    alert("प्रश्नों की संख्या 30 नहीं है। Question Bank जाँचें।");
+    return;
+  }
+
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+
+  // हर प्रयास में प्रश्नों का क्रम बदलना
+  attemptQuestions = [...questions];
+
+  for (let i = attemptQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [attemptQuestions[i], attemptQuestions[j]] =
+    [attemptQuestions[j], attemptQuestions[i]];
+  }
+
+  answers = Array(attemptQuestions.length).fill(null);
+  current = 0;
+  questionsSeen = 0;
+  seconds = TEST_MINUTES * 60;
+  finished = false;
+
+  document.getElementById("intro").classList.add("hidden");
+  document.getElementById("result").classList.add("hidden");
+  document.getElementById("quiz").classList.remove("hidden");
+
+  const review = document.getElementById("review");
+  review.innerHTML = "";
+  review.classList.add("hidden");
+
+  document.getElementById("reviewBtn").textContent = "📝 Review Questions";
+  document.getElementById("timeLabel").textContent =
+    formatTime(seconds);
+
+  showQuestion();
+  updateTimer();
+
+  timerId = setInterval(function() {
+    if (finished) return;
+
+    seconds--;
+    updateTimer();
+
+    if (seconds <= 0) {
+      submitTest();
+    }
+  }, 1000);
+}
+
+/* ===== 5. TIMER ===== */
+function formatTime(totalSeconds) {
+  const m = Math.floor(totalSeconds / 60);
+  const s = totalSeconds % 60;
+
+  return String(m).padStart(2, "0") + ":" +
+         String(s).padStart(2, "0");
+}
+
+function updateTimer() {
+  document.getElementById("timer").textContent = formatTime(seconds);
+  document.getElementById("timeLabel").textContent = formatTime(seconds);
+
+  // समय कम होने पर लाल रंग
+  const timer = document.getElementById("timer");
+  if (seconds <= 60) {
+    timer.style.color = "#f87171";
+  } else {
+    timer.style.color = "#fbbf24";
+  }
+}
+
+/* ===== 6. DISPLAY QUESTION ===== */
+function showQuestion() {
+  if (!attemptQuestions.length || finished) return;
+
+  const q = attemptQuestions[current];
+
+  // अभी तक देखे गए सबसे आगे के प्रश्न तक Review
+  questionsSeen = Math.max(questionsSeen, current + 1);
+
+  document.getElementById("qCount").textContent =
+    "Question " + (current + 1) + "/" + attemptQuestions.length;
+
+  document.getElementById("qText").textContent = q.q;
+
+  document.getElementById("bar").style.width =
+    ((current + 1) / attemptQuestions.length * 100) + "%";
+
+  document.getElementById("answered").textContent =
+    "Answered: " + answers.filter(a => a !== null).length +
+    "/" + attemptQuestions.length;
+
+  const box = document.getElementById("options");
+  box.innerHTML = "";
+
+  q.options.forEach(function(option, index) {
+    const button = document.createElement("button");
+    button.className = "option";
+
+    if (answers[current] === index) {
+      button.classList.add("selected");
+    }
+
+    button.textContent =
+      "(" + String.fromCharCode(65 + index) + ") " + option;
+
+    button.onclick = function() {
+      if (finished) return;
+      answers[current] = index;
+      showQuestion();
+    };
+
+    box.appendChild(button);
+  });
+}
+
+/* ===== 7. NEXT AND PREVIOUS ===== */
+function nextQuestion() {
+  if (finished) return;
+
+  if (current < attemptQuestions.length - 1) {
+    current++;
+    showQuestion();
+  }
+}
+
+function previousQuestion() {
+  if (finished) return;
+
+  if (current > 0) {
+    current--;
+    showQuestion();
+  }
+}
+
+/* ===== 8. SUBMIT TEST ===== */
+function submitTest() {
+  if (finished) return;
+
+  finished = true;
+
+  if (timerId !== null) {
+    clearInterval(timerId);
+    timerId = null;
+  }
+
+  let score = 0;
+  let correct = 0;
+  let wrong = 0;
+  let skipped = 0;
+
+  attemptQuestions.forEach(function(q, index) {
+    if (answers[index] === null) {
+      skipped++;
+    } else if (answers[index] === q.answer) {
+      correct++;
+      score++;
+    } else {
+      wrong++;
+    }
+  });
+
+  document.getElementById("quiz").classList.add("hidden");
+  document.getElementById("result").classList.remove("hidden");
+
+  document.getElementById("score").textContent =
+    score + "/" + TOTAL_QUESTIONS;
+
+  document.getElementById("summary").textContent =
+    "कुल प्रश्न: " + attemptQuestions.length +
+    " | सही: " + correct +
+    " | गलत: " + wrong +
+    " | छोड़े गए: " + skipped;
+
+  // ===== SAVE LAST TEST RESULT =====
+  localStorage.setItem("physics_ch1_last_result", JSON.stringify({
+    score: score,
+    correct: correct,
+    wrong: wrong,
+    skipped: skipped,
+    total: TOTAL_QUESTIONS
+  }));
+  // ===== END SAVE LAST TEST RESULT =====
+
+  // ===== LEVEL 1 PASS + REWARD SYSTEM =====
+  const passingMarks = 24;
+  const passed = score >= passingMarks;
+
+  if (passed) {
+    localStorage.setItem("physics_ch1_level1_passed", "true");
+
+    // पहली बार पास होने पर ही 10 कॉइन्स
+    const rewardClaimed =
+      localStorage.getItem("physics_ch1_level1_reward_claimed");
+
+    if (rewardClaimed !== "true") {
+      let coins = Number(
+        localStorage.getItem("myworkspace_coins") || 0
+      );
+
+      coins += 10;
+
+      localStorage.setItem("myworkspace_coins", String(coins));
+      localStorage.setItem(
+        "physics_ch1_level1_reward_claimed",
+        "true"
+      );
+    }
+  }
+  // ===== END LEVEL 1 PASS + REWARD SYSTEM =====
+
+  // ===== SHOW ACHIEVEMENT CARD =====
+  const achievementCard = document.getElementById("achievementCard");
+
+  if (passed) {
+    achievementCard.classList.remove("hidden");
+  } else {
+    achievementCard.classList.add("hidden");
+  }
+  // ===== END ACHIEVEMENT CARD =====
+
+  // Submit के बाद भी Review बंद रहेगा, जब तक बटन दबाया न जाए
+  const review = document.getElementById("review");
+  review.innerHTML = "";
+  review.classList.add("hidden");
+
+  document.getElementById("reviewBtn").textContent = "📝 Review Questions";
+
+  document.getElementById("result").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+/* ===== OPEN LEVEL 2 ===== */
+function openLevel2() {
+  if (
+    localStorage.getItem("physics_ch1_level1_passed") === "true"
+  ) {
+    window.location.href = "physics-chapter-01-level-2.html";
+  } else {
+    alert("पहले Level 1 में कम से कम 24/30 अंक प्राप्त करें।");
+  }
+}
+/* ===== END OPEN LEVEL 2 ===== */
+/* ===== 9. OPEN OR CLOSE REVIEW ===== */
+function toggleReview() {
+  if (!finished) return;
+
+  const review = document.getElementById("review");
+  const button = document.getElementById("reviewBtn");
+
+  if (!review.classList.contains("hidden")) {
+    review.classList.add("hidden");
+    button.textContent = "📝 Review Questions";
+    return;
+  }
+
+  // पहले Review दिखाएँ, फिर प्रश्न बनाएँ
+  review.classList.remove("hidden");
+  showReview();
+
+  button.textContent = "✖ Close Review";
+}
+
+/* ===== 10. REVIEW LAST ATTEMPT ONLY ===== */
+function showReview() {
+  const review = document.getElementById("review");
+  review.innerHTML = "";
+
+  const count = Math.min(questionsSeen, attemptQuestions.length);
+
+  if (count === 0) {
+    review.textContent = "इस प्रयास में कोई प्रश्न नहीं देखा गया।";
+    return;
+  }
+
+  const heading = document.createElement("h2");
+  heading.textContent = "📋 आपके उत्तरों का Review";
+  review.appendChild(heading);
+
+  const note = document.createElement("p");
+  note.className = "muted";
+  note.textContent =
+    "यहाँ केवल इस प्रयास में देखे गए प्रश्न दिखाए गए हैं।";
+  review.appendChild(note);
+
+  for (let index = 0; index < count; index++) {
+    const q = attemptQuestions[index];
+    const item = document.createElement("div");
+    item.className = "review-item";
+
+    const title = document.createElement("h3");
+    title.textContent = (index + 1) + ". " + q.q;
+    item.appendChild(title);
+
+    q.options.forEach(function(option, optionIndex) {
+      const line = document.createElement("p");
+      line.className = "review-line";
+
+      line.textContent =
+        String.fromCharCode(65 + optionIndex) + ". " + option;
+
+      // सही विकल्प हमेशा हरे रंग में
+      if (optionIndex === q.answer) {
+        line.classList.add("good");
+        line.textContent += " ✓ सही उत्तर";
+      }
+
+      // चुना गया गलत विकल्प लाल रंग में
+      if (answers[index] === optionIndex) {
+        if (optionIndex === q.answer) {
+          line.textContent += " — आपका चुना हुआ उत्तर";
+        } else {
+          line.classList.add("bad");
+          line.textContent += " ✗ आपका गलत उत्तर";
+        }
+      }
+
+      item.appendChild(line);
+    });
+
+    const status = document.createElement("p");
+
+    if (answers[index] === null) {
+      status.textContent =
+        "⚪ आपने इस प्रश्न का उत्तर नहीं दिया।";
+      status.className = "muted";
+    } else if (answers[index] === q.answer) {
+      status.textContent = "✅ आपका उत्तर सही है।";
+      status.className = "good";
+    } else {
+      status.textContent =
+        "❌ आपका उत्तर गलत था। ऊपर लाल रंग में आपका चुना हुआ उत्तर और हरे रंग में सही उत्तर देखें।";
+      status.className = "bad";
+    }
+
+    item.appendChild(status);
+
+    if (q.reason) {
+      const reason = document.createElement("p");
+      reason.className = "reason";
+      reason.textContent = "💡 कारण: " + q.reason;
+      item.appendChild(reason);
+    }
+
+    review.appendChild(item);
+  }
+}
+
+/* ===== 11. INITIAL TIMER LABEL ===== */
+document.getElementById("timeLabel").textContent =
+  formatTime(TEST_MINUTES * 60);
+  
+/* ===== 12. RESTORE SAVED RESULT ===== */
+function restoreLastResult() {
+  const saved = localStorage.getItem("physics_ch1_last_result");
+
+  if (!saved) return;
+
+  try {
+    const data = JSON.parse(saved);
+
+    if (
+      typeof data.score !== "number" ||
+      typeof data.total !== "number"
+    ) {
+      return;
+    }
+
+    // पिछला रिज़ल्ट वापस दिखाएँ
+    document.getElementById("intro").classList.add("hidden");
+    document.getElementById("quiz").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("score").textContent =
+      data.score + "/" + data.total;
+
+    document.getElementById("summary").textContent =
+      "कुल प्रश्न: " + data.total +
+      " | सही: " + data.correct +
+      " | गलत: " + data.wrong +
+      " | छोड़े गए: " + data.skipped;
+
+    // Achievement Card तभी दिखे जब पास का रिकॉर्ड मौजूद हो
+    const achievementCard =
+      document.getElementById("achievementCard");
+
+    if (
+      localStorage.getItem("physics_ch1_level1_passed") === "true"
+    ) {
+      achievementCard.classList.remove("hidden");
+    } else {
+      achievementCard.classList.add("hidden");
+    }
+
+    // Review पुराने प्रयास के प्रश्नों के लिए उपलब्ध नहीं होगा
+    document.getElementById("reviewBtn").textContent =
+      "📝 Review Questions (नया टेस्ट दें)";
+
+  } catch (error) {
+    console.log("Saved result could not be restored.");
+  }
+}
+
+restoreLastResult();
+/* ===== END RESTORE SAVED RESULT ===== */
+
+</script>
+</body>
+</html>
