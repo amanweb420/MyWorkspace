@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1120">
+  <title>My Goal - MyWorkspace</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .goal-page {
+      max-width: 900px;
+      margin: auto;
+      padding: 22px;
+      color: #e5e7eb;
+    }
+
+    .goal-header,
+    .goal-card,
+    .goal-form,
+    .motivation {
+      background: #111c30;
+      border: 1px solid #263650;
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 18px;
+    }
+
+    .goal-header {
+      background: linear-gradient(135deg, #172554, #111c30);
+    }
+
+    .goal-header h1 {
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .goal-muted,
+    .goal-header p {
+      color: #a9b8ce;
+    }
+
+    .goal-label {
+      display: block;
+      margin: 16px 0 7px;
+      color: #dbeafe;
+      font-weight: bold;
+    }
+
+    .goal-input,
+    .goal-textarea {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 13px;
+      border: 1px solid #344761;
+      border-radius: 10px;
+      background: #091426;
+      color: white;
+      font: inherit;
+    }
+
+    .goal-input:focus,
+    .goal-textarea:focus {
+      outline: 2px solid #3b82f6;
+      border-color: #60a5fa;
+    }
+
+    .goal-textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .goal-button {
+      display: inline-block;
+      border: 0;
+      border-radius: 10px;
+      padding: 12px 17px;
+      margin: 12px 8px 0 0;
+      cursor: pointer;
+      background: #3878f6;
+      color: white;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .goal-button.secondary {
+      background: #263650;
+      border: 1px solid #40516b;
+    }
+
+    .goal-hidden {
+      display: none !important;
+    }
+
+    .goal-message {
+      color: #91e5b0;
+      margin-top: 12px;
+    }
+
+    .goal-meta {
+      color: #a9b8ce;
+      font-size: 14px;
+    }
+
+    .goal-progress-track {
+      height: 10px;
+      border-radius: 10px;
+      background: #263650;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .goal-progress-fill {
+      height: 100%;
+      width: 0%;
+      background: #60a5fa;
+      transition: width .3s ease;
+    }
+
+    .goal-tip {
+      background: #17243a;
+      border-left: 4px solid #60a5fa;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 14px;
+      color: #cbd5e1;
+      font-size: 14px;
+    }
+
+    .goal-motivation-text {
+      color: #cbd5e1;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 600px) {
+      .goal-page {
+        padding: 12px;
+      }
+
+      .goal-header,
+      .goal-card,
+      .goal-form,
+      .motivation {
+        padding: 16px;
+      }
+
+      .goal-header h1 {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 1. MYWORKSPACE NAVIGATION -->
+  <aside class="sidebar">
+    <h2>☁️ MyWorkspace</h2>
+    <p>Learn • Grow • Get Help</p>
+    <nav>
+      <a href="dashboard.html">🏠 Dashboard</a>
+      <a href="student-services.html">🎓 Student Services</a>
+      <a href="links.html">🔗 Useful Links</a>
+      <a href="my-routine.html">📅 Daily Routine</a>
+      <a href="goal-history.html">📊 Goal History</a>
+    </nav>
+  </aside>
+
+  <main class="dashboard">
+    <div class="goal-page">
+
+      <!-- 2. PAGE HEADER -->
+      <section class="goal-header">
+        <p class="goal-muted">MYWORKSPACE / PERSONAL GROWTH</p>
+        <h1>🎯 My Goal</h1>
+        <p>अपने लक्ष्य को स्पष्ट करें, छोटे कदम उठाएँ और अपनी प्रगति देखें।</p>
+        <p class="goal-meta" style="margin-top:12px">
+          User / Workspace:
+          <strong id="goalUserId">Local User</strong>
+        </p>
+      </section>
+
+      <!-- 3. SAVED GOAL -->
+      <section id="savedGoalCard" class="goal-card goal-hidden">
+        <p class="goal-muted">YOUR CURRENT GOAL</p>
+        <h2 id="savedGoalTitle">आपका लक्ष्य</h2>
+
+        <p class="goal-meta">
+          लक्ष्य की तारीख: <strong id="savedGoalDate"></strong>
+        </p>
+        <p class="goal-meta" id="goalDaysText"></p>
+
+        <h3 style="margin-top:18px">लक्ष्य का विवरण</h3>
+        <p id="savedGoalDescription" class="goal-motivation-text"></p>
+
+        <div class="goal-tip">
+          <strong>💡 आज का कदम</strong>
+          <p>आज अपने लक्ष्य से जुड़ा एक छोटा काम चुनें और उसे Routine में जोड़ें।</p>
+        </div>
+
+        <!-- 4. PROGRESS -->
+        <div style="margin-top:20px">
+          <h3>📈 Goal Progress</h3>
+          <p class="goal-muted">अपनी वास्तविक प्रगति के अनुसार प्रतिशत अपडेट करें।</p>
+          <p><strong id="progressLabel">0%</strong></p>
+
+          <div
+            class="goal-progress-track"
+            id="progressBar"
+            role="progressbar"
+            aria-label="Goal progress"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="0"
+          >
+            <div id="progressFill" class="goal-progress-fill"></div>
+          </div>
+
+          <label class="goal-label" for="progressInput">
+            प्रगति अपडेट करें (%)
+          </label>
+          <input
+            class="goal-input"
+            type="number"
+            id="progressInput"
+            min="0"
+            max="100"
+            step="1"
+            value="0"
+          >
+
+          <button type="button" class="goal-button" id="saveProgressButton">
+            📊 प्रगति सेव करें
+          </button>
+        </div>
+
+        <button type="button" class="goal-button secondary" id="editGoalButton">
+          ✏️ Edit Goal
+        </button>
+      </section>
+
+      <!-- 5. CREATE / EDIT FORM -->
+      <section class="goal-form" id="goalFormCard">
+        <h2 id="formHeading">✍️ अपना लक्ष्य बनाएँ</h2>
+        <p class="goal-muted">ऐसा लक्ष्य चुनें जिसे आप नियमित प्रयास से पूरा करना चाहते हैं।</p>
+
+        <form id="goalForm">
+          <label class="goal-label" for="goalTitle">लक्ष्य का नाम</label>
+          <input
+            class="goal-input"
+            id="goalTitle"
+            maxlength="120"
+            required
+            placeholder="जैसे: Class 12 की पढ़ाई पूरी करना"
+          >
+
+          <label class="goal-label" for="goalDate">लक्ष्य की अंतिम तारीख</label>
+          <input class="goal-input" id="goalDate" type="date" required>
+
+          <label class="goal-label" for="goalDescription">लक्ष्य का विवरण</label>
+          <textarea
+            class="goal-textarea"
+            id="goalDescription"
+            maxlength="1500"
+            required
+            placeholder="यह लक्ष्य क्यों जरूरी है और इसे पूरा करने के लिए क्या करेंगे?"
+          ></textarea>
+
+          <button type="submit" class="goal-button">💾 Goal सेव करें</button>
+          <button type="button" class="goal-button secondary goal-hidden" id="cancelEditButton">
+            बदलाव रद्द करें
+          </button>
+
+          <p id="goalStatus" class="goal-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- 6. DAILY MOTIVATION -->
+      <section class="motivation">
+        <h2>✨ Daily Motivation</h2>
+        <p id="dailyMotivation" class="goal-motivation-text"></p>
+      </section>
+
+      <!-- 7. DAILY GUIDE -->
+      <section class="goal-card">
+        <h2>🧭 Goal का सही उपयोग कैसे करें?</h2>
+        <p>1. लक्ष्य और उसकी अंतिम तारीख स्पष्ट रखें।</p>
+        <p>2. Daily Routine में लक्ष्य से जुड़े काम जोड़ें।</p>
+        <p>3. दिन के अंत में अपने कामों का Review करें।</p>
+        <p>4. अधूरे कामों का कारण समझकर अगली योजना सुधारें।</p>
+        <p>5. अपनी वास्तविक प्रगति समय-समय पर अपडेट करें।</p>
+
+        <div class="goal-tip">
+          MyWorkspace आपको व्यवस्थित रहने में मदद करता है।
+          नियमित अभ्यास, धैर्य और अपनी प्रगति से सीखना जरूरी है।
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- 8. GOAL LOGIC -->
+  <script>
+    const GOAL_KEY = "myWorkspaceGoal";
+
+    const messages = [
+      "छोटे कदम भी आपको बड़े लक्ष्य के करीब ले जाते हैं।",
+      "आज थोड़ा आगे बढ़ना भी प्रगति है।",
+      "हर दिन सीखने का नया अवसर है।",
+      "कठिन काम को छोटे हिस्सों में बाँटकर शुरुआत करें।",
+      "नियमित प्रयास आपको आगे बढ़ने में मदद करता है।",
+      "गलतियाँ सीखने का हिस्सा हैं; अगला कदम बेहतर बनाएँ।",
+      "आज आप जो कर सकते हैं, उसी पर ध्यान दें।",
+      "अपने लक्ष्य के लिए रोज़ थोड़ा समय निकालें।",
+      "धैर्य रखें और अपनी प्रगति को ईमानदारी से देखें।",
+      "आपका अगला छोटा कदम भी मायने रखता है।"
+    ];
+
+    const form = document.getElementById("goalForm");
+    const titleInput = document.getElementById("goalTitle");
+    const dateInput = document.getElementById("goalDate");
+    const descriptionInput = document.getElementById("goalDescription");
+    const savedCard = document.getElementById("savedGoalCard");
+    const statusText = document.getElementById("goalStatus");
+    const formCard = document.getElementById("goalFormCard");
+    const cancelButton = document.getElementById("cancelEditButton");
+
+    let hasSavedGoal = false;
+
+    function getUserLabel() {
+      return localStorage.getItem("myWorkspaceUserId")
+        || localStorage.getItem("userName")
+        || localStorage.getItem("workspaceName")
+        || "Local User";
+    }
+
+    function randomMessage() {
+      return messages[Math.floor(Math.random() * messages.length)];
+    }
+
+    function updateGoalDays(goalDate) {
+      const output = document.getElementById("goalDaysText");
+
+      if (!goalDate) {
+        output.textContent = "लक्ष्य की तारीख उपलब्ध नहीं है।";
+        return;
+      }
+
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const target = new Date(goalDate + "T00:00:00");
+
+      if (Number.isNaN(target.getTime())) {
+        output.textContent = "लक्ष्य की तारीख सही नहीं है।";
+        return;
+      }
+
+      const days = Math.round((target - today) / 86400000);
+
+      if (days > 0) {
+        output.textContent = "लक्ष्य तक " + days + " दिन बाकी हैं।";
+      } else if (days === 0) {
+        output.textContent = "आज आपके लक्ष्य की अंतिम तारीख है।";
+      } else {
+        output.textContent = "लक्ष्य की तारीख " + Math.abs(days) + " दिन पहले निकल चुकी है।";
+      }
+    }
+
+    function updateProgress(value) {
+      let progress = Number(value);
+
+      if (!Number.isFinite(progress)) progress = 0;
+      progress = Math.max(0, Math.min(100, Math.round(progress)));
+
+      document.getElementById("progressInput").value = progress;
+      document.getElementById("progressLabel").textContent = progress + "%";
+      document.getElementById("progressFill").style.width = progress + "%";
+      document.getElementById("progressBar").setAttribute("aria-valuenow", progress);
+    }
+
+    function showSavedGoal(goal) {
+      document.getElementById("savedGoalTitle").textContent = goal.title || "";
+      document.getElementById("savedGoalDate").textContent = goal.date || "—";
+      document.getElementById("savedGoalDescription").textContent = goal.description || "";
+
+      savedCard.classList.remove("goal-hidden");
+      document.getElementById("formHeading").textContent = "✏️ अपना लक्ष्य अपडेट करें";
+
+      updateGoalDays(goal.date);
+      updateProgress(goal.progress || 0);
+      hasSavedGoal = true;
+    }
+
+    function readGoal() {
+      try {
+        const raw = localStorage.getItem(GOAL_KEY);
+        if (!raw) return null;
+
+        const goal = JSON.parse(raw);
+        return goal && typeof goal === "object" && goal.title ? goal : null;
+      } catch (error) {
+        console.error("Goal load error:", error);
+        return null;
+      }
+    }
+
+    function loadGoal() {
+      document.getElementById("goalUserId").textContent = getUserLabel();
+      document.getElementById("dailyMotivation").textContent = randomMessage();
+
+      const goal = readGoal();
+
+      if (goal) {
+        titleInput.value = goal.title || "";
+        dateInput.value = goal.date || "";
+        descriptionInput.value = goal.description || "";
+        showSavedGoal(goal);
+        cancelButton.classList.remove("goal-hidden");
+      } else {
+        savedCard.classList.add("goal-hidden");
+        document.getElementById("formHeading").textContent = "✍️ अपना लक्ष्य बनाएँ";
+        cancelButton.classList.add("goal-hidden");
+        hasSavedGoal = false;
+      }
+    }
+
+    form.addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const title = titleInput.value.trim();
+      const date = dateInput.value;
+      const description = descriptionInput.value.trim();
+
+      if (!title || !date || !description) {
+        statusText.textContent = "कृपया सभी जरूरी जानकारी भरें।";
+        return;
+      }
+
+      const previous = readGoal() || {};
+      const goal = {
+        ...previous,
+        title,
+        date,
+        description,
+        motivation: previous.motivation || randomMessage(),
+        savedAt: previous.savedAt || new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        progress: Number(previous.progress || 0)
+      };
+
+      try {
+        localStorage.setItem(GOAL_KEY, JSON.stringify(goal));
+        showSavedGoal(goal);
+        statusText.textContent = "Goal इस ब्राउज़र में सेव हो गया है।";
+        cancelButton.classList.remove("goal-hidden");
+      } catch (error) {
+        statusText.textContent = "Goal सेव नहीं हो पाया। Browser storage की जगह जाँचें।";
+      }
+    });
+
+    document.getElementById("editGoalButton").addEventListener("click", function() {
+      formCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      titleInput.focus();
+      document.getElementById("formHeading").textContent = "✏️ अपना लक्ष्य अपडेट करें";
+      cancelButton.classList.remove("goal-hidden");
+    });
+
+    cancelButton.addEventListener("click", function() {
+      if (hasSavedGoal) {
+        loadGoal();
+        statusText.textContent = "बदलाव रद्द कर दिए गए।";
+      } else {
+        form.reset();
+      }
+      cancelButton.classList.add("goal-hidden");
+    });
+
+    document.getElementById("saveProgressButton").addEventListener("click", function() {
+      const goal = readGoal();
+
+      if (!goal) {
+        alert("पहले अपना Goal सेव करें।");
+        return;
+      }
+
+      const rawValue = document.getElementById("progressInput").value;
+
+      if (rawValue.trim() === "") {
+        alert("प्रगति 0 से 100 के बीच लिखें।");
+        return;
+      }
+
+      const value = Number(rawValue);
+
+      if (!Number.isFinite(value) || value < 0 || value > 100) {
+        alert("प्रगति 0 से 100 के बीच लिखें।");
+        return;
+      }
+
+      goal.progress = Math.round(value);
+      goal.progressUpdatedAt = new Date().toISOString();
+
+      try {
+        localStorage.setItem(GOAL_KEY, JSON.stringify(goal));
+        updateProgress(goal.progress);
+        alert("Goal Progress सेव हो गई।");
+      } catch (error) {
+        alert("प्रगति सेव नहीं हो पाई।");
+      }
+    });
+
+    loadGoal();
+  </script>
+
+  <!-- Existing routine system retained -->
+  <script src="routine-gate.js"></script>
+</body>
+</html>
