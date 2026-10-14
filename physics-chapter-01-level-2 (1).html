@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Physics Chapter 1 — Level 2 | MyWorkspace</title>
+<style>
+/* ===== 1. GLOBAL DESIGN ===== */
+:root{--bg:#070d1b;--panel:#111b30;--panel2:#17243b;--line:#2b3b59;--gold:#f5d76e;--teal:#5eead4;--text:#f4f7ff;--muted:#aab7d0;--red:#fb7185;--green:#86efac}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at top,#152341 0,#070d1b 48%);color:var(--text);font-family:Arial,"Noto Sans Devanagari",sans-serif;line-height:1.65}
+button,input{font:inherit}
+button{cursor:pointer}
+.wrap{width:min(900px,100%);margin:auto;padding:16px}
+header{padding:14px 0 20px;text-align:center}
+.brand{color:var(--gold);font-weight:800;letter-spacing:1.4px;font-size:13px}
+h1{font-size:clamp(25px,5vw,38px);line-height:1.25;margin:8px 0}
+h2,h3{line-height:1.35}
+.muted{color:var(--muted)}
+.panel{background:linear-gradient(145deg,#121e34,#0e1729);border:1px solid var(--line);border-radius:20px;padding:20px;margin:14px 0;box-shadow:0 14px 40px #0003}
+.btn{border:0;border-radius:12px;padding:13px 16px;font-weight:750;color:#08101e;background:linear-gradient(100deg,#f5d76e,#e9b949);width:100%;margin-top:10px}
+.btn.secondary{background:#202e49;color:var(--text);border:1px solid #3a4c6d}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.row>*{flex:1}
+.pill{display:inline-block;border:1px solid var(--line);background:#182640;color:var(--muted);padding:5px 10px;border-radius:999px;font-size:12px}
+.gold{color:var(--gold)}
+.teal{color:var(--teal)}
+.hidden{display:none!important}
+.progress{height:8px;background:#26334c;border-radius:99px;overflow:hidden;margin:12px 0}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--gold));transition:width .2s}
+#timer{font-size:22px;font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.question{font-size:19px;font-weight:700;margin:16px 0}
+.options{display:grid;gap:10px}
+.option{display:flex;align-items:flex-start;gap:10px;padding:12px;border:1px solid var(--line);border-radius:12px;background:#101b2f}
+.option:has(input:checked){border-color:var(--teal);background:#12302f}
+.option input{margin-top:6px;accent-color:#5eead4;transform:scale(1.15)}
+.hint-box,.solution-box{background:#142a2b;border:1px solid #2b7770;border-radius:14px;padding:14px;margin-top:14px}
+.hint-box{background:#1c2940;border-color:#52627d}
+.formula{background:#092b31;border:1px solid #26766f;border-radius:12px;text-align:center;padding:13px;margin:10px 0;color:#a7fff0;font-size:18px;font-weight:800;overflow-wrap:anywhere}
+.step{margin:9px 0;padding:10px 12px;background:#111e30;border-radius:10px}
+.step strong{display:block;color:var(--gold);margin-bottom:3px}
+.small{font-size:13px}
+#reviewList .panel{padding:16px}
+.result-score{font-size:42px;font-weight:900;color:var(--gold)}
+.correct{color:var(--green);font-weight:800}.wrong{color:var(--red);font-weight:800}
+footer{text-align:center;color:var(--muted);font-size:12px;padding:20px 8px}
+@media(min-width:620px){.btn.inline{width:auto}.options.two{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="brand">MYWORKSPACE • PHYSICS TEST SERIES</div>
+  <h1>Electric Charges and Fields</h1>
+  <div class="muted">कक्षा 12वीं • बिहार बोर्ड • Chapter 1 — Level 2</div>
+</header>
+
+<!-- ===== 2. LEVEL 1 LOCK / TEST MODE SELECTION ===== -->
+<section id="startScreen" class="panel">
+  <h2 class="gold">Level 2 Test Arena</h2>
+  <p class="muted">इस टेस्ट में 30 प्रश्न हैं। 26 या उससे अधिक सही उत्तर पर Level 3 अनलॉक होगा।</p>
+  <div class="row">
+    <span class="pill">20 Numerical</span><span class="pill">5 Theory</span><span class="pill">5 Concept</span>
+  </div>
+  <div class="step"><strong>Practice Mode</strong>प्रश्न के नीचे से Hint ले सकते हैं। पूरे टेस्ट में अधिकतम 5 अलग-अलग प्रश्नों पर Hint मिलेगा।</div>
+  <div class="step"><strong>Exam Mode</strong>टेस्ट के दौरान Hint नहीं मिलेगा। सभी Solutions सबमिट करने के बाद खुलेंगे।</div>
+  <p id="gateMessage" class="muted small">Level 1 की पात्रता जाँची जा रही है...</p>
+  <label for="mode"><strong>टेस्ट मोड चुनें</strong></label>
+  <select id="mode" style="width:100%;padding:12px;margin-top:8px;border-radius:10px;background:#17243b;color:white;border:1px solid #3a4c6d">
+    <option value="practice">Practice Mode — Hint उपलब्ध</option>
+    <option value="exam">Exam Mode — बिना Hint</option>
+  </select>
+  <button id="startBtn" class="btn" onclick="startTest()">टेस्ट शुरू करें</button>
+  <button class="btn secondary" onclick="loadSavedResult()">पिछला Result देखें</button>
+  <p class="muted small">नोट: परिणाम इसी मोबाइल/ब्राउज़र के localStorage में सेव होंगे।</p>
+</section>
+
+<!-- ===== 3. LIVE TEST UI ===== -->
+<section id="testScreen" class="panel hidden">
+  <div class="row">
+    <div><span class="pill" id="categoryPill">Numerical</span><div class="muted small" id="questionCount">प्रश्न 1 / 30</div></div>
+    <div style="text-align:right"><div class="muted small">बचा हुआ समय</div><div id="timer">20:00</div></div>
+  </div>
+  <div class="progress"><div id="progressBar"></div></div>
+  <div id="questionText" class="question"></div>
+  <div id="options" class="options"></div>
+  <div id="hintArea"></div>
+  <div class="row" style="margin-top:16px">
+    <button class="btn secondary" id="prevBtn" onclick="moveQuestion(-1)">← पिछला</button>
+    <button class="btn" id="nextBtn" onclick="moveQuestion(1)">अगला →</button>
+  </div>
+  <button class="btn" onclick="submitTest(false)">टेस्ट सबमिट करें</button>
+  <p class="muted small">Hint लेने से उत्तर अपने-आप नहीं चुना जाएगा। समय समाप्त होने पर टेस्ट स्वतः सबमिट होगा।</p>
+</section>
+
+<!-- ===== 4. RESULT SUMMARY ===== -->
+<section id="resultScreen" class="panel hidden">
+  <div class="brand">TEST SERIES COMPLETED</div>
+  <h2 id="resultTitle">आपका Result</h2>
+  <div class="result-score" id="scoreText">0/30</div>
+  <p id="resultMessage"></p>
+  <div class="row">
+    <div class="step"><strong class="teal">सही</strong><span id="correctCount">0</span></div>
+    <div class="step"><strong style="color:var(--red)">गलत</strong><span id="wrongCount">0</span></div>
+    <div class="step"><strong class="gold">छोड़े</strong><span id="skippedCount">0</span></div>
+  </div>
+  <p class="muted">अब नीचे सभी प्रश्नों के उत्तर और पूरे Solutions देख सकते हैं।</p>
+  <button class="btn" onclick="document.getElementById('reviewList').scrollIntoView({behavior:'smooth'})">View All Answers & Solutions</button>
+  <button class="btn secondary" onclick="location.reload()">फिर से टेस्ट दें</button>
+</section>
+
+<!-- ===== 5. ANSWER REVIEW / SOLUTION CARDS ===== -->
+<section id="reviewList" class="hidden">
+  <h2 class="gold">सभी प्रश्नों का Review & Solution</h2>
+  <p class="muted small">Numerical में Given → Formula → Substitution → Calculation → Final Answer और Explanation दिया गया है।</p>
+  <div id="reviewCards"></div>
+  <button class="btn secondary" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ ऊपर जाएँ</button>
+</section>
+<footer>MyWorkspace • Learn, Practice, Improve</footer>
+</div>
+
+<script>
+/* ===== 6. QUESTION BANK: 20 NUMERICAL + 5 THEORY + 5 CONCEPT ===== */
+/* answer में 0=A, 1=B, 2=C, 3=D है। */
+const questions = [
+{cat:"Numerical",q:"दो बिंदु आवेश +2 μC और +3 μC, 30 cm की दूरी पर रखे हैं। उनके बीच बल कितना होगा?",o:["0.06 N","0.6 N","6 N","0.006 N"],a:1,h:"कूलॉम का नियम लगाएँ। 30 cm को 0.30 m में बदलें।",given:"q₁ = 2 × 10⁻⁶ C, q₂ = 3 × 10⁻⁶ C, r = 0.30 m",formula:"F = k |q₁q₂| / r²",sub:"F = (9 × 10⁹ × 2 × 10⁻⁶ × 3 × 10⁻⁶) / (0.30)²",calc:"F = 0.054 / 0.09 = 0.6 N",ans:"0.6 N",exp:"दोनों आवेश धनात्मक हैं, इसलिए बल प्रतिकर्षण का होगा।"},
+{cat:"Numerical",q:"दो आवेशों के बीच दूरी दोगुनी कर दी जाए, तो कूलॉम बल कितना रह जाएगा?",o:["2F","F/2","F/4","4F"],a:2,h:"बल दूरी के वर्ग के व्युत्क्रमानुपाती होता है।",given:"नई दूरी r′ = 2r",formula:"F ∝ 1/r²",sub:"F′/F = r²/(2r)²",calc:"F′/F = 1/4",ans:"F/4",exp:"दूरी दोगुनी करने पर बल चार गुना कम हो जाता है।"},
+{cat:"Numerical",q:"+4 μC आवेश से 20 cm दूरी पर विद्युत क्षेत्र की तीव्रता कितनी होगी?",o:["9 × 10⁴ N/C","9 × 10⁵ N/C","9 × 10⁶ N/C","3.6 × 10⁵ N/C"],a:1,h:"बिंदु आवेश के लिए E = k|q|/r²; दूरी मीटर में लें।",given:"q = 4 × 10⁻⁶ C, r = 0.20 m",formula:"E = k |q| / r²",sub:"E = (9 × 10⁹ × 4 × 10⁻⁶)/(0.20)²",calc:"E = 36 × 10³ / 0.04 = 9 × 10⁵ N/C",ans:"9 × 10⁵ N/C",exp:"विद्युत क्षेत्र की SI इकाई N/C है।"},
+{cat:"Numerical",q:"3 × 10⁴ N/C विद्युत क्षेत्र में +2 μC आवेश पर कितना बल लगेगा?",o:["0.006 N","0.06 N","0.6 N","6 N"],a:1,h:"बल निकालने के लिए F = qE का उपयोग करें।",given:"q = 2 × 10⁻⁶ C, E = 3 × 10⁴ N/C",formula:"F = qE",sub:"F = 2 × 10⁻⁶ × 3 × 10⁴",calc:"F = 6 × 10⁻² = 0.06 N",ans:"0.06 N",exp:"धनात्मक आवेश पर बल विद्युत क्षेत्र की दिशा में लगेगा।"},
+{cat:"Numerical",q:"दो +2 μC आवेश 30 cm दूर हैं। उनके बीच प्रतिकर्षण बल कितना है?",o:["0.04 N","0.4 N","4 N","0.004 N"],a:1,h:"दोनों आवेश समान हैं। F = kq²/r² लगाएँ।",given:"q₁ = q₂ = 2 × 10⁻⁶ C, r = 0.30 m",formula:"F = k |q₁q₂| / r²",sub:"F = (9 × 10⁹ × 4 × 10⁻¹²)/(0.30)²",calc:"F = 0.036 / 0.09 = 0.4 N",ans:"0.4 N",exp:"समान चिन्ह के आवेश एक-दूसरे को दूर धकेलते हैं।"},
+{cat:"Numerical",q:"+5 nC आवेश से 30 cm दूरी पर विद्युत क्षेत्र कितना है?",o:["50 N/C","500 N/C","5,000 N/C","50,000 N/C"],a:1,h:"5 nC = 5 × 10⁻⁹ C और E = kq/r²।",given:"q = 5 × 10⁻⁹ C, r = 0.30 m",formula:"E = k |q| / r²",sub:"E = (9 × 10⁹ × 5 × 10⁻⁹)/(0.30)²",calc:"E = 45 / 0.09 = 500 N/C",ans:"500 N/C",exp:"nC का अर्थ नैनोकूलम है, यानी 10⁻⁹ C।"},
+{cat:"Numerical",q:"+2 μC और −2 μC आवेश 20 cm दूर हैं। मध्य बिंदु पर कुल विद्युत क्षेत्र कितना होगा?",o:["0","1.8 × 10⁶ N/C","3.6 × 10⁶ N/C","7.2 × 10⁶ N/C"],a:2,h:"मध्य बिंदु प्रत्येक आवेश से 0.10 m दूर है। दोनों क्षेत्रों की दिशाएँ देखें।",given:"|q| = 2 × 10⁻⁶ C, प्रत्येक से r = 0.10 m",formula:"Eकुल = E₁ + E₂ (दिशा सहित)",sub:"E₁ = E₂ = (9 × 10⁹ × 2 × 10⁻⁶)/(0.10)²",calc:"प्रत्येक E = 1.8 × 10⁶ N/C; कुल = 3.6 × 10⁶ N/C",ans:"3.6 × 10⁶ N/C",exp:"मध्य बिंदु पर धनात्मक आवेश का क्षेत्र उससे दूर और ऋणात्मक आवेश का क्षेत्र उसकी ओर होता है; दोनों एक ही दिशा में हैं।"},
+{cat:"Numerical",q:"3 N और 4 N के दो बल परस्पर लंबवत हैं। परिणामी बल कितना होगा?",o:["1 N","7 N","5 N","12 N"],a:2,h:"लंबवत सदिशों के लिए पाइथागोरस प्रमेय का उपयोग करें।",given:"F₁ = 3 N, F₂ = 4 N, कोण = 90°",formula:"R = √(F₁² + F₂²)",sub:"R = √(3² + 4²)",calc:"R = √(9 + 16) = √25 = 5 N",ans:"5 N",exp:"लंबवत दिशाओं में बलों को सीधे जोड़ने के बजाय वर्गों के योग का वर्गमूल लेते हैं।"},
+{cat:"Numerical",q:"E = 200 N/C, क्षेत्रफल A = 0.5 m² और क्षेत्रफल सदिश से कोण 60° है। विद्युत फ्लक्स कितना है?",o:["100 N m²/C","50 N m²/C","25 N m²/C","200 N m²/C"],a:1,h:"विद्युत फ्लक्स Φ = EA cos θ; cos 60° = 1/2।",given:"E = 200 N/C, A = 0.5 m², θ = 60°",formula:"Φ = EA cos θ",sub:"Φ = 200 × 0.5 × cos 60°",calc:"Φ = 100 × 0.5 = 50 N m²/C",ans:"50 N m²/C",exp:"फ्लक्स क्षेत्रफल सदिश और विद्युत क्षेत्र के बीच कोण पर निर्भर करता है।"},
+{cat:"Numerical",q:"अनंत समतल आवेशित शीट का पृष्ठ आवेश घनत्व σ = 4 × 10⁻⁸ C/m² है। क्षेत्र कितना होगा? (ε₀ = 8.85 × 10⁻¹²)",o:["1.13 × 10³ N/C","2.26 × 10³ N/C","4.52 × 10³ N/C","9.04 × 10³ N/C"],a:1,h:"अनंत non-conducting sheet के लिए E = σ/(2ε₀)।",given:"σ = 4 × 10⁻⁸ C/m², ε₀ = 8.85 × 10⁻¹²",formula:"E = σ / (2ε₀)",sub:"E = (4 × 10⁻⁸)/(2 × 8.85 × 10⁻¹²)",calc:"E ≈ 2.26 × 10³ N/C",ans:"2.26 × 10³ N/C (लगभग)",exp:"यह सूत्र आदर्श अनंत, समान रूप से आवेशित non-conducting शीट के लिए है।"},
+{cat:"Numerical",q:"+8 nC आवेश से 60 cm दूरी पर विद्युत क्षेत्र कितना है?",o:["20 N/C","200 N/C","2,000 N/C","20,000 N/C"],a:1,h:"60 cm = 0.60 m; E = kq/r²।",given:"q = 8 × 10⁻⁹ C, r = 0.60 m",formula:"E = k |q| / r²",sub:"E = (9 × 10⁹ × 8 × 10⁻⁹)/(0.60)²",calc:"E = 72 / 0.36 = 200 N/C",ans:"200 N/C",exp:"दूरी को मीटर में बदलकर सूत्र में रखने से सही SI उत्तर मिलता है।"},
+{cat:"Numerical",q:"दो समान +3 μC आवेश 40 cm दूर हैं। उनके ठीक मध्य बिंदु पर कुल विद्युत क्षेत्र कितना होगा?",o:["0 N/C","9 × 10⁵ N/C","1.8 × 10⁶ N/C","3.6 × 10⁶ N/C"],a:0,h:"दोनों आवेश समान हैं और मध्य बिंदु से बराबर दूरी पर हैं; दिशाओं की तुलना करें।",given:"q₁ = q₂ = +3 μC; मध्य बिंदु प्रत्येक से 0.20 m दूर",formula:"Eकुल = E₁ − E₂ (विपरीत दिशाओं में)",sub:"E₁ = E₂ = kq/(0.20)²",calc:"बराबर परिमाण और विपरीत दिशाएँ ⇒ Eकुल = 0",ans:"0 N/C",exp:"मध्य बिंदु पर दोनों धनात्मक आवेशों के क्षेत्र विपरीत दिशाओं में और बराबर होते हैं, इसलिए निरस्त हो जाते हैं।"},
+{cat:"Numerical",q:"एक विद्युत द्विध्रुव में +2 μC और −2 μC आवेशों के बीच दूरी 5 mm है। द्विध्रुव आघूर्ण का परिमाण कितना है?",o:["10⁻⁹ C m","10⁻⁸ C m","10⁻⁶ C m","10⁻⁵ C m"],a:1,h:"द्विध्रुव आघूर्ण p = q × separation। 5 mm को मीटर में बदलें।",given:"q = 2 × 10⁻⁶ C, d = 5 × 10⁻³ m",formula:"p = qd",sub:"p = 2 × 10⁻⁶ × 5 × 10⁻³",calc:"p = 10 × 10⁻⁹ = 10⁻⁸ C m",ans:"10⁻⁸ C m",exp:"द्विध्रुव आघूर्ण में आवेश का परिमाण और दोनों आवेशों के बीच दूरी गुणा होती है।"},
+{cat:"Numerical",q:"एक विद्युत द्विध्रुव का आघूर्ण p = 4 × 10⁻⁸ C m है। उससे बहुत दूर r = 0.20 m पर अक्षीय रेखा में विद्युत क्षेत्र का लगभग मान कितना है?",o:["4.5 × 10⁴ N/C","9 × 10⁴ N/C","1.8 × 10⁵ N/C","3.6 × 10⁵ N/C"],a:1,h:"दूर स्थित axial point के लिए E ≈ 2kp/r³।",given:"p = 4 × 10⁻⁸ C m, r = 0.20 m",formula:"E axial ≈ 2kp / r³",sub:"E = (2 × 9 × 10⁹ × 4 × 10⁻⁸)/(0.20)³",calc:"E = 720 / 0.008 = 9 × 10⁴ N/C",ans:"9 × 10⁴ N/C",exp:"यह द्विध्रुव के दूर-क्षेत्र का लगभग सूत्र है; बिंदु द्विध्रुव approximation माना गया है।"},
+{cat:"Numerical",q:"किसी बंद सतह के भीतर +2 μC आवेश है। कुल विद्युत फ्लक्स कितना होगा? (ε₀ = 8.85 × 10⁻¹²)",o:["2.26 × 10⁵ N m²/C","1.13 × 10⁵ N m²/C","4.52 × 10⁵ N m²/C","0"],a:0,h:"गाउस नियम: कुल फ्लक्स = बंद सतह के भीतर कुल आवेश / ε₀।",given:"Q = 2 × 10⁻⁶ C, ε₀ = 8.85 × 10⁻¹² C²/(N m²)",formula:"Φ = Qenc / ε₀",sub:"Φ = (2 × 10⁻⁶)/(8.85 × 10⁻¹²)",calc:"Φ ≈ 2.26 × 10⁵ N m²/C",ans:"2.26 × 10⁵ N m²/C (लगभग)",exp:"गाउस नियम के अनुसार बंद सतह का कुल फ्लक्स केवल enclosed net charge पर निर्भर करता है।"},
+{cat:"Numerical",q:"E = 2 × 10⁵ N/C के क्षेत्र में किसी आवेश पर 5 N बल लगता है। आवेश का परिमाण कितना है?",o:["2.5 × 10⁻⁵ C","2.5 × 10⁻⁶ C","1 × 10⁻⁵ C","4 × 10⁻⁵ C"],a:0,h:"F = |q|E से आवेश निकालने के लिए q = F/E करें।",given:"F = 5 N, E = 2 × 10⁵ N/C",formula:"|q| = F / E",sub:"|q| = 5 / (2 × 10⁵)",calc:"|q| = 2.5 × 10⁻⁵ C",ans:"2.5 × 10⁻⁵ C",exp:"यहाँ बल और क्षेत्र के परिमाण दिए हैं, इसलिए आवेश का परिमाण निकलेगा; चिन्ह नहीं।"},{cat:"Numerical",q:"किसी आवेश पर 10 N बल लगता है और आवेश 2 μC है। विद्युत क्षेत्र कितना है?",o:["5 × 10⁶ N/C","5 × 10⁵ N/C","2 × 10⁶ N/C","2 × 10⁵ N/C"],a:0,h:"E = F/|q|; माइक्रोकूलम को कूलम में बदलें।",given:"F = 10 N, q = 2 × 10⁻⁶ C",formula:"E = F / |q|",sub:"E = 10/(2 × 10⁻⁶)",calc:"E = 5 × 10⁶ N/C",ans:"5 × 10⁶ N/C",exp:"विद्युत क्षेत्र की तीव्रता प्रति इकाई आवेश पर लगने वाला बल है।"},
+{cat:"Numerical",q:"एक बंद सतह के भीतर कुल आवेश शून्य है। गाउस नियम के अनुसार कुल विद्युत फ्लक्स कितना होगा?",o:["हमेशा शून्य","हमेशा अनंत","सतह के क्षेत्रफल पर निर्भर","आवेश के चिन्ह पर निर्भर"],a:0,h:"गाउस नियम में कुल फ्लक्स enclosed net charge के अनुपाती है।",given:"Qenc = 0",formula:"Φ = Qenc/ε₀",sub:"Φ = 0/ε₀",calc:"Φ = 0",ans:"0 N m²/C",exp:"बंद सतह के भीतर कुल शुद्ध आवेश शून्य होने पर कुल फ्लक्स शून्य होता है।"},
+{cat:"Numerical",q:"एक विद्युत द्विध्रुव का आघूर्ण 6 × 10⁻⁸ C m है। उसे 2 × 10⁵ N/C के क्षेत्र में 90° पर रखा गया है। बलाघूर्ण कितना होगा?",o:["0","1.2 × 10⁻² N m","1.2 × 10⁻³ N m","3 × 10⁻³ N m"],a:1,h:"बलाघूर्ण τ = pE sin θ; sin 90° = 1।",given:"p = 6 × 10⁻⁸ C m, E = 2 × 10⁵ N/C, θ = 90°",formula:"τ = pE sin θ",sub:"τ = 6 × 10⁻⁸ × 2 × 10⁵ × 1",calc:"τ = 12 × 10⁻³ = 1.2 × 10⁻² N m",ans:"1.2 × 10⁻² N m",exp:"द्विध्रुव का बलाघूर्ण p और E के गुणनफल तथा sin θ पर निर्भर करता है।"},
+{cat:"Numerical",q:"किसी बंद सतह से कुल विद्युत फ्लक्स 9 × 10⁴ N m²/C है। भीतर का शुद्ध आवेश कितना है? (ε₀ = 8.85 × 10⁻¹²)",o:["7.97 × 10⁻⁷ C","8.85 × 10⁻⁸ C","1.02 × 10⁻⁶ C","9 × 10⁻⁴ C"],a:0,h:"गाउस नियम को Q = ε₀Φ के रूप में लिखें।",given:"Φ = 9 × 10⁴ N m²/C, ε₀ = 8.85 × 10⁻¹²",formula:"Qenc = ε₀Φ",sub:"Q = 8.85 × 10⁻¹² × 9 × 10⁴",calc:"Q = 79.65 × 10⁻⁸ = 7.965 × 10⁻⁷ C",ans:"7.97 × 10⁻⁷ C (लगभग)",exp:"फ्लक्स और ε₀ के गुणनफल से बंद सतह के भीतर का शुद्ध आवेश मिलता है।"},
+
+/* ===== THEORY QUESTIONS ===== */
+{cat:"Theory",q:"विद्युत आवेश का SI मात्रक क्या है?",o:["एम्पियर","कूलम","वोल्ट","न्यूटन"],a:1,h:"विद्युत आवेश की मानक SI इकाई याद करें।",given:"प्रश्न: आवेश की SI इकाई",formula:"आवेश का SI मात्रक = C",sub:"1 C = 1 A × 1 s",calc:"इकाई कूलम है।",ans:"कूलम (C)",exp:"एक कूलम आवेश एक एम्पियर धारा के एक सेकंड तक प्रवाहित होने के बराबर है।"},
+{cat:"Theory",q:"विद्युत द्विध्रुव आघूर्ण का SI मात्रक क्या है?",o:["कूलम/मीटर","न्यूटन/कूलम","कूलम-मीटर","जूल/कूलम"],a:2,h:"द्विध्रुव आघूर्ण = आवेश × दूरी।",given:"p = q × d",formula:"SI मात्रक = C × m",sub:"आवेश का मात्रक C और दूरी का m है।",calc:"मात्रक = C m",ans:"कूलम-मीटर (C m)",exp:"द्विध्रुव आघूर्ण आवेश और दोनों आवेशों के बीच दूरी के गुणनफल से मिलता है।"},
+{cat:"Theory",q:"विद्युत क्षेत्र की तीव्रता का SI मात्रक कौन-सा है?",o:["N/C","C/N","N m","C m"],a:0,h:"E = F/q से इकाई प्राप्त करें।",given:"E = F/q",formula:"SI मात्रक = N/C",sub:"बल का मात्रक N और आवेश का C है।",calc:"E की इकाई N/C है।",ans:"न्यूटन प्रति कूलम (N/C)",exp:"विद्युत क्षेत्र को प्रति इकाई धनात्मक परीक्षण आवेश पर लगने वाले बल से परिभाषित किया जाता है।"},
+{cat:"Theory",q:"कूलॉम के नियम में दो बिंदु आवेशों के बीच बल दूरी के किस प्रकार निर्भर करता है?",o:["दूरी के समानुपाती","दूरी के वर्ग के समानुपाती","दूरी के व्युत्क्रमानुपाती","दूरी के वर्ग के व्युत्क्रमानुपाती"],a:3,h:"कूलॉम के नियम में r² हर में होता है।",given:"F = k|q₁q₂|/r²",formula:"F ∝ 1/r²",sub:"आवेश स्थिर रखने पर दूरी बदलती है।",calc:"बल दूरी के वर्ग के व्युत्क्रमानुपाती है।",ans:"दूरी के वर्ग के व्युत्क्रमानुपाती",exp:"दूरी दोगुनी होने पर बल एक-चौथाई रह जाता है।"},
+{cat:"Theory",q:"गाउस के नियम के अनुसार बंद सतह का कुल विद्युत फ्लक्स किस पर निर्भर करता है?",o:["सतह के आकार पर ही","सतह के रंग पर","बंद सतह के भीतर कुल शुद्ध आवेश पर","केवल सतह के क्षेत्रफल पर"],a:2,h:"Φ = Qenc/ε₀ के सूत्र को याद करें।",given:"Φ = Qenc/ε₀",formula:"कुल फ्लक्स = enclosed net charge / ε₀",sub:"ε₀ स्थिरांक है।",calc:"कुल फ्लक्स भीतर के कुल शुद्ध आवेश पर निर्भर करता है।",ans:"बंद सतह के भीतर कुल शुद्ध आवेश",exp:"सतह का आकार बदलने से कुल फ्लक्स नहीं बदलता, यदि भीतर का शुद्ध आवेश वही रहे।"},
+
+/* ===== CONCEPT QUESTIONS ===== */
+{cat:"Concept",q:"एक धनात्मक आवेश को विद्युत क्षेत्र में छोड़ा जाता है। वह किस दिशा में बल अनुभव करेगा?",o:["विद्युत क्षेत्र की दिशा में","विद्युत क्षेत्र के विपरीत","हमेशा ऊपर की ओर","हमेशा नीचे की ओर"],a:0,h:"धनात्मक परीक्षण आवेश पर बल की दिशा E के समान होती है।",given:"q > 0",formula:"F = qE",sub:"धनात्मक q के लिए F और E की दिशा समान है।",calc:"बल क्षेत्र की दिशा में होगा।",ans:"विद्युत क्षेत्र की दिशा में",exp:"ऋणात्मक आवेश पर बल विद्युत क्षेत्र के विपरीत दिशा में लगता है।"},
+{cat:"Concept",q:"विद्युत क्षेत्र रेखाएँ एक-दूसरे को क्यों नहीं काटतीं?",o:["क्योंकि आवेश स्थिर रहते हैं","क्योंकि किसी बिंदु पर विद्युत क्षेत्र की दिशा एक ही होती है","क्योंकि क्षेत्र रेखाएँ वास्तविक तार हैं","क्योंकि क्षेत्र हमेशा शून्य होता है"],a:1,h:"यदि रेखाएँ कटें, तो कटान बिंदु पर क्षेत्र की कितनी दिशाएँ होंगी?",given:"विद्युत क्षेत्र की दिशा किसी बिंदु पर निश्चित होती है।",formula:"एक बिंदु → एक निश्चित E दिशा",sub:"दो रेखाएँ कटने पर दो अलग दिशाएँ मिलेंगी।",calc:"यह संभव नहीं है।",ans:"किसी बिंदु पर विद्युत क्षेत्र की दिशा एक ही होती है",exp:"क्षेत्र रेखाओं का प्रतिच्छेदन एक ही बिंदु पर विद्युत क्षेत्र की दो दिशाएँ दर्शाएगा, जो असंगत है।"},
+{cat:"Concept",q:"यदि किसी बंद सतह के भीतर कोई आवेश नहीं है, तो उस सतह से कुल विद्युत फ्लक्स कितना होगा?",o:["अनिवार्य रूप से शून्य","अनिवार्य रूप से धनात्मक","अनिवार्य रूप से ऋणात्मक","अनंत"],a:0,h:"ध्यान दें: भीतर का कुल शुद्ध आवेश शून्य है; बाहर के आवेश कुल फ्लक्स को बदलते हैं या नहीं?",given:"Qenc = 0",formula:"Φ = Qenc/ε₀",sub:"Φ = 0/ε₀",calc:"Φ = 0",ans:"अनिवार्य रूप से शून्य",exp:"बाहरी आवेश सतह पर क्षेत्र बना सकते हैं, लेकिन बंद सतह का कुल net flux शून्य रहता है।"},
+{cat:"Concept",q:"विद्युत द्विध्रुव को एकसमान विद्युत क्षेत्र के समानांतर रखा जाए, तो उस पर बलाघूर्ण कितना होगा?",o:["अधिकतम","शून्य","pE","अनंत"],a:1,h:"τ = pE sin θ; समानांतर स्थिति में θ = 0°।",given:"θ = 0°",formula:"τ = pE sin θ",sub:"τ = pE sin 0°",calc:"τ = 0",ans:"शून्य",exp:"समानांतर स्थिति में बलाघूर्ण शून्य होता है; असमान बल नहीं होने के कारण कुल बल भी शून्य रहता है।"},
+{cat:"Concept",q:"किसी चालक को स्थिर वैद्युत संतुलन में रखने पर उसके भीतर विद्युत क्षेत्र क्या होता है?",o:["अनंत","शून्य","हमेशा 1 N/C","केवल सतह के पास शून्य"],a:1,h:"स्थिर वैद्युत संतुलन में मुक्त आवेशों की गति का विचार करें।",given:"चालक स्थिर वैद्युत संतुलन में है।",formula:"Einside = 0",sub:"यदि भीतर E हो, तो मुक्त आवेश चलने लगेंगे।",calc:"संतुलन में भीतर का क्षेत्र शून्य होना चाहिए।",ans:"शून्य",exp:"चालक के भीतर स्थिर वैद्युत संतुलन में विद्युत क्षेत्र शून्य होता है।"}
+
+/* ===== QUESTION BANK END ===== */
+];
+
+/* ===== 7. STATE, ELIGIBILITY AND SAVED PROGRESS ===== */
+const PASS_MARKS = 26;
+const MAX_HINTS = 5;
+let testQuestions = [];
+let answers = {};
+let hinted = new Set();
+let hintsUsed = 0;
+let current = 0;
+let timeLeft = 20 * 60;
+let timerId = null;
+let started = false;
+let submitted = false;
+let selectedMode = "practice";
+
+function checkGate(){
+  const passed = localStorage.getItem("physics_ch1_level1_passed") === "true";
+  const msg = document.getElementById("gateMessage");
+  if(passed){
+    msg.textContent = "✓ Level 1 पास है। आप Level 2 शुरू कर सकते हैं।";
+    msg.className = "teal small";
+    document.getElementById("startBtn").disabled = false;
+  } else {
+    msg.textContent = "पहले Level 1 में कम से कम 24/30 अंक प्राप्त करें। फिर Level 2 खुलेगा।";
+    msg.className = "wrong small";
+    document.getElementById("startBtn").disabled = true;
+  }
+}
+checkGate();
+
+function shuffle(array){
+  const arr = [...array];
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+/* ===== 8. START TEST / TIMER ===== */
+function startTest(){
+  if(localStorage.getItem("physics_ch1_level1_passed") !== "true"){
+    alert("पहले Level 1 पास करें।");
+    return;
+  }
+  if(started && !submitted){
+    alert("टेस्ट पहले से चल रहा है।");
+    return;
+  }
+  selectedMode = document.getElementById("mode").value;
+  testQuestions = shuffle(questions);
+  answers = {};
+  hinted = new Set();
+  hintsUsed = 0;
+  current = 0;
+  timeLeft = 20 * 60;
+  started = true;
+  submitted = false;
+  document.getElementById("startScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.add("hidden");
+  document.getElementById("reviewList").classList.add("hidden");
+  document.getElementById("testScreen").classList.remove("hidden");
+  renderQuestion();
+  updateTimer();
+  clearInterval(timerId);
+  timerId = setInterval(()=>{
+    timeLeft--;
+    updateTimer();
+    if(timeLeft<=0){
+      clearInterval(timerId);
+      submitTest(true);
+    }
+  },1000);
+}
+
+function updateTimer(){
+  const m = Math.floor(timeLeft/60);
+  const s = timeLeft%60;
+  const el = document.getElementById("timer");
+  el.textContent = `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+  el.style.color = timeLeft<=60 ? "#fb7185" : "#f5d76e";
+}
+
+/* ===== 9. RENDER QUESTION AND OPTIONS ===== */
+function renderQuestion(){
+  const q = testQuestions[current];
+  document.getElementById("categoryPill").textContent = q.cat;
+  document.getElementById("questionCount").textContent = `प्रश्न ${current+1} / ${testQuestions.length} • Hints ${hintsUsed}/${MAX_HINTS}`;
+  document.getElementById("progressBar").style.width = `${((current+1)/testQuestions.length)*100}%`;
+  document.getElementById("questionText").textContent = q.q;
+  const options = document.getElementById("options");
+  options.innerHTML = "";
+  q.o.forEach((opt,i)=>{
+    const label = document.createElement("label");
+    label.className = "option";
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "answer";
+    radio.value = i;
+    radio.checked = answers[current] === i;
+    radio.addEventListener("change",()=>{answers[current]=i;});
+    const span = document.createElement("span");
+    span.textContent = `${String.fromCharCode(65+i)}. ${opt}`;
+    label.append(radio,span);
+    options.appendChild(label);
+  });
+  document.getElementById("prevBtn").disabled = current===0;
+  document.getElementById("nextBtn").textContent = current===testQuestions.length-1 ? "अंतिम प्रश्न →" : "अगला →";
+  renderHintArea();
+  saveProgress();
+}
+
+function moveQuestion(step){
+  if(!started || submitted) return;
+  const next = current + step;
+  if(next<0 || next>=testQuestions.length) return;
+  current=next;
+  renderQuestion();
+}
+
+/* ===== 10. PRACTICE HINTS — MAXIMUM 5 UNIQUE QUESTIONS ===== */
+function renderHintArea(){
+  const area = document.getElementById("hintArea");
+  area.innerHTML = "";
+  if(selectedMode !== "practice") return;
+  const q = testQuestions[current];
+  const box = document.createElement("div");
+  box.className = "hint-box";
+  const title = document.createElement("strong");
+  title.className = "gold";
+  title.textContent = `Hint • ${hintsUsed}/${MAX_HINTS} इस्तेमाल`;
+  const p = document.createElement("p");
+  p.className = "small";
+  p.textContent = hinted.has(current) ? q.h : "पहले अपना उत्तर चुनें, फिर Hint बटन दबाएँ। Hint सही विकल्प सीधे नहीं बताएगा।";
+  const btn = document.createElement("button");
+  btn.className = "btn secondary";
+  btn.textContent = hinted.has(current) ? "Hint दिख रहा है" : "Hint देखें";
+  btn.disabled = hinted.has(current) || hintsUsed>=MAX_HINTS || answers[current]===undefined;
+  btn.addEventListener("click",()=>{
+    if(answers[current]===undefined){
+      alert("पहले इस प्रश्न का विकल्प चुनें।");
+      return;
+    }
+    if(hinted.has(current)) return;
+    if(hintsUsed>=MAX_HINTS){
+      alert("इस टेस्ट में 5 Hints की सीमा पूरी हो गई है।");
+      return;
+    }
+    hinted.add(current);
+    hintsUsed++;
+    renderHintArea();
+    document.getElementById("questionCount").textContent = `प्रश्न ${current+1} / ${testQuestions.length} • Hints ${hintsUsed}/${MAX_HINTS}`;
+    saveProgress();
+  });
+  box.append(title,p,btn);
+  area.appendChild(box);
+}
+
+/* ===== 11. SUBMIT TEST AND CALCULATE RESULT ===== */
+function submitTest(auto=false){
+  if(!started || submitted) return;
+  if(!auto && !confirm("क्या आप टेस्ट सबमिट करना चाहते हैं? इसके बाद उत्तर बदले नहीं जा सकेंगे।")) return;
+  submitted = true;
+  started = false;
+  clearInterval(timerId);
+  let score=0, skipped=0;
+  testQuestions.forEach((q,i)=>{
+    if(answers[i]===q.a) score++;
+    if(answers[i]===undefined) skipped++;
+  });
+  const wrong = testQuestions.length-score-skipped;
+  const passed = score>=PASS_MARKS;
+  if(passed){
+    localStorage.setItem("physics_ch1_level2_passed","true");
+  }
+  const result={
+    level:2,score,total:testQuestions.length,correct:score,wrong,skipped,
+    passed,mode:selectedMode,hintsUsed,
+    date:new Date().toLocaleString("hi-IN"),
+    answers:answers,
+    questions:testQuestions
+  };
+  localStorage.setItem("physics_ch1_last_result",JSON.stringify(result));
+  localStorage.setItem("physics_ch1_level2_last_result",JSON.stringify(result));
+  document.getElementById("testScreen").classList.add("hidden");
+  document.getElementById("resultScreen").classList.remove("hidden");
+  document.getElementById("scoreText").textContent = `${score}/${testQuestions.length}`;
+  document.getElementById("correctCount").textContent = score;
+  document.getElementById("wrongCount").textContent = wrong;
+  document.getElementById("skippedCount").textContent = skipped;
+  document.getElementById("resultTitle").textContent = passed ? "शानदार! Level 3 अनलॉक!" : "टेस्ट पूरा हुआ";
+  document.getElementById("resultMessage").textContent = passed
+    ? "आपने 26 या अधिक अंक प्राप्त किए। Level 3 की पात्रता सेव हो गई है।"
+    : `Level 3 के लिए 26 अंक चाहिए। अभी ${score} अंक हैं। Solutions पढ़ें और दोबारा अभ्यास करें।`;
+  document.getElementById("reviewList").classList.remove("hidden");
+  renderReview(result);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+/* ===== 12. FULL ANSWER REVIEW AND NUMERICAL SOLUTIONS ===== */
+function renderReview(result){
+  const root=document.getElementById("reviewCards");
+  root.innerHTML="";
+  result.questions.forEach((q,i)=>{
+    const chosen=result.answers[i];
+    const correct=chosen===q.a;
+    const card=document.createElement("article");
+    card.className="panel";
+    const heading=document.createElement("h3");
+    heading.textContent=`प्रश्न ${i+1} • ${q.cat}`;
+    const question=document.createElement("p");
+    question.textContent=q.q;
+    const your=document.createElement("p");
+    your.className=correct?"correct":"wrong";
+    your.textContent=chosen===undefined
+      ?"आपका उत्तर: नहीं दिया"
+      :`आपका उत्तर: ${String.fromCharCode(65+chosen)}. ${q.o[chosen]} ${correct?"✓":"✗"}`;
+    const answer=document.createElement("p");
+    answer.className="correct";
+    answer.textContent=`सही उत्तर: ${String.fromCharCode(65+q.a)}. ${q.o[q.a]}`;
+    card.append(heading,question,your,answer);
+    if(q.cat==="Numerical"){
+      const solution=document.createElement("div");
+      solution.className="solution-box";
+      const steps=[
+        ["Given (दिया गया)",q.given],
+        ["Formula Used (सूत्र)",q.formula],
+        ["Substitution (मान रखने पर)",q.sub],
+        ["Calculation (गणना)",q.calc],
+        ["Final Answer (अंतिम उत्तर)",q.ans],
+        ["आसान हिंदी Explanation",q.exp]
+      ];
+      steps.forEach(([label,value],index)=>{
+        const div=document.createElement("div");
+        div.className=index===1?"formula":"step";
+        if(index!==1){
+          const strong=document.createElement("strong");
+          strong.textContent=label;
+          const text=document.createElement("div");
+          text.textContent=value;
+          div.append(strong,text);
+        }else{
+          div.textContent=`${label}: ${value}`;
+        }
+        solution.appendChild(div);
+      });
+      card.appendChild(solution);
+    }else{
+      const explanation=document.createElement("div");
+      explanation.className="step";
+      const strong=document.createElement("strong");
+      strong.textContent="Explanation (समझिए)";
+      const text=document.createElement("div");
+      text.textContent=q.exp;
+      explanation.append(strong,text);
+      card.appendChild(explanation);
+    }
+    root.appendChild(card);
+  });
+}
+
+/* ===== 13. SAVE AND RESTORE IN-PROGRESS TEST ===== */
+function saveProgress(){
+  if(!started || submitted) return;
+  try{
+    const data={
+      current,answers,hinted:[...hinted],hintsUsed,timeLeft,
+      selectedMode,questions:testQuestions
+    };
+    localStorage.setItem("physics_ch1_level2_progress",JSON.stringify(data));
+  }catch(e){}
+}
+
+/* ===== 14. LOAD PREVIOUS RESULT ===== */
+function loadSavedResult(){
+  const raw=localStorage.getItem("physics_ch1_level2_last_result")
+    ||localStorage.getItem("physics_ch1_last_result");
+  if(!raw){
+    alert("अभी कोई सेव किया हुआ Level 2 Result नहीं मिला। पहले टेस्ट पूरा करें।");
+    return;
+  }
+  try{
+    const result=JSON.parse(raw);
+    if(!result.questions || !Array.isArray(result.questions)){
+      alert("सेव किया हुआ Result पुराना या अधूरा है। Level 2 टेस्ट पूरा करके नया Result सेव करें।");
+      return;
+    }
+    document.getElementById("startScreen").classList.add("hidden");
+    document.getElementById("testScreen").classList.add("hidden");
+    document.getElementById("resultScreen").classList.remove("hidden");
+    document.getElementById("reviewList").classList.remove("hidden");
+    document.getElementById("scoreText").textContent=`${result.score}/${result.total}`;
+    document.getElementById("correctCount").textContent=result.correct;
+    document.getElementById("wrongCount").textContent=result.wrong;
+    document.getElementById("skippedCount").textContent=result.skipped;
+    document.getElementById("resultTitle").textContent=result.passed?"Level 3 अनलॉक!":"पिछला Result";
+    document.getElementById("resultMessage").textContent=`मोड: ${result.mode==="practice"?"Practice":"Exam"} • सेव समय: ${result.date||"उपलब्ध नहीं"}`;
+    renderReview(result);
+    window.scrollTo({top:0,behavior:"smooth"});
+  }catch(e){
+    alert("Result पढ़ने में समस्या हुई।");
+  }
+}
+
+/* ===== 15. LEVEL 3 ACCESS HELPER ===== */
+function openLevel3(){
+  if(localStorage.getItem("physics_ch1_level2_passed")==="true"){
+    window.location.href="physics-chapter-01-level-3.html";
+  }else{
+    alert("पहले Level 2 में कम से कम 26/30 अंक प्राप्त करें।");
+  }
+}
+
+/* ===== 16. PROTECT TEST FROM ACCIDENTAL PAGE EXIT ===== */
+window.addEventListener("beforeunload",function(e){
+  if(started && !submitted){
+    e.preventDefault();
+    e.returnValue="";
+  }
+});
+</script>
+</body>
+</html>
