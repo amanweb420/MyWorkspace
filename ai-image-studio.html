@@ -1,0 +1,1754 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>MyWorkspace AI Studio</title>
+
+<style>
+*{box-sizing:border-box}
+:root{
+ --purple:#7045f5;
+ --pink:#f45bb8;
+ --ink:#191633;
+ --muted:#77758d;
+}
+body{
+ margin:0;
+ background:#fff;
+ color:var(--ink);
+ font-family:Arial,sans-serif;
+}
+button,input,textarea{font:inherit}
+button{cursor:pointer}
+.container{
+ width:calc(100% - 24px);
+ max-width:900px;
+ margin:auto;
+}
+header{
+ height:72px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+}
+.brand{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ color:inherit;
+ text-decoration:none;
+}
+.logo{
+ width:43px;height:43px;
+ display:grid;place-items:center;
+ border-radius:15px;
+ color:white;font-size:27px;
+ background:linear-gradient(135deg,#7045f5,#f45bb8);
+}
+.brand b{font-size:18px}
+.brand small{
+ display:block;margin-top:4px;
+ font-size:10px;letter-spacing:2px;
+ color:var(--muted);
+}
+.pro{
+ border:0;border-radius:25px;
+ padding:11px 15px;
+ color:white;font-weight:bold;
+ background:linear-gradient(120deg,#7045f5,#b04fe9);
+}
+
+/* HERO BANNER */
+.hero{
+ position:relative;
+ isolation:isolate;
+ overflow:hidden;
+ min-height:350px;
+ border-radius:24px;
+ padding:26px 20px;
+ color:white;
+ background:linear-gradient(110deg,#3829c9,#7045f5 52%,#f45bb8);
+}
+.hero-art{
+ position:absolute;
+ z-index:-1;
+ top:0;right:0;
+ width:58%;height:100%;
+ object-fit:cover;
+ object-position:center 25%;
+ opacity:.96;
+ mask-image:linear-gradient(to right,transparent,#000 34%);
+}
+.hero-content{
+ max-width:72%;
+ position:relative;
+ z-index:1;
+}
+.tag{
+ display:inline-block;
+ padding:8px 12px;
+ border-radius:25px;
+ background:#ffffff35;
+ font-size:11px;font-weight:bold;
+}
+.hero h1{
+ margin:20px 0 10px;
+ font-size:clamp(30px,6vw,43px);
+ line-height:1.12;
+}
+.hero h1 span{color:#ffc7e8}
+.hero p{
+ font-size:13px;
+ line-height:1.6;
+}
+.search{
+ display:flex;
+ gap:7px;
+ width:100%;
+ margin-top:22px;
+ padding:6px;
+ border-radius:16px;
+ background:white;
+}
+.search input{
+ min-width:0;flex:1;
+ padding:12px 8px;
+ border:0;outline:0;
+ color:#191633;
+ font-size:12px;
+}
+.search button{
+ width:45px;
+ border:0;border-radius:12px;
+ color:white;background:var(--purple);
+ font-size:22px;
+}
+
+/* SECTION HEADINGS */
+.section{margin-top:28px}
+.heading{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ gap:10px;
+ margin-bottom:14px;
+}
+.heading h2{margin:0;font-size:19px}
+.view{
+ border:0;background:none;
+ color:var(--purple);
+ font-size:12px;font-weight:bold;
+}
+
+/* CATEGORIES */
+.categories{
+ display:grid;
+ grid-template-columns:repeat(3,minmax(0,1fr));
+ gap:10px;
+}
+.cat{
+ min-width:0;
+ border:0;border-radius:17px;
+ padding:13px 6px;
+ background:#f8f7fb;
+ color:var(--ink);
+ text-align:center;
+}
+.cat-icon{
+ width:50px;height:50px;
+ display:grid;place-items:center;
+ margin:0 auto 10px;
+ border-radius:16px;
+ color:white;font-size:25px;
+ background:linear-gradient(135deg,#7045f5,#a16aff);
+}
+.cat:nth-child(2) .cat-icon{background:linear-gradient(135deg,#f454ad,#ff86bb)}
+.cat:nth-child(3) .cat-icon{background:linear-gradient(135deg,#ff9e36,#ff694c)}
+.cat:nth-child(4) .cat-icon{background:linear-gradient(135deg,#17cba0,#32bda9)}
+.cat:nth-child(5) .cat-icon{background:linear-gradient(135deg,#319dff,#586cff)}
+.cat:nth-child(6) .cat-icon{background:linear-gradient(135deg,#9157f5,#c35ce9)}
+.cat strong{display:block;font-size:11px;line-height:1.4}
+.cat small{display:block;margin-top:6px;font-size:9px;line-height:1.5;color:var(--muted)}
+
+/* TRENDING: ONE FULL-WIDTH CARD ON MOBILE */
+.trending{
+ display:grid;
+ grid-template-columns:1fr;
+ gap:17px;
+}
+.card{
+ overflow:hidden;
+ min-width:0;
+ border-radius:21px;
+ background:#191638;
+ color:white;
+ box-shadow:0 5px 18px #34205a18;
+}
+.card-img{
+ position:relative;
+ height:240px;
+ background:#e8ddff;
+}
+.card-img img{
+ display:block;
+ width:100%;height:100%;
+ object-fit:cover;
+}
+.badge{
+ position:absolute;top:12px;left:12px;
+ padding:8px 12px;
+ border-radius:22px;
+ color:#7045f5;background:#ffffffed;
+ font-size:11px;font-weight:bold;
+}
+.heart{
+ position:absolute;top:10px;right:10px;
+ width:38px;height:38px;
+ border:0;border-radius:50%;
+ background:#ffffffed;color:#7045f5;
+ font-size:22px;
+}
+.card-body{padding:16px}
+.card h3{margin:0;font-size:17px}
+.card p{font-size:12px;line-height:1.6;color:#e4e1f5}
+.actions{display:flex;gap:9px}
+.actions button{
+ border:0;border-radius:13px;
+ padding:12px;
+ background:linear-gradient(110deg,#7045f5,#a34eea);
+ color:white;font-size:12px;font-weight:bold;
+}
+.actions .copy{flex:1}
+
+/* CREATE PROMPT */
+.creator{
+ display:flex;align-items:center;
+ justify-content:space-between;gap:12px;
+ padding:20px;
+ border-radius:23px;
+ background:linear-gradient(110deg,#e3ddff,#f8dffc 55%,#d4edff);
+}
+.creator h2{margin:8px 0;font-size:21px}
+.creator p{font-size:12px;line-height:1.7;color:#5f5b7c}
+.creator button{
+ border:0;border-radius:13px;
+ padding:13px 17px;color:white;
+ background:linear-gradient(110deg,#7045f5,#a94ee9);
+ font-weight:bold;
+}
+.creator-art{
+ width:105px;height:125px;
+ border-radius:17px;object-fit:cover;
+}
+
+/* POPULAR TEMPLATES */
+.popular{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:12px;
+}
+.pop-card{
+ overflow:hidden;
+ border:1px solid #eeeaf5;
+ border-radius:16px;background:white;
+}
+.pop-card img{
+ display:block;width:100%;height:140px;
+ object-fit:cover;
+}
+.pop-card h3{margin:0;padding:11px;font-size:12px}
+
+/* CUSTOM PROMPT EDITOR */
+.editor{
+ padding:17px;
+ border:1px solid #eeeaf5;
+ border-radius:18px;
+ background:white;
+}
+.editor label{font-size:12px;font-weight:bold}
+.editor input,.editor textarea{
+ width:100%;margin:8px 0 14px;
+ padding:12px;border:1px solid #eeeaf5;
+ border-radius:11px;
+}
+.editor textarea{resize:vertical}
+.editor button{
+ width:100%;padding:13px;
+ border:0;border-radius:12px;
+ color:white;background:var(--purple);
+ font-weight:bold;
+}
+
+/* AI TOOLS */
+.tools{display:grid;grid-template-columns:1fr;gap:10px}
+.tool{
+ display:flex;align-items:center;gap:12px;
+ padding:15px;border:1px solid #eeeaf5;
+ border-radius:16px;color:inherit;text-decoration:none;
+}
+.tool-icon{
+ width:42px;height:42px;display:grid;place-items:center;
+ border-radius:13px;background:#eee8ff;
+ color:#7045f5;font-weight:bold;
+}
+.tool strong{font-size:13px}
+.tool small{display:block;margin-top:5px;color:var(--muted);font-size:10px}
+.bottom{
+ position:fixed;bottom:0;left:0;right:0;
+ z-index:9;display:flex;
+ justify-content:space-around;align-items:center;
+ padding:10px 5px calc(10px + env(safe-area-inset-bottom));
+ border-top:1px solid #eeeaf5;
+ border-radius:18px 18px 0 0;
+ background:#ffffffed;backdrop-filter:blur(15px);
+}
+.bottom a{
+ color:var(--muted);text-decoration:none;
+ text-align:center;font-size:10px;
+}
+.bottom a span{display:block;font-size:22px;margin-bottom:4px}
+.bottom .active{color:var(--purple)}
+.bottom .plus{
+ width:48px;height:48px;margin-top:-24px;
+ border:0;border-radius:50%;
+ color:white;font-size:27px;
+ background:linear-gradient(135deg,#7045f5,#bd54eb);
+}
+footer{
+ padding:28px 0 105px;
+ text-align:center;color:var(--muted);font-size:11px;
+}
+@media(min-width:700px){
+ .categories{grid-template-columns:repeat(6,minmax(0,1fr))}
+ .trending{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .popular{grid-template-columns:repeat(4,minmax(0,1fr))}
+ .tools{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .bottom{left:50%;right:auto;width:min(600px,100%);transform:translateX(-50%)}
+}
+@media(max-width:380px){
+ .hero{padding:20px 13px;min-height:330px}
+ .hero-content{max-width:84%}
+ .hero-art{width:65%;opacity:.8}
+ .hero h1{font-size:28px}
+ .card-img{height:210px}
+ .creator{padding:15px 12px}
+ .creator-art{width:82px;height:105px}
+}
+
+/* ===== FULL SCREEN PROMPT EDITOR ===== */
+.full-editor {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  overflow-y: auto;
+  background: #f4f6fa;
+  color: #172033;
+}
+
+.full-editor.active {
+  display: block;
+}
+
+.full-editor-header {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px;
+  background: #101827;
+  color: white;
+}
+
+.full-editor-header h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.full-editor-header button,
+.full-editor-copy {
+  border: 0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: #2563eb;
+  color: white;
+  font-weight: 600;
+}
+
+.full-editor-content {
+  max-width: 650px;
+  margin: auto;
+  padding: 16px;
+}
+
+.full-editor-content img {
+  display: block;
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 18px;
+}
+
+.full-editor-content label {
+  display: block;
+  margin: 16px 0 6px;
+  font-weight: 600;
+}
+
+.full-editor-content input,
+.full-editor-content select,
+.full-editor-content textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: white;
+  color: #172033;
+  font: inherit;
+}
+
+.full-editor-content textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.full-editor-copy {
+  width: 100%;
+  margin: 16px 0 30px;
+  padding: 14px;
+}
+
+/* ===== MYWORKSPACE MASTER IMAGE GALLERY ===== */
+
+#masterGallerySection {
+  width: 100%;
+  margin: 30px 0;
+  padding: 24px 0;
+  box-sizing: border-box;
+}
+
+#masterGallerySection .heading {
+  margin-bottom: 22px;
+}
+
+#masterGallerySection .heading h2 {
+  margin: 0 0 10px;
+  color: #21183f;
+  font-size: clamp(25px, 5vw, 34px);
+  line-height: 1.25;
+}
+
+#masterGallerySection .heading p {
+  margin: 0;
+  color: #716b85;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Gallery grid */
+#masterGalleryGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Main card */
+#masterGalleryGrid .card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(173, 128, 255, 0.18);
+  border-radius: 26px;
+  background: linear-gradient(155deg, #21183f, #120d29);
+  color: #fff;
+  box-shadow: 0 14px 36px rgba(35, 18, 72, 0.18);
+}
+
+/* Image area: portrait image fully visible */
+#masterGalleryGrid .card-img {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  isolation: isolate;
+  background: #100b22;
+  object-fit: contain;
+}
+
+/* Blurred background fills the wide card area */
+#masterGalleryGrid .card-img::before {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  z-index: -1;
+  background-image: var(--gallery-image);
+  background-size: cover;
+  background-position: center;
+  filter: blur(18px) brightness(0.42);
+  transform: scale(1.08);
+}
+
+/* Keep the original image intact */
+#masterGalleryGrid .card-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Badge */
+#masterGalleryGrid .badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 2;
+  padding: 9px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #7545e8;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Card content */
+#masterGalleryGrid .card-body {
+  padding: 19px;
+}
+
+#masterGalleryGrid .card-body h3 {
+  margin: 0 0 10px;
+  color: #fff;
+  font-size: clamp(20px, 4.5vw, 25px);
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+#masterGalleryGrid .card-body p {
+  margin: 0 0 18px;
+  color: #e0d9f2;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Attractive action buttons */
+#masterGalleryGrid .actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+#masterGalleryGrid .actions button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 52px;
+  padding: 12px 9px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+  background: linear-gradient(135deg, #7045f5, #a044e8);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+  cursor: pointer;
+  box-shadow: 0 5px 14px rgba(92, 45, 195, 0.2);
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+#masterGalleryGrid .actions button:last-child {
+  grid-column: 1 / -1;
+}
+
+#masterGalleryGrid .actions button:active {
+  transform: scale(0.98);
+  filter: brightness(1.12);
+}
+
+/* Small screens */
+@media (max-width: 380px) {
+  #masterGallerySection {
+    padding: 16px 0;
+  }
+
+  #masterGalleryGrid .card-body {
+    padding: 15px;
+  }
+
+  #masterGalleryGrid .actions {
+    grid-template-columns: 1fr;
+  }
+
+  #masterGalleryGrid .actions button:last-child {
+    grid-column: auto;
+  }
+}
+
+/* Larger screens */
+@media (min-width: 700px) {
+  #masterGalleryGrid {
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+
+  #masterGalleryGrid .card-body {
+    padding: 22px;
+  }
+}
+
+/* ===== END MASTER IMAGE GALLERY ===== */
+
+
+/* ===== ROOM GALLERY: ONE IMAGE AT A TIME ===== */
+.room-gallery {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+}
+
+.room-gallery-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.room-gallery-track img {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  scroll-snap-align: start;
+}
+
+
+/* Room planner image: full card width */
+.room-gallery {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+}
+
+.room-gallery-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 0;
+  margin: 0;
+}
+
+.room-gallery-track img {
+  display: block;
+  flex: 0 0 100%;
+  width: 100%;
+  min-width: 100%;
+  height: 100%;
+  object-fit: cover;
+  scroll-snap-align: start;
+}
+
+/* ===== HAIRSTYLE TRANSFORMATION CARD ONLY ===== */
+
+#trendingGrid .hairstyle-card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  padding: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-sizing: border-box;
+  overflow: hidden;
+
+  border: 2px solid #a855f7;
+  border-radius: 16px;
+
+  background: linear-gradient(
+    145deg,
+    #0f172a 0%,
+    #1e3a8a 45%,
+    #581c87 100%
+  );
+
+  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.18);
+}
+
+/* Full image, centered, without cropping */
+#trendingGrid .hairstyle-card-img > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center center;
+
+  margin: 0;
+  padding: 0;
+  flex: 0 1 auto;
+
+  border: 1px solid #c084fc;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+/* Keep the badge visible */
+#trendingGrid .hairstyle-card-img .badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 3;
+
+  padding: 6px 10px;
+  border-radius: 20px;
+
+  background: rgba(15, 23, 42, 0.9);
+  color: #e9d5ff;
+  border: 1px solid #a855f7;
+
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Heart button */
+#trendingGrid .hairstyle-card-img .heart {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 3;
+
+  color: #ffffff;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid #c084fc;
+  border-radius: 50%;
+
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+}
+
+/* Hairstyle card text */
+#trendingGrid .card:has(.hairstyle-card-img) .card-body h3 {
+  color: #e9d5ff;
+}
+
+#trendingGrid .card:has(.hairstyle-card-img) .card-body p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+
+/* Copy and Edit buttons */
+#trendingGrid .card:has(.hairstyle-card-img) .actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+#trendingGrid .card:has(.hairstyle-card-img) .actions button {
+  flex: 1 1 130px;
+  min-height: 40px;
+  border-radius: 9px;
+}
+
+/* Mobile screens */
+@media (max-width: 480px) {
+  #trendingGrid .hairstyle-card-img {
+    aspect-ratio: 3 / 4;
+    padding: 7px;
+  }
+
+  #trendingGrid .hairstyle-card-img .badge {
+    top: 12px;
+    left: 12px;
+    font-size: 10px;
+  }
+
+  #trendingGrid .hairstyle-card-img .heart {
+    top: 10px;
+    right: 10px;
+  }
+}
+/* ===== UNIVERSAL AI LEARNING TEACHER IMAGE ===== */
+
+#studentPromptsGrid .card[data-title="Universal AI Learning Teacher"] .card-img {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  padding: 0;
+  background: #101827;
+  border-radius: 14px 14px 0 0;
+}
+
+#studentPromptsGrid .card[data-title="Universal AI Learning Teacher"] .card-img > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: inherit;
+}
+
+#studentPromptsGrid .card[data-title="Universal AI Learning Teacher"] .card-img .badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  background: rgba(15, 23, 42, 0.88);
+  color: #ffffff;
+  border: 1px solid rgba(96, 165, 250, 0.6);
+  backdrop-filter: blur(8px);
+}
+
+#studentPromptsGrid .card[data-title="Universal AI Learning Teacher"] .card-body h3 {
+  color: #dbeafe;
+}
+
+#studentPromptsGrid .card[data-title="Universal AI Learning Teacher"] .card-body p {
+  color: #cbd5e1;
+  line-height: 1.6;
+}
+/* Universal AI Learning Teacher Image */
+.card[data-title="Universal AI Learning Teacher"] .card-img {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  padding: 0;
+  background: #101827;
+}
+
+.card[data-title="Universal AI Learning Teacher"] .card-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+  padding: 0;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<header>
+<a class="brand" href="#home">
+<div class="logo">✦</div>
+<div><b>MyWorkspace</b><small>AI STUDIO</small></div>
+</a>
+<button class="pro" type="button">♛ Pro</button>
+</header>
+
+<main id="home">
+
+<section class="hero">
+<img class="hero-art"
+src="https://image.pollinations.ai/prompt/anime%20girl%20wearing%20headphones%20dark%20hoodie%20purple%20pink%20neon%20creative%20studio%20beautiful%20cinematic%20portrait?width=800&height=700&nologo=true"
+alt="Anime character"
+onerror="this.style.display='none'">
+
+<div class="hero-content">
+<span class="tag">YOUR CREATIVE AI WORKSPACE</span>
+<h1>Turn Your Ideas<br>Into Amazing<br><span>Creations</span></h1>
+<p>AI Prompts • Templates • Tools • Inspiration</p>
+
+<form class="search" id="searchForm">
+<input id="searchInput" type="search"
+placeholder="Search prompts, categories, ideas..."
+aria-label="Search prompts">
+<button type="submit" aria-label="Search">→</button>
+</form>
+</div>
+</section>
+
+<section class="section" id="categoriesSection">
+<div class="heading">
+<h2>Explore Categories</h2>
+<button class="view" onclick="resetFilter()">View All →</button>
+</div>
+
+<div class="categories">
+<button class="cat" onclick="filterCategory('education')">
+<span class="cat-icon">🎓</span>
+<strong>Student & Teacher</strong>
+<small>Notes • Questions • Study</small>
+</button>
+<button class="cat" onclick="filterCategory('image')">
+<span class="cat-icon">▧</span>
+<strong>AI Image & Photo</strong>
+<small>Portrait • Style • Background</small>
+</button>
+<button class="cat" onclick="filterCategory('design')">
+<span class="cat-icon">▶</span>
+<strong>Thumbnail & Poster</strong>
+<small>YouTube • Social • Marketing</small>
+</button>
+<button class="cat" onclick="filterCategory('business')">
+<span class="cat-icon">▣</span>
+<strong>Business & Promotion</strong>
+<small>Ads • Branding • Growth</small>
+</button>
+<button class="cat" onclick="filterCategory('home')">
+<span class="cat-icon">⌂</span>
+<strong>Home & Product Design</strong>
+<small>Interior • Color • Furniture</small>
+</button>
+<button class="cat" onclick="filterCategory('video')">
+<span class="cat-icon">▰</span>
+<strong>Video & Social Media</strong>
+<small>Reels • Shorts • Content</small>
+</button>
+</div>
+</section>
+
+<!-- PART 2 CODE WILL BE PASTED HERE -->
+
+
+<section class="section" id="trendingSection">
+<div class="heading">
+<h2>🔥 Trending Prompts</h2>
+<button class="view" onclick="resetFilter()">View All →</button>
+</div>
+
+<div class="trending" id="trendingGrid">
+
+<article class="card" data-category="image" data-title="Anime Character Studio">
+<div class="card-img">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=800&q=80"
+  alt="Anime character"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=Anime+Character';"
+>
+<span class="badge">✦ Trending</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>Anime Character Studio</h3>
+<p>अपने anime character के बाल, कपड़े, pose और background बदलने के लिए prompt तैयार करें।</p>
+<div class="actions">
+<button class="copy" onclick="copyPrompt(this,'Create a high-quality cinematic anime character portrait using the uploaded reference image. Preserve the same character identity and recognizable facial features. Hair: [COLOR]. Outfit: [OUTFIT]. Pose: [POSE]. Background: [BACKGROUND]. Lighting: cinematic purple and blue, polished line art, detailed eyes, professional composition.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('Anime Character Studio','Create a high-quality cinematic anime character portrait using the uploaded reference image. Preserve the same character identity and recognizable facial features. Hair: [COLOR]. Outfit: [OUTFIT]. Pose: [POSE]. Background: [BACKGROUND]. Lighting: cinematic purple and blue, polished line art, detailed eyes, professional composition.')">✎ Edit</button>
+</div>
+</div>
+</article>
+
+<article class="card" data-category="image" data-title="Professional Photo Editing">
+<div class="card-img">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=85"
+  alt="Professional portrait"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=Professional+Portrait';"
+>
+<span class="badge">✦ Popular</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>Professional Photo Editing</h3>
+<p>Portrait, outfit, lighting और background के लिए professional editing prompt।</p>
+<div class="actions">
+<button class="copy" onclick="copyPrompt(this,'Edit the uploaded reference photo into a professional portrait. Preserve the person’s identity and natural facial features. Outfit: [OUTFIT]. Background: [BACKGROUND]. Lighting: [LIGHTING]. Color tone: [COLOR]. Keep realistic details, natural skin texture and professional composition.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('Professional Photo Editing','Edit the uploaded reference photo into a professional portrait. Preserve the person’s identity and natural facial features. Outfit: [OUTFIT]. Background: [BACKGROUND]. Lighting: [LIGHTING]. Color tone: [COLOR]. Keep realistic details, natural skin texture and professional composition.')">✎ Edit</button>
+</div>
+</div>
+</article>
+
+<article class="card" data-category="design" data-title="YouTube Thumbnail Creator">
+<div class="card-img">
+ <img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=800&q=85"
+  alt="YouTube creator setup"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=YouTube+Creator';"
+>
+<span class="badge">✦ Creator</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>YouTube Thumbnail Creator</h3>
+<p>अपने वीडियो के लिए bold, colorful और attention-grabbing thumbnail बनवाने का prompt।</p>
+<div class="actions">
+<button class="copy" onclick="copyPrompt(this,'Design a professional YouTube thumbnail concept about [TOPIC]. Main subject: [SUBJECT]. Headline: [TITLE]. Use a clear focal point, strong contrast, cinematic lighting, bold typography, vibrant colors and a professional 16:9 landscape composition.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('YouTube Thumbnail Creator','Design a professional YouTube thumbnail concept about [TOPIC]. Main subject: [SUBJECT]. Headline: [TITLE]. Use a clear focal point, strong contrast, cinematic lighting, bold typography, vibrant colors and a professional 16:9 landscape composition.')">✎ Edit</button>
+</div>
+</div>
+</article>
+
+<article class="card" data-category="education" data-title="Teacher Lesson Planner">
+<div class="card-img">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=85"
+  alt="Classroom and education"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=Teacher+Lesson+Planner';"
+>
+<span class="badge">✦ Education</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>Teacher Lesson Planner</h3>
+<p>Lesson notes, question papers, activities और revision material तैयार करें।</p>
+<div class="actions">
+  <button
+  type="button"
+  class="download"
+  onclick="downloadCardImage(this)"
+>
+  ↓ Download Image
+</button>
+<button class="copy" onclick="copyPrompt(this,'Act as an experienced teacher. Create a lesson plan for Class [CLASS], subject [SUBJECT], topic [TOPIC]. Include learning objectives, simple explanations, examples, classroom activities, practice questions, an answer key and a short recap. Use student-friendly language.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('Teacher Lesson Planner','Act as an experienced teacher. Create a lesson plan for Class [CLASS], subject [SUBJECT], topic [TOPIC]. Include learning objectives, simple explanations, examples, classroom activities, practice questions, an answer key and a short recap.')">✎ Edit</button>
+</div>
+</div>
+</article>
+
+<article class="card" data-category="home" data-title="Modern Home Design">
+<div class="card-img">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=85"
+  alt="Modern living room interior"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=Modern+Home+Design';"
+>
+<span class="badge">✦ Home</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>Modern Home Design</h3>
+<p>Wall colors, furniture placement, room layout और lighting के ideas लें।</p>
+<div class="actions">
+<button class="copy" onclick="copyPrompt(this,'Suggest a practical interior design for my room. Room dimensions: [DIMENSIONS]. Style: [STYLE]. Wall color: [COLOR]. Furniture: [FURNITURE]. Recommend furniture placement, lighting, color combinations, storage and walking space. Explain the design in simple language.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('Modern Home Design','Suggest a practical interior design for my room. Room dimensions: [DIMENSIONS]. Style: [STYLE]. Wall color: [COLOR]. Furniture: [FURNITURE]. Recommend furniture placement, lighting, color combinations, storage and walking space.')">✎ Edit</button>
+</div>
+</div>
+</article>
+<article class="card" data-category="home" data-title="Room Structure & Interior Planner">
+  <div class="card-img room-gallery">
+    <div class="room-gallery-track">
+      <img src="images/room1.jpg.png" alt="Room Design 1" loading="lazy">
+      <img src="images/room2.jpg.png" alt="Room Design 2" loading="lazy">
+      <img src="images/room3.jpg.png" alt="Room Design 3" loading="lazy">
+      <img src="images/room4.jpg.jpg" alt="Room Design 4" loading="lazy">
+    </div>
+    <span class="badge">✦ Room Design</span>
+    <button class="heart" onclick="saveCard(this)">♡</button>
+  </div>
+
+  <div class="card-body">
+    <h3>Room Structure & Interior Planner</h3>
+    <p>Room layout, wall structure, furniture placement और interior design की योजना बनाएँ।</p>
+    <div class="actions">
+      <button class="copy" onclick="copyPrompt(this, 'Act as a room structure and interior design planner. First ask for room dimensions, door and window positions, and requirements. Define walls A, B, C and D. Create a consistent room layout, furniture placement plan, and interior design. Ask for approval before generating any image. Then generate one image at a time, keeping the same room structure and dimensions. Finally create a top-down 3D room view. Use my reference images for visual guidance, explain in simple language, and clearly state that AI images are not construction-ready technical drawings.')">▢ Copy Prompt</button>
+      <button onclick="editPrompt('Room Structure & Interior Planner', 'Act as a room structure and interior design planner. First ask for room dimensions, door and window positions, and requirements. Define walls A, B, C and D. Create a consistent room layout, furniture placement plan, and interior design. Ask for approval before generating any image. Then generate one image at a time, keeping the same room structure and dimensions. Finally create a top-down 3D room view. Use my reference images for visual guidance, explain in simple language, and clearly state that AI images are not construction-ready technical drawings.')">✎ Edit</button>
+    </div>
+  </div>
+</article>
+
+<article class="card" data-category="business" data-title="Business Promotion Designer">
+<div class="card-img">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=800&q=85"
+  alt="Business promotion workspace"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=Business+Promotion';"
+>
+<span class="badge">✦ Business</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>Business Promotion Designer</h3>
+<p>Shop, coaching, school या product के लिए promotional design ideas।</p>
+<div class="actions">
+<button class="copy" onclick="copyPrompt(this,'Create a professional promotional design concept for [BUSINESS NAME]. Product or service: [PRODUCT]. Audience: [AUDIENCE]. Main message: [MESSAGE]. Brand colors: [COLORS]. Use a clear headline, visual hierarchy, attractive composition and social-media-ready layout.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('Business Promotion Designer','Create a professional promotional design concept for [BUSINESS NAME]. Product or service: [PRODUCT]. Audience: [AUDIENCE]. Main message: [MESSAGE]. Brand colors: [COLORS]. Use a clear headline, visual hierarchy, attractive composition and social-media-ready layout.')">✎ Edit</button>
+</div>
+</div>
+</article>
+
+<article class="card" data-category="video" data-title="Reels and Shorts Creator">
+<div class="card-img">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=800&q=85"
+  alt="Video creator studio"
+  onerror="this.onerror=null;this.src='https://placehold.co/800x500/241044/ffffff?text=Reels+and+Shorts';"
+>
+<span class="badge">✦ Video</span>
+<button class="heart" onclick="saveCard(this)">♡</button>
+</div>
+<div class="card-body">
+<h3>Reels & Shorts Creator</h3>
+<p>Short video script, visual scenes, captions और editing ideas पाएँ।</p>
+<div class="actions">
+<button class="copy" onclick="copyPrompt(this,'Create a short video plan about [TOPIC] for [AUDIENCE]. Duration: [SECONDS]. Include a strong opening hook, scene-by-scene visual directions, voiceover, on-screen captions, sound ideas, transitions and a clear ending. Format: vertical 9:16.')">▢ Copy Prompt</button>
+<button onclick="editPrompt('Reels and Shorts Creator','Create a short video plan about [TOPIC] for [AUDIENCE]. Duration: [SECONDS]. Include a strong opening hook, scene-by-scene visual directions, voiceover, on-screen captions, sound ideas, transitions and a clear ending. Format: vertical 9:16.')">✎ Edit</button>
+</div>
+</div>
+</article>
+
+
+<article class="card"
+  data-category="video"
+  data-title="Hairstyle Transformation">
+
+  <div class="card-img hairstyle-card-img">
+    <img
+      loading="lazy"
+      src="images/hairstyle-transformation.png"
+      alt="Hairstyle Transformation Guide">
+
+    <span class="badge">✦ Hairstyle Guide</span>
+    <button class="heart" onclick="saveCard(this)">♡</button>
+  </div>
+
+  <div class="card-body">
+    <h3>Hairstyle Transformation</h3>
+    <p>अपनी फोटो से नया हेयरस्टाइल, Barber Guide और Styling Tips पाएँ।</p>
+
+  <div class="actions">
+  <button class="copy" onclick="copyHairstylePrompt(this)">
+    ▢ Copy Master Prompt
+  </button>
+
+  <button onclick="editHairstylePrompt(this)">
+    ✎ Edit Prompt
+  </button>
+</div>
+  </div>
+
+  <script type="text/plain" class="hairstyle-prompt">
+ROLE: Professional hairstylist, men's grooming consultant, hairstyle visualization expert, and AI image designer.TASK: Analyze the users uploaded photograph and create one premium-quality, personalized hairstyle transformation infographic. Every recommendation must be customized to the person in the uploaded photo.PHOTO ANALYSIS:Examine visible face proportions, hair length, density, texture, natural growth direction, hairline, crown and beard if visible. Do not make unsupported claims.BEFORE AND AFTER:Show the original uploaded photo faithfully as BEFORE. Show the same recognizable person AFTER with a realistic, achievable haircut. Preserve facial identity, skin tone, eyes, nose, lips, ears, facial hair, age appearance and natural proportions. Change the hairstyle only as needed.MULTIPLE VIEWS:Show FRONT, SIDE and BACK views of the same person. Keep the haircut consistent. Do not invent a different person for other angles.HAIRCUT SELECTION:Automatically select a suitable, practical hairstyle based on visible hair characteristics and user preferences. Options may include low taper fade with textured quiff, textured crop, classic side-swept cut, modern layers, or natural medium-length texture. Do not choose the same haircut for everyone.BARBER INSTRUCTIONS:
+Heading: "BARBER KO KYA BOLNA HAI?Include the recommended haircut name, taper/fade height, suitable side length, top length, texture, styling direction, blending, natural hairline and what the barber should avoid. Give realistic guidance without unsupported exact measurements.HAIRCUT STEPS:
+Heading: "STEP BY STEP — KAISE KARNA.      HAI?Show 5–6 short numbered steps: prepare hair, create taper/fade, blend sides and back, shape the top, add texture, and check all angles. These are instructions for a professional barber, not a requirement to cut hair at home.HOME STYLING:
+Heading: "GHAR PAR KAISE SET KARE?Give 4–5 short steps covering damp or dry hair, combing direction, natural volume, texture, and an appropriate product type such as matte clay or light-hold product when suitable. Avoid invented brands and excessive product use.MAINTENANCE:Include a reasonable haircut refresh interval, daily styling effort, simple upkeep, and one useful tip for communicating with the barber.POSTER DESIGN:Create one vertical 4:5 or 3:4 mobile-friendly infographic in a premium grooming magazine style. Use a navy-blue header and footer, bright blue accents, white/light-blue panels, a yellow barber-instruction box, green check marks, clear numbered steps, balanced spacing and readable typography.LAYOUT:Top: personalized haircut title.Upper area: before and after portraits.Side area: front, side and back views.Middle: barber instructions and haircut steps.Lower area: home styling and maintenance.Footer: one personalized grooming tip.QUALITY:Use realistic lighting, natural hair strands, detailed blending and consistent facial identity. Use correctly spelled, concise Hindi/Hinglish text large enough for mobile screens. Avoid clutter, tiny lettering, duplicated sections, distorted faces and inconsistent hairstyles. Do not invent personal details or promise a perfect result.FINAL OUTPUT:Generate one high-quality personalized hairstyle transformation infographic using the user's uploaded photograph as the reference. Include the original before photo, recommended after hairstyle, front/side/back views, barber instructions, numbered haircut steps, home styling and maintenance tips. Prioritize the person's actual likeness, realism, consistent angles and practical advice.
+  </script>
+</article>
+
+
+</div>
+<p id="noResults" hidden style="text-align:center;padding:20px;color:#77758d">कोई prompt नहीं मिला। दूसरा शब्द खोजें।</p>
+</section>
+<!-- ===== MYWORKSPACE MASTER IMAGE GALLERY ===== -->
+<section class="section" id="masterGallerySection">
+  <div class="heading">
+    <h2>✦ Master Image Gallery</h2>
+    <p>Download images, copy original prompts, and customize them.</p>
+  </div>
+
+  <div class="trending" id="masterGalleryGrid">
+
+    <article class="card"
+      data-category="image"
+      data-title="Free Fire Neon Warrior"
+      data-prompt-id="freefire-neon-warrior">
+
+      <div class="card-img">
+      <img
+  loading="lazy"
+  src="images/freefire-character.webp.png"
+  alt="Free Fire Neon Warrior"
+  style="--gallery-image: url('images/freefire-character.webp.png')"
+>
+        <span class="badge">✦ Master Prompt</span>
+      </div>
+
+      <div class="card-body">
+        <h3>Free Fire Neon Warrior</h3>
+        <p>अपनी इमेज डाउनलोड करें, मूल Master Prompt कॉपी करें या उसे एडिट करें।</p>
+
+        <div class="actions">
+          <button class="download" onclick="downloadMasterImage(this)">
+            ↓ Download Image
+          </button>
+
+          <button class="copy" onclick="copyMasterPrompt(this)">
+            ▢ Copy Master Prompt
+          </button>
+
+          <button onclick="editMasterPrompt(this)">
+            ✎ Edit Prompt
+          </button>
+        </div>
+      </div>
+    </article>
+
+  </div>
+</section>
+<!-- ===== END MASTER IMAGE GALLERY ===== -->
+<section class="section creator" id="creator">
+<div>
+<p style="color:#7045f5;font-size:10px;font-weight:bold;letter-spacing:1px">✦ YOUR IDEAS, YOUR RULES</p>
+<h2>Create Your Own Prompt</h2>
+<p>अपनी जरूरत के अनुसार prompt लिखें, बदलें और कॉपी करें।</p>
+<button onclick="document.getElementById('promptEditor').scrollIntoView({behavior:'smooth'})">Start Creating →</button>
+</div>
+<img class="creator-art" loading="lazy" src="https://image.pollinations.ai/prompt/beautiful%20anime%20girl%20purple%20hair%20digital%20art%20studio%20colorful%20creative%20workspace?width=300&height=350&nologo=true" alt="Creative anime art">
+</section>
+
+<section class="section" id="popularSection">
+<div class="heading"><h2>Popular Templates</h2></div>
+<div class="popular">
+<article class="pop-card">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1453738773917-9c3eff1db985?auto=format&fit=crop&w=600&q=85"
+  alt="Lesson plan workspace"
+  onerror="this.onerror=null;this.src='https://placehold.co/600x280/241044/ffffff?text=Lesson+Plan';"
+>
+<h3>Lesson Plan</h3>
+</article>
+<article class="pop-card">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=600&q=85"
+  alt="Family portrait"
+  onerror="this.onerror=null;this.src='https://placehold.co/600x280/241044/ffffff?text=Family+Portrait';"
+>
+<h3>Family Portrait</h3>
+</article>
+<article class="pop-card">
+<img
+  loading="lazy"
+  src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=600&q=85"
+  alt="Modern home design"
+  onerror="this.onerror=null;this.src='https://placehold.co/600x280/241044/ffffff?text=Home+Design';"
+>
+<h3>Home Design</h3>
+</article>
+<article class="pop-card">
+<img loading="lazy" src="https://image.pollinations.ai/prompt/premium%20sneaker%20product%20photography%20studio%20lighting?width=400&height=280&nologo=true" alt="Product design">
+<h3>Product Design</h3>
+</article>
+</div>
+</section>
+
+<section class="section" id="promptEditor">
+<div class="heading"><h2>✦ Customize Your Prompt</h2></div>
+<div class="editor">
+<label for="promptTitle">Prompt Title</label>
+<input id="promptTitle" placeholder="My custom prompt">
+<label for="promptText">Edit Your Prompt</label>
+<textarea id="promptText" rows="6" placeholder="किसी Trending card पर Edit दबाकर यहाँ prompt बदलें।"></textarea>
+<button onclick="copyPrompt(this,document.getElementById('promptText').value)">▢ Copy My Prompt</button>
+</div>
+</section>
+
+<section class="section" id="toolsSection">
+<div class="heading"><h2>Explore AI Tools</h2></div>
+<div class="tools">
+<a class="tool" href="https://chatgpt.com/" target="_blank" rel="noopener">
+<span class="tool-icon">G</span><span><strong>ChatGPT</strong><small>Prompts and creative ideas</small></span>
+</a>
+<a class="tool" href="https://gemini.google.com/" target="_blank" rel="noopener">
+<span class="tool-icon">✦</span><span><strong>Google Gemini</strong><small>Explore AI tools</small></span>
+</a>
+<a class="tool" href="https://www.meta.ai/" target="_blank" rel="noopener">
+<span class="tool-icon">∞</span><span><strong>Meta AI</strong><small>Discover AI experiences</small></span>
+</a>
+</div>
+
+
+</section>
+</div>
+
+
+</div>
+
+<script>
+  // MyWorkspace AI Studio JavaScript
+  // ===== CATEGORY FILTER =====
+
+
+ // ===== CATEGORY FILTER + DYNAMIC SEARCH =====
+
+let activeCategory = "all";
+let activeSearch = "";
+
+function filterCategory(category) {
+  activeCategory = category;
+  applyPromptFilters();
+
+  document.getElementById("trendingSection")
+    ?.scrollIntoView({ behavior: "smooth" });
+}
+
+function resetFilter() {
+  activeCategory = "all";
+  activeSearch = "";
+
+  const input = document.getElementById("searchInput");
+  if (input) input.value = "";
+
+  applyPromptFilters();
+}
+
+function applyPromptFilters() {
+  const cards = document.querySelectorAll(
+    "#trendingGrid .card, #masterGalleryGrid .card"
+  );
+
+  let found = 0;
+  const query = activeSearch.toLowerCase().trim();
+
+  cards.forEach(function(card) {
+    const searchableText = [
+      card.dataset.title,
+      card.dataset.category,
+      card.dataset.keywords,
+      card.textContent,
+      card.querySelector("img")?.alt
+    ].join(" ").toLowerCase();
+
+    const categoryMatch =
+      activeCategory === "all" ||
+      card.dataset.category === activeCategory;
+
+    const searchMatch =
+      !query || searchableText.includes(query);
+
+    const visible = categoryMatch && searchMatch;
+
+    card.style.display = visible ? "" : "none";
+
+    if (visible) found++;
+  });
+
+  const message = document.getElementById("noResults");
+
+  if (message) {
+    message.style.display = found === 0 ? "block" : "none";
+  }
+}
+
+// Search while typing
+document.getElementById("searchInput")?.addEventListener(
+  "input",
+  function(event) {
+    activeSearch = event.target.value;
+    applyPromptFilters();
+  }
+);
+
+// Search button
+document.getElementById("searchForm")?.addEventListener(
+  "submit",
+  function(event) {
+    event.preventDefault();
+    activeSearch =
+      document.getElementById("searchInput")?.value || "";
+    applyPromptFilters();
+  }
+);
+
+// ===== RESET FILTER =====
+
+function resetFilter() {
+  filterCategory('all');
+}
+
+function loadStudentPrompts() {
+  const grid = document.getElementById("trendingGrid");
+
+  if (!grid || !Array.isArray(studentPrompts)) {
+    return;
+  }
+
+  studentPrompts.forEach(function(item) {
+    // अगर यह कार्ड पहले से मौजूद है, तो दोबारा न जोड़ें।
+    const exists = Array.from(grid.querySelectorAll(".card"))
+      .some(card => card.dataset.title === item.title);
+
+    if (!exists) {
+      grid.appendChild(createStudentPromptCard(item));
+    }
+  });
+}
+
+document.addEventListener("DOMContentLoaded", loadStudentPrompts);
+
+
+/* ===== MYWORKSPACE PROMPT ACTIONS ===== */
+
+let activePromptCard = null;
+let originalPromptText = "";
+
+// Copy any prompt
+async function copyPrompt(button, prompt) {
+  const text = String(prompt || "");
+
+  try {
+    await navigator.clipboard.writeText(text);
+    if (button) {
+      const oldText = button.textContent;
+      button.textContent = "✓ Copied";
+      setTimeout(() => button.textContent = oldText, 1500);
+    }
+  } catch (error) {
+    window.prompt("Copy this prompt:", text);
+  }
+}
+
+// Open full-screen editor
+function editPrompt(title, prompt, image, category) {
+  activePromptCard = null;
+
+  const cards = document.querySelectorAll("#trendingGrid .card");
+  cards.forEach(card => {
+    if (card.dataset.title === title) activePromptCard = card;
+  });
+
+  const editor = document.getElementById("fullScreenEditor");
+  if (!editor) {
+    alert("Full-screen editor HTML is missing.");
+    return;
+  }
+
+  originalPromptText = String(prompt || "");
+
+  document.getElementById("fullEditorTitle").value = title || "";
+  document.getElementById("fullEditorPrompt").value = originalPromptText;
+
+  const selectedImage = image ||
+    activePromptCard?.querySelector("img")?.src || "";
+
+  const preview = document.getElementById("fullEditorImage");
+  preview.src = selectedImage;
+  preview.style.display = selectedImage ? "block" : "none";
+
+  const categorySelect = document.getElementById("fullEditorCategory");
+  if (categorySelect && category) categorySelect.value = category;
+
+  editor.classList.add("active");
+  editor.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+
+  updateFullPrompt();
+}
+
+// Update prompt when options change
+function updateFullPrompt() {
+  const base = originalPromptText;
+  const title = document.getElementById("fullEditorTitle").value.trim();
+  const style = document.getElementById("fullEditorStyle").value;
+  const background = document.getElementById("fullEditorBackground").value;
+  const lighting = document.getElementById("fullEditorLighting").value;
+  const platform = document.getElementById("fullEditorPlatform").value;
+  const custom = document.getElementById("fullEditorCustom").value.trim();
+
+  const additions = [
+    "Style: " + style,
+    "Background: " + background,
+    "Lighting: " + lighting,
+    "Target format: " + platform,
+    custom ? "Extra instructions: " + custom : ""
+  ].filter(Boolean);
+
+  document.getElementById("fullEditorPrompt").value =
+    (base ? base.trim() + "\n\n" : "") +
+    "Title: " + title + "\n" +
+    additions.join("\n");
+}
+
+// Close editor
+function closePromptEditor() {
+  const editor = document.getElementById("fullScreenEditor");
+  if (!editor) return;
+
+  editor.classList.remove("active");
+  editor.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+// Copy final edited prompt
+async function copyFullPrompt() {
+  const prompt = document.getElementById("fullEditorPrompt").value;
+
+  try {
+    await navigator.clipboard.writeText(prompt);
+    alert("Prompt copied!");
+  } catch (error) {
+    window.prompt("Copy your final prompt:", prompt);
+  }
+}
+
+// Save card to favourites on this device
+function saveCard(button) {
+  const card = button.closest(".card");
+  if (!card) return;
+
+  const title = card.dataset.title ||
+    card.querySelector("h3")?.textContent || "Saved prompt";
+
+  let saved = [];
+  try {
+    saved = JSON.parse(localStorage.getItem("mw_saved_prompts") || "[]");
+  } catch (error) {
+    saved = [];
+  }
+
+  const index = saved.indexOf(title);
+
+  if (index >= 0) {
+    saved.splice(index, 1);
+    button.textContent = "♡";
+  } else {
+    saved.push(title);
+    button.textContent = "♥";
+  }
+
+  localStorage.setItem("mw_saved_prompts", JSON.stringify(saved));
+}
+
+// Keep final prompt updated as options change
+document.addEventListener("input", function(event) {
+  if (event.target.closest("#fullScreenEditor")) updateFullPrompt();
+});
+
+document.addEventListener("change", function(event) {
+  if (event.target.closest("#fullScreenEditor")) updateFullPrompt();
+});
+
+// ===== MASTER IMAGE GALLERY BUTTONS =====
+
+const freeFireMasterPrompt = `Ultra-cinematic sci-fi gaming poster, 8K ultra HD, extreme low-angle shot, vertical 3:4 composition. A powerful Free Fire-inspired male character floating slightly above the ground in a dominant heroic stance, fists clenched, glowing red and magenta lightning surrounding his arms and body. White spiky hair, futuristic monster-face bandana mask, white jersey with a bold red diagonal stripe, black jogger pants with white wing patterns and red accents, white sneakers.
+
+A giant futuristic gaming profile card with player name, UID, ranks, badges and clan details. A huge neon portrait of the same character in the background. Dark futuristic battlefield, ruined sci-fi city, floating rocks, sparks, smoke and pink-red energy beams. Neon magenta, electric pink, purple, red, blue and black. Cinematic rim lighting, photorealistic CGI, Unreal Engine 5 style, ultra-detailed gaming poster, vertical 3:4 composition.
+
+Negative Prompt: blurry, low quality, extra limbs, extra fingers, duplicate character, cropped character, distorted face, bad anatomy, watermark, text artifacts, noisy image, flat lighting.`;
+
+// Copy original Master Prompt
+async function copyMasterPrompt(button) {
+  try {
+    await navigator.clipboard.writeText(freeFireMasterPrompt);
+    button.textContent = "✓ Copied!";
+    setTimeout(() => button.textContent = "▢ Copy Master Prompt", 1500);
+  } catch (error) {
+    window.prompt("Copy Master Prompt:", freeFireMasterPrompt);
+  }
+}
+
+// Download image used in the Master Gallery card
+async function downloadMasterImage(button) {
+  const card = button.closest(".card");
+  const img = card?.querySelector(".card-img img");
+
+  if (!img || !img.src) {
+    alert("Image नहीं मिली।");
+    return;
+  }
+
+  try {
+    const response = await fetch(img.src);
+    if (!response.ok) throw new Error("Image fetch failed");
+
+    const blob = await response.blob();
+    const blobURL = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = blobURL;
+    link.download = "freefire-master-image.png";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(blobURL), 1500);
+  } catch (error) {
+    // अगर local image सीधे डाउनलोड न हो पाए
+    const link = document.createElement("a");
+    link.href = img.src;
+    link.download = "freefire-master-image";
+    link.target = "_blank";
+    link.rel = "noopener";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  }
+}
+
+// Open existing full-screen prompt editor
+function editMasterPrompt(button) {
+  const card = button.closest(".card");
+  const title = card?.querySelector("h3")?.textContent.trim()
+    || "Free Fire Neon Warrior";
+  const img = card?.querySelector(".card-img img")?.src || "";
+
+  editPrompt(title, freeFireMasterPrompt, img, "image");
+}
+function getHairstylePrompt(button) {
+  const card = button.closest(".card");
+  return card.querySelector(".hairstyle-prompt")?.textContent.trim() || "";
+}
+
+function copyHairstylePrompt(button) {
+  const prompt = getHairstylePrompt(button);
+  if (!prompt) {
+    alert("Master Prompt nahi mila.");
+    return;
+  }
+  copyPrompt(button, prompt);
+}
+
+function editHairstylePrompt(button) {
+  const prompt = getHairstylePrompt(button);
+  if (!prompt) {
+    alert("Master Prompt nahi mila.");
+    return;
+  }
+  editPrompt("Hairstyle Transformation", prompt);
+
+  }
+  function getHairstylePrompt(button) {
+  const card = button.closest(".card");
+  const promptElement = card.querySelector(".hairstyle-prompt");
+
+  return promptElement
+    ? promptElement.textContent.trim()
+    : "";
+}
+
+function copyHairstylePrompt(button) {
+  const prompt = getHairstylePrompt(button);
+
+  if (!prompt) {
+    alert("Hairstyle Master Prompt nahi mila!");
+    return;
+  }
+
+  copyPrompt(button, prompt);
+}
+
+function editHairstylePrompt(button) {
+  const prompt = getHairstylePrompt(button);
+
+  if (!prompt) {
+    alert("Hairstyle Master Prompt nahi mila!");
+    return;
+  }
+
+  editPrompt("Hairstyle Transformation", prompt);
+}
+</script>
+
+<script src="student-prompts.js"></script>
+
+
+<!-- ===== FULL SCREEN PROMPT EDITOR ===== -->
+<div id="fullScreenEditor" class="full-editor" aria-hidden="true">
+
+  <header class="full-editor-header">
+    <button type="button" onclick="closePromptEditor()">← Back</button>
+    <h2>Edit Prompt</h2>
+    <button type="button" onclick="copyFullPrompt()">Copy</button>
+  </header>
+
+  <div class="full-editor-content">
+    <img id="fullEditorImage" src="" alt="Selected prompt preview">
+
+    <label for="fullEditorTitle">Prompt Title</label>
+    <input id="fullEditorTitle" type="text" placeholder="Enter title">
+
+    <label for="fullEditorCategory">Category</label>
+    <select id="fullEditorCategory">
+      <option value="image">Image & Photo</option>
+      <option value="design">Design</option>
+      <option value="education">Education</option>
+      <option value="business">Business</option>
+      <option value="home">Home Design</option>
+      <option value="video">Video & Reels</option>
+    </select>
+
+    <label for="fullEditorStyle">Style</label>
+    <select id="fullEditorStyle">
+      <option>Realistic</option>
+      <option>Anime</option>
+      <option>Cinematic</option>
+      <option>Professional</option>
+      <option>Minimalist</option>
+      <option>3D</option>
+      <option>Artistic</option>
+    </select>
+
+    <label for="fullEditorBackground">Background</label>
+    <select id="fullEditorBackground">
+      <option>Keep original background</option>
+      <option>Black background</option>
+      <option>White background</option>
+      <option>Nature background</option>
+      <option>Studio background</option>
+      <option>Night background</option>
+    </select>
+
+    <label for="fullEditorLighting">Lighting</label>
+    <select id="fullEditorLighting">
+      <option>Natural lighting</option>
+      <option>Soft lighting</option>
+      <option>Cinematic lighting</option>
+      <option>Dramatic lighting</option>
+      <option>Studio lighting</option>
+    </select>
+
+    <label for="fullEditorPlatform">Use for</label>
+    <select id="fullEditorPlatform">
+      <option>YouTube Thumbnail</option>
+      <option>Instagram Post</option>
+      <option>Instagram Reels</option>
+      <option>YouTube Shorts</option>
+      <option>Profile Picture</option>
+      <option>General Image</option>
+    </select>
+
+    <label for="fullEditorCustom">Extra Instructions</label>
+    <input id="fullEditorCustom" type="text"
+      placeholder="Hair, outfit, pose, text, or other changes">
+
+    <label for="fullEditorPrompt">Your Prompt</label>
+    <textarea id="fullEditorPrompt" rows="10"
+      placeholder="Your prompt will appear here"></textarea>
+
+    <button type="button" class="full-editor-copy"
+      onclick="copyFullPrompt()">Copy Final Prompt</button>
+  </div>
+</div>
+
+</body>
+</html>
